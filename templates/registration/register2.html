@@ -1,0 +1,43 @@
+{% extends 'registration/base.html' %}
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+        <form id="msform" method="post" action="{% url 'register2' %}">
+            <!-- progressbar -->
+            {% csrf_token %}
+            <ul id="progressbar">
+                <li>Общая информация</li>
+                <li class="active">Данные для авторизации</li>
+                <li>Данные о ребенке</li>
+                <li>Данные о родителях</li>
+                <li>Особенности поступления</li>
+                <li>Портфолио</li>
+            </ul>
+            <!-- fieldsets -->
+
+            <fieldset>
+                <h2 class="fs-title">Данные для авторизации</h2>
+                <h3 class="fs-subtitle">{% if form.errors  %}
+                    <ul class="alert-danger">
+                    {% for filed in form %}
+                        {% for error in filed.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                {% endif %} </h3>
+                {{ form.username }}
+                {{ form.email }}
+                {{ form.password}}
+                {{ form.repassword }}
+                <input type="submit" name="Submit" class="action-button" value="sad"/>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

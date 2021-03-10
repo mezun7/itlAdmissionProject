@@ -1,0 +1,79 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% block title %}
+Регистрация: данные ребенка
+{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+
+        jQuery(function($){
+           $("#id_phone_party").mask("+7 (999) 999-99-99");
+           $("#id_birthday").mask("99/99/9999");
+            $("#id_phone_mother").mask("+7 (999) 999-99-99");
+            $("#id_phone_father").mask("+7 (999) 999-99-99");
+            $("#id_gender option:first").text("Укажите пол");
+            $("#id_grade option:first").text("Класс поступления и профиль обучения");
+            $("#id_first_tour_register_date option:first").text("Выберите дату экзамена");
+
+        });
+    </script>
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+        <form id="msform" method="post" action="{% url 'register3' %}">
+            <!-- progressbar -->
+            {% csrf_token %}
+            <ul id="progressbar">
+                <li class="active">Общая информация</li>
+                <li class="active">Данные для авторизации</li>
+                <li class="active">Данные о ребенке</li>
+                <li>Данные о родителях</li>
+                <li>Особенности поступления</li>
+                <li>Портфолио</li>
+            </ul>
+            <!-- fieldsets -->
+
+            <fieldset>
+                <h2 class="fs-title">Данные о ребенке</h2>
+                <h3 class="fs-subtitle">{% if form.errors  %}
+                    <ul class="alert-danger">
+                    {% for filed in form %}
+                        {% for error in filed.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    </ul>
+                {% endif %} </h3>
+                {{ form.last_name }}
+                {{ form.first_name }}
+                {{ form.fathers_name}}
+                {{ form.gender }}
+                <br/>
+                {{ form.birthday }}
+                {{ form.place_of_birth }}
+                {{ form.lives }}
+                {{ form.phone_party }}
+                {{ form.school }}
+                {{ form.grade }}
+                {{ form.first_tour_register_date }}
+                {{ form.fio_mother }}
+                {{ form.phone_mother }}
+                {{ form.fio_father }}
+                {{ form.phone_father }}
+                Есть ли у вас право на поступление без вступительных испытаний? {{ form.out_of_competition }}
+                {{ form.portfolio_text }}
+
+{#            <div class="form-check form-check-inline">#}
+{##}
+{#                {{ form.gender.1 }}#}
+{#            </div>#}
+{#            <div class="form-check form-check-inline">#}
+{#                {{ form.gender.2 }}#}
+{#            </div>#}
+                <input type="submit" name="Submit" class="action-button" value="sad"/>
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

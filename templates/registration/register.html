@@ -1,0 +1,42 @@
+{% extends 'registration/base.html' %}
+{% block title %}
+Регистрация
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+        <form id="msform" method="post" action="{% url 'register' %}">
+            <!-- progressbar -->
+            <ul id="progressbar">
+                <li class="active">Общая информация</li>
+                <li>Данные для авторизации</li>
+                <li>Данные о ребенке</li>
+                <li>Данные о родителях</li>
+                <li>Особенности поступления</li>
+                <li>Портфолио</li>
+            </ul>
+            <!-- fieldsets -->
+            <fieldset>
+                <h2 class="fs-title">Доброго времени суток, абитуриенты и их родители!</h2>
+                <h3 class="fs-subtitle">Для того, чтобы зарегистрироваться на вступительные испытания в IT-лицей КФУ, вам понадобятся следующие данные ребенка:</h3>
+               <h4> <ol class="text-left fs-subtitle">
+                    <li>ФИО ребенка.</li>
+                    <li>Дата и место рождения ребенка.</li>
+                    <li>ФИО родителей/законных представителей.</li>
+                    <li>Контактные данные одного из родителей.</li>
+                    <li>Полное наименование образовательной организации по Уставу.</li>
+                    <li>Город/район проживания.</li>
+                    <li>Действующий электронный адрес, на который мы будем отпралять уведомления, связанные с вступительными испытаниями.</li>
+                    <li>Портфолио ребенка. </li>
+                    <li>Особенности поступления.</li>
+                    <li>Портфолио ребенка.</li>
+                </ol></h4>
+                <a class="button next action-button " href="{% url 'register2' %}">Приступить</a>
+{#                <input type="button" name="next" class="next action-button" value="Приступить"/>#}
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+{% endblock %}
