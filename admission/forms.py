@@ -1,4 +1,3 @@
-from importlib._common import _
 
 from django import forms
 from django.contrib.auth import forms as fr, password_validation
@@ -34,14 +33,14 @@ class PasswordResetForm(fr.PasswordResetForm):
 
 class SetPasswordForm(fr.SetPasswordForm):
     new_password1 = forms.CharField(
-        label=_("Новый пароль"),
+        label="Новый пароль",
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
                                           'placeholder': 'Введите новый пароль'}),
         strip=False,
         help_text=password_validation.password_validators_help_text_html(),
     )
     new_password2 = forms.CharField(
-        label=_("Введите повторно новый пароль"),
+        label="Введите повторно новый пароль",
         strip=False,
         widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
                                           'placeholder': 'Повторно введите новый пароль'}),
