@@ -150,3 +150,4 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024 # 2 MB
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
