@@ -1,0 +1,47 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% block title %}
+    Успех
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-md-offset-3">
+
+        <form id="msform" method="post" action="{% url 'portfolio_text' %}">
+        {% csrf_token %}
+            <fieldset>
+               <div class="modal-header">
+                   <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
+                </div>
+                <p></p>
+                <h2 class="fs-title">Поздравляем!</h2>
+                <h3 class="fs-subtitle alert-success">
+                      <table id="gallery" class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Поздравляем! Регистрация успешно завершена. <br>Пожалуйста, подтвердите свою почту, перейдся по ссылке в письме</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for file in files %}
+                            <tr>
+                              <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </h3>
+{#                <div class="modal-footer">#}
+{#                    <div class=""> Вы не зарегистрированы?#}
+{#                    <a href="{% url 'register' %}">Зарегистрируйтесь.</a>#}
+{##}
+{#                    </div>#}
+{#                </div>#}
+
+            </fieldset>
+        </form>
+
+    </div>
+</div>
+{% endblock %}

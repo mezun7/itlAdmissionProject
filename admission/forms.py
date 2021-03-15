@@ -1,20 +1,58 @@
+from importlib._common import _
+
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import forms as fr, password_validation
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, TextInput, PasswordInput, EmailInput, RadioSelect, Select, DateInput, \
     CheckboxInput, Textarea
 
-from admission.models import File, Participant, GENDER_CHOICES
+from admission.models import File, Participant, GENDER_CHOICES, Group
 
 
-class AuthForm(AuthenticationForm):
+class AuthForm(fr.AuthenticationForm):
     username = forms.CharField(widget=TextInput(attrs={'class': '', 'placeholder': 'Логин'}))
     password = forms.CharField(widget=PasswordInput(attrs={'placeholder': 'Пароль'}))
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username', '')
+        try:
+            user = User.objects.get(username__exact=username)
+            if not user.is_active:
+                raise ValidationError('Подтвердите свой email, перейдя по ссылке в письме.')
+            return username
+        except User.DoesNotExist:
+            raise ValidationError('Неверный логин или пароль.')
+
+
+class PasswordResetForm(fr.PasswordResetForm):
+    email = forms.EmailField(widget=EmailInput(attrs={
+        'placeholder': 'Введите email'
+    }
+    ))
+
+
+class SetPasswordForm(fr.SetPasswordForm):
+    new_password1 = forms.CharField(
+        label=_("Новый пароль"),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+                                          'placeholder': 'Введите новый пароль'}),
+        strip=False,
+        help_text=password_validation.password_validators_help_text_html(),
+    )
+    new_password2 = forms.CharField(
+        label=_("Введите повторно новый пароль"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password',
+                                          'placeholder': 'Повторно введите новый пароль'}),
+    )
 
 
 class RegisterForm(forms.ModelForm):
     repassword = forms.CharField(max_length=200, widget=PasswordInput(attrs={'placeholder': 'Повторно введите пароль'}))
+    # grade_to_enter = forms.ChoiceField(required=True, choices=((group.number, group.number) for group in Group.objects.all().order_by('number')), widget=Select())
+    grade_to_enter = forms.ModelChoiceField(required=True, queryset=Group.objects.all().order_by('number'),
+                                            widget=Select())
 
     class Meta:
         model = User
@@ -55,17 +93,36 @@ class RegisterForm(forms.ModelForm):
             return username
 
 
-class FileUpload(forms.ModelForm):
+class FileUploadForm(forms.ModelForm):
     class Meta:
         model = File
-        fields = ['file']
-        widgets = {
-            'file': ClearableFileInput(attrs={
-                'multiple': True,
-                'accept': '.csv'
-            })
+        fields = ('file',)
 
+
+class PortfolioForm(forms.ModelForm):
+    class Meta:
+        model = Participant
+        fields = ('portfolio_text',)
+
+        widgets = {
+            'portfolio_text': Textarea(attrs={
+                'placeholder': "Список дипломов"
+                # 'class': 'form-control'
+            }),
         }
+
+
+# class FileUpload(forms.ModelForm):
+#     class Meta:
+#         model = File
+#         fields = ['file']
+#         widgets = {
+#             'file': ClearableFileInput(attrs={
+#                 'multiple': True,
+#                 'accept': '.csv'
+#             })
+#
+#         }
 
 
 class ChildInfo(forms.ModelForm):
@@ -75,15 +132,15 @@ class ChildInfo(forms.ModelForm):
         self.fields['gender'].empty_label = "Укажите пол"
 
         for k, v in self.fields.items():
-            if k not in ['fio_mother', 'fio_father', 'phone_mother', 'phone_father', 'out_of_competition', 'portfolio_text']:
+            if k not in ['fio_mother', 'fio_father', 'phone_mother', 'phone_father', 'out_of_competition',
+                         'portfolio_text', 'birthday']:
                 v.required = True
-
-    tmp_field = forms.ChoiceField(choices=GENDER_CHOICES, widget=Select(attrs={'placeholder': 'Пол абитуриента'}))
 
     class Meta:
         model = Participant
-        # fileds = ['last_name', 'first_name', 'fathers_name', 'gender' ,'birthday', 'place_of_birth', 'phone_party', 'school', 'grade']
-        exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio']
+        # fileds = ['last_name', 'first_name', 'fathers_name', 'gender' ,'birthday', 'place_of_birth', 'phone_party',
+        # 'school', 'grade']
+        exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text']
 
         widgets = {
             'last_name': TextInput(attrs={
@@ -100,8 +157,8 @@ class ChildInfo(forms.ModelForm):
                 'placeholder': 'Пол абитуриента',
                 # 'class': 'form-control'
             }),
-            'birthday': DateInput(format="%d/%m/%Y", attrs={
-                'placeholder': "Дата рождения: дд/мм/гггг"
+            'birthday': DateInput(format="%d.%m.%Y", attrs={
+                'placeholder': "Дата рождения: дд.мм.гггг"
                 # 'class': 'form-control'
             }),
             'place_of_birth': TextInput(attrs={
@@ -140,8 +197,14 @@ class ChildInfo(forms.ModelForm):
                 'placeholder': "Есть ли у вас "
                 # 'class': 'form-control'
             }),
-            'portfolio_text': Textarea(attrs={
-                'placeholder': "Список дипломов"
-                # 'class': 'form-control'
-            }),
         }
+
+    def clean_fio_mother(self):
+        fio_mother = self.cleaned_data.get("fio_mother", "")
+        fio_father = self.cleaned_data.get("fio_father", "")
+        return fio_mother
+
+    def clean_phone_mother(self):
+        phone_mother = self.cleaned_data.get('phone_mother', '')
+        phone_father = self.cleaned_data.get('phone_father', '')
+        return phone_mother

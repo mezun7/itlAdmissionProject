@@ -77,7 +77,7 @@ body {
 
 /*buttons*/
 #msform .action-button {
-    width: 100px;
+    width: auto;
     background: #ee0979;
     font-weight: bold;
     color: white;

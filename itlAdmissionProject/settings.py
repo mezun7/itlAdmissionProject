@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'admission.apps.AdmissionConfig',
     'crispy_forms',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'upload_test_app.apps.UploadTestAppConfig'
 ]
 
 MIDDLEWARE = [
@@ -102,15 +103,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -118,12 +119,24 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/proxy/'
 LOGIN_URL = '/login/'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'shukhrat.azimuratov@litsey7.com'
-EMAIL_HOST_PASSWORD = 'Tarhush94'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.office365.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'apply-itl@itl4u.ru'
+# EMAIL_HOST_PASSWORD = 'UUxlh284'
 EMAIL_USE_TLS = True
+EMAIL_HOST = 'ex.kpfu.ru'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = r'int\apply-itl'
+EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
+SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
 MAIN_HOST = "http://127.0.0.1/"
+DOMAIN = '127.0.0.1:8000'
+PROTOCOL = 'http'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
+ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
+FILE_SIZE_LIMIT = 2 * 1024 * 1024 # 2 MB

@@ -1,13 +1,16 @@
-from itlAdmissionProject.settings import MAIN_HOST
+from django.template.loader import render_to_string
+
+from itlAdmissionProject.settings import MAIN_HOST, DOMAIN, PROTOCOL
 
 
-def get_register_mail(email, username, password, activation_key):
-    email_subject = 'Подтверждение пользователя в система регистрации IT-лицея КФУ'
-    email_body = f'''Здравствуйте! " 
-                 "Вы регистрировались в системе отбора в IT-лицей КФУ. " 
-                 "Ваш логин: {username}" 
-                 "Ваш пароль: {password}" 
-                 "Спасибо за регистрацию. Чтобы активировать ваш пользователь, перейдите по ссылке ниже в течение 48 
-часов {MAIN_HOST}/activate/{activation_key} 
-         '''
+def get_register_mail(username, password, activation_key):
+    email_subject = 'Подтверждение пользователя в системе регистрации IT-лицея КФУ'
+    email_body = render_to_string('registration/register_email_confirm.html', {
+        'user': username,
+        'password': password,
+        'activation_key2': activation_key,
+        'domain': DOMAIN,
+        'protocol': PROTOCOL
+    })
+
     return email_subject, email_body

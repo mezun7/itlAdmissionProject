@@ -4,6 +4,13 @@
 {% endblock %}
 
 {% block content %}
+    <script type="text/javascript">
+
+        jQuery(function($){
+            $("#id_grade_to_enter option:first").text("Выберите класс, в который хотите поступить");
+
+        });
+    </script>
 <div class="row justify-content-center">
     <div class="col-md-6 col-md-offset-3">
         <form id="msform" method="post" action="{% url 'register2' %}">
@@ -34,6 +41,7 @@
                 {{ form.email }}
                 {{ form.password}}
                 {{ form.repassword }}
+                {{ form.grade_to_enter }}
                 <input type="submit" name="Submit" class="action-button" value="sad"/>
             </fieldset>
         </form>
