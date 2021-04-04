@@ -122,7 +122,6 @@ def register_complete(request):
     user.save()
 
     email_subject, email_message = get_register_mail(username=participant.user.username,
-                                                     password=password,
                                                      activation_key=participant.activation_key
                                                      )
     email = EmailMessage(email_subject,
