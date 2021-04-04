@@ -9,7 +9,7 @@ from . import views
 from .forms import AuthForm, PasswordResetForm, SetPasswordForm
 from .register import main_register
 from .register.upload import PortfolioUploadView, UploadView
-
+from .personal_page import main as profile
 urlpatterns = [
     path('', views.home, name='home'),
     # path('test/', views.test_upload, name='test-upload'),
@@ -33,5 +33,6 @@ urlpatterns = [
     path('portfolio_text/', login_required(PortfolioUploadView.as_view()), name='portfolio_text'),
     path('registration/done/', main_register.register_complete, name='register-done'),
     path('proxy/', views.proxy_func, name='proxy'),
-    path('profile/', views.profile, name='main')
+    path('profile/', views.profile, name='main'),
+    path('prf/', profile.main_page, name='main-profile')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

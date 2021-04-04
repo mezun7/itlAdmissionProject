@@ -50,8 +50,6 @@ def register_2(request):
             participant.save()
 
             return HttpResponseRedirect(reverse('register3'))
-            # TODO
-            # Send Email with activation link
 
     context['form'] = form
 
