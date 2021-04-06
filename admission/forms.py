@@ -124,14 +124,20 @@ class PortfolioForm(forms.ModelForm):
 
 
 class ChildInfo(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
+        participant = kwargs.pop('participant') # type: Participant
+        print(participant)
         super(ChildInfo, self).__init__(*args, **kwargs)
         print(self.fields['gender'])
+        ignored_fileds = ['fio_mother', 'fio_father', 'phone_mother', 'phone_father', 'out_of_competition',
+                         'portfolio_text', 'birthday']
         self.fields['gender'].empty_label = "Укажите пол"
-
+        if not participant.grade.have_profile:
+            self.fields.pop('profile')
+            ignored_fileds.append('profile')
         for k, v in self.fields.items():
-            if k not in ['fio_mother', 'fio_father', 'phone_mother', 'phone_father', 'out_of_competition',
-                         'portfolio_text', 'birthday']:
+            if k not in ignored_fileds:
                 v.required = True
 
     class Meta:

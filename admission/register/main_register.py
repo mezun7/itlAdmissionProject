@@ -59,10 +59,11 @@ def register_2(request):
 @login_required()
 def register_3(request):
     context = {}
-    form = ChildInfo(instance=Participant.objects.get(user=request.user))
+    participant = Participant.objects.get(user=request.user)
+    form = ChildInfo(instance=participant, **{'participant': participant})
     context['olympiads'] = [olympiad.text for olympiad in Olympiad.objects.all()]
     if request.POST:
-        form = ChildInfo(request.POST, instance=Participant.objects.get(user=request.user))
+        form = ChildInfo(request.POST, instance=participant, **{'participant': participant})
         if form.is_valid():
             form.save()
             participant = Participant.objects.get(user=request.user)
