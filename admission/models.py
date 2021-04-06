@@ -9,8 +9,17 @@ GENDER_CHOICES = (
     ('F', 'Женский'),
 )
 
+STATUS_CHOICES = (
+    ('N', 'Не проверено'),
+    ('R', 'Отклонено'),
+    ('A', 'Принято')
+)
+
 
 # Create your models here.
+class Moderator(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
 class FirstTourDates(models.Model):
     date = models.DateTimeField(verbose_name='Дата первого тура')
@@ -87,6 +96,10 @@ class Participant(models.Model):
     phone_party = models.CharField(max_length=30, verbose_name='Номер телефона абитуриента', blank=True, null=True)
     lives = models.CharField(max_length=100, verbose_name='Город проживания', blank=True, null=True)
     portfolio_text = models.CharField(max_length=1000, verbose_name='Список дипломов?', blank=True, null=True)
+    privilege_status = models.CharField(max_length=1, verbose_name="Статус проверки льготы", blank=True,
+                                        null=True, choices=STATUS_CHOICES)
+    date_privilege_check = models.DateTimeField(verbose_name='Дата проверки', blank=True, null=True)
+    moderator = models.ForeignKey(Moderator, verbose_name='Кто проверил', blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username

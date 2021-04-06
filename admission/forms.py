@@ -1,4 +1,3 @@
-
 from django import forms
 from django.contrib.auth import forms as fr, password_validation
 from django.contrib.auth.models import User
@@ -139,7 +138,8 @@ class ChildInfo(forms.ModelForm):
         model = Participant
         # fileds = ['last_name', 'first_name', 'fathers_name', 'gender' ,'birthday', 'place_of_birth', 'phone_party',
         # 'school', 'grade']
-        exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text']
+        exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
+                   'moderator', 'date_privilege_check', 'privilege_status']
 
         widgets = {
             'last_name': TextInput(attrs={
@@ -198,10 +198,26 @@ class ChildInfo(forms.ModelForm):
             }),
         }
 
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get("last_name", "")
+        return " ".join([el.capitalize() for el in last_name.split()])
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name", "")
+        return " ".join([el.capitalize() for el in first_name.split()])
+
+    def clean_fathers_name(self):
+        fathers_name = self.cleaned_data.get("fathers_name", "")
+        return " ".join([el.capitalize() for el in fathers_name.split()])
+
     def clean_fio_mother(self):
         fio_mother = self.cleaned_data.get("fio_mother", "")
         fio_father = self.cleaned_data.get("fio_father", "")
-        return fio_mother
+        return " ".join([el.capitalize() for el in fio_mother.split()])
+
+    def clean_fio_father(self):
+        fio_father = self.cleaned_data.get("fio_father", "")
+        return " ".join([el.capitalize() for el in fio_father.split()])
 
     def clean_phone_mother(self):
         phone_mother = self.cleaned_data.get('phone_mother', '')

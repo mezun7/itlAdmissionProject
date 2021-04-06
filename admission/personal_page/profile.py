@@ -16,5 +16,12 @@ from admission.models import Participant, Olympiad
 from itlAdmissionProject.settings import SERVER_EMAIL
 
 
+@login_required()
 def main_page(request):
-    return render(request, 'profile/base.html')
+    # user = request.user  # type: User
+    participant = Participant.objects.get(user=request.user)
+    context = {
+        'participant': participant
+    }
+
+    return render(request, 'profile/profile.html', context=context)

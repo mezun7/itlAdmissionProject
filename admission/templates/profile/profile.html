@@ -1,0 +1,136 @@
+{% extends 'profile/base.html' %}
+ {% load static %}
+{% block title %}
+            Личный кабинет
+{% endblock %}
+{% block profile %}
+         Личный кабинет абитуриента
+{% endblock %}
+
+{% block right-navbar %}
+        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+
+{% block content %}
+ <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="{% ifequal participant.gender M %}
+                                {% static 'admission/img/avatar5.png' %}
+                            {% else %}
+                                {% static 'admission/img/avatar2.png' %}
+                            {% endifequal %}
+                       "
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center">{{ participant.last_name |title }} {{ participant.first_name |title }} {{ participant.fathers_name |title }}</h3>
+                 <div class="text-center">
+                  <b class="">ВАШ ID:   </b><b class="text-muted text-center">{{ participant.id }}</b>
+                     </div>
+                <div class="row">
+                    <div class="col">
+                            <ul class="list-group list-group-unbordered mb-3">
+                              <li class="list-group-item">
+                                  <div class="row">
+                                      <div class="col">
+                                        <b>Класс поступления</b> <a class="float-right">{{ participant.grade }}</a>
+                                      </div>
+                                      {% if participant.grade.number > 9 %}
+                                        <div class="col">
+                                            <b>Профиль обучения</b> <a class="float-right">{{ participant.profile }}</a>
+                                        </div>
+                                      {% endif %}
+                                  </div>
+                              </li>
+                              <li class="list-group-item">
+                                <b>Дата написания 1 тура</b> <a class="float-right">{{ participant.first_tour_register_date.date }}</a>
+                              </li>
+                                <li class="list-group-item">
+                                    <b>Дата рождения</b> <a class="float-right">{{ participant.birthday}}</a>
+                              </li>
+                                <li class="list-group-item">
+                                    <b>Место рождения</b> <a class="float-right">{{ participant.place_of_birth}}</a>
+                              </li>
+                                <li class="list-group-item">
+                                    <b>Пол</b> <a class="float-right">{% ifequal participant.gender 'M' %}
+                                        Мужской
+                                    {% else %}
+                                        Женский
+                                    {% endifequal %}</a>
+                              </li>
+                                <li class="list-group-item">
+                                    <b>Город проживания</b> <a class="float-right">{{ participant.lives }}</a>
+                              </li>
+                                <li class="list-group-item">
+                                    <b>Школа</b> <a class="float-right">{{ participant.school }}</a>
+                              </li>
+                            </ul>
+                        </div>
+
+                    <div class="col">
+                        <ul class="list-group list-group-unbordered mb-3">
+                          <li class="list-group-item">
+                            <b>ФИО мамы</b> <a class="float-right">{{ participant.fio_mother}}</a>
+                          </li>
+                          <li class="list-group-item">
+                            <b>ФИО отца</b> <a class="float-right">{{ participant.fio_father}}</a>
+                          </li>
+                          <li class="list-group-item">
+                            <b>Контактные данные ребенка</b> <a class="float-right">{{ participant.phone_party }}</a>
+                          </li>
+                            <li class="list-group-item">
+                            <b>Контактные данные родителей</b> <a class="float-right">{{ participant.phone_mother}}; {{ participant.phone_father}}</a>
+                          </li>
+                            <li class="list-group-item">
+                                <b>email</b> <a class="float-right">{{ participant.user.email}} </a>
+                          </li>
+                            <li class="list-group-item">
+                                <b>Вне конкурса?</b> <a class="float-right">{% if participant.out_of_competition %}
+                                    Да
+                                {% else %}
+                                    Нет
+                                {% endif %} </a>
+                          </li>
+                            <li class="list-group-item">
+                                <b>Количество загруженных дипломов</b> <a class="float-right">{{ participant.portfolio.all|length}}</a>
+                          </li>
+                        </ul>
+                        </div>
+                    </div>
+{#                  <div class="text-center">#}
+{#                <a href="#" class="btn btn-primary"><b>Изменить данные</b></a>#}
+{#                      </div>#}
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- About Me Box -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Процесс поступления</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                    <div class="tab-pane active" id="timeline">
+                    <!-- The timeline -->
+                        <div class="timeline timeline-inverse">
+                        {% include 'profile/messages/successful_join.html' %}
+
+                      <!-- END timeline item -->
+                      <div>
+                        <i class="far fa-clock bg-gray"></i>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+{% endblock %}

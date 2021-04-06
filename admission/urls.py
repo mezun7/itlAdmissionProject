@@ -6,12 +6,13 @@ from django.contrib.auth import views as auth_views
 from itlAdmissionProject import settings
 from itlAdmissionProject.settings import SERVER_EMAIL
 from . import views
+from .moderator import moderator
 from .forms import AuthForm, PasswordResetForm, SetPasswordForm
 from .register import main_register
 from .register.upload import PortfolioUploadView, UploadView
-from .personal_page import main as profile
+from .personal_page import profile as profile
 urlpatterns = [
-    path('', views.home, name='home'),
+    path('', views.proxy_func, name='home'),
     # path('test/', views.test_upload, name='test-upload'),
     path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', authentication_form=AuthForm),
          name='login'),
@@ -34,5 +35,6 @@ urlpatterns = [
     path('registration/done/', main_register.register_complete, name='register-done'),
     path('proxy/', views.proxy_func, name='proxy'),
     path('profile/', views.profile, name='main'),
-    path('prf/', profile.main_page, name='main-profile')
+    path('prf/', profile.main_page, name='main-profile'),
+    path('moderator/', moderator.moderator, name='moderator')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
