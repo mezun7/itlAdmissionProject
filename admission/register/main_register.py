@@ -46,7 +46,6 @@ def register_2(request):
             participant = Participant()
             participant.user = user
             participant.grade = form.cleaned_data['grade_to_enter']
-            participant.activation_key = form.cleaned_data['password']
             participant.save()
 
             return HttpResponseRedirect(reverse('register3'))
@@ -108,26 +107,27 @@ def confirm(request, activation_key):
 
 @login_required()
 def register_complete(request):
-    participant = Participant.objects.get(user=request.user)
-    password = participant.activation_key[:]
-    participant.activation_key = hashlib.sha1(
-        salt.encode('utf-8') + str(request.user.email).encode('utf-8')).hexdigest()
-    participant.key_expires = datetime.datetime.today() + datetime.timedelta(2)
-    participant.reg_status = 100
-    participant.save()
-    print(participant.user.username)
-    user = User.objects.get(pk=request.user.pk)
-    user.is_active = False
-    user.save()
 
-    email_subject, email_message = get_register_mail(username=participant.user.username,
-                                                     activation_key=participant.activation_key
-                                                     )
-    email = EmailMessage(email_subject,
-                         email_message,
-                         from_email=SERVER_EMAIL,
-                         to=[request.user.email])
-    email.send()
+    participant = Participant.objects.get(user=request.user)
+    if participant.key_expires is None:
+        participant.activation_key = hashlib.sha1(
+            salt.encode('utf-8') + str(request.user.email).encode('utf-8')).hexdigest()
+        participant.key_expires = datetime.datetime.today() + datetime.timedelta(2)
+        participant.reg_status = 100
+        participant.save()
+        print(participant.user.username)
+        user = User.objects.get(pk=request.user.pk)
+        user.is_active = False
+        user.save()
+
+        email_subject, email_message = get_register_mail(username=participant.user.username,
+                                                         activation_key=participant.activation_key
+                                                         )
+        email = EmailMessage(email_subject,
+                             email_message,
+                             from_email=SERVER_EMAIL,
+                             to=[request.user.email])
+        email.send()
     return render(request, 'registration/register_done.html')
 
 

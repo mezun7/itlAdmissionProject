@@ -175,7 +175,7 @@ class ChildInfo(forms.ModelForm):
                 # 'class': 'form-control'
             }),
             'school': TextInput(attrs={
-                'placeholder': "Полное наименвоание образовательного учреждения по Уставу."
+                'placeholder': "Полное наименование образовательного учреждения по Уставу."
                 # 'class': 'form-control'
             }),
             'lives': TextInput(attrs={
