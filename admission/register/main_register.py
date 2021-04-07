@@ -94,6 +94,7 @@ def confirm(request, activation_key):
             'title': "Успех",
             'message': "Вы успешно подтвердили свой email. Мы вас перенаправим на другую страницу."
         }
+        login(request, user)
         return render(request, 'registration/error.html', context)
     except (User.DoesNotExist, Participant.DoesNotExist):
         error = ''
