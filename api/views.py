@@ -1,5 +1,5 @@
 import json
-
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -115,7 +115,8 @@ def get_out_of_competition(request):
     }
 
     for ind, status in enumerate(STATUS_CHOICES):
-        datasets['data'].append(Participant.objects.filter(privilege_status=status[0]).count())
+        datasets['data'].append(Participant.objects.filter(
+            Q(privilege_status=status[0]) | Q(privilege_status__isnull=True) | Q(privilege_status='')).count())
         datasets['backgroundColor'].append(colours[status[0]])
     mimetype = 'application/json'
 
