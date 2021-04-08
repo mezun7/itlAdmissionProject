@@ -93,7 +93,23 @@ $(function () {
       options: AllRegOptions
     })
 
+          var DatesChartCanvas = $('#datesChart').get(0).getContext('2d')
+    var datesData        = {};
+      $.ajax({
 
+    url: "/api/dates/",
+    dataType: "json",
+     async: false,
+    success: function (data){
+        datesData = data
+    }
+  })
 
-
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(DatesChartCanvas, {
+      type: 'doughnut',
+      data: datesData,
+      options: AllRegOptions
+    })
   })

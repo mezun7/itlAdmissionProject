@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from admission.models import Profile, Group, GENDER_CHOICES, Participant, STATUS_CHOICES
+from admission.models import Profile, Group, GENDER_CHOICES, Participant, STATUS_CHOICES, FirstTourDates
 
 backgroundColors = ['#f56954', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de', '#6c757d', ]
 
@@ -145,6 +145,25 @@ def get_profiles(request):
     }
     for ind, profile in enumerate(profiles):
         datasets['data'].append(profile.participant_set.all().count())
+        datasets['backgroundColor'].append(backgroundColors[ind])
+    mimetype = 'application/json'
+
+    return HttpResponse(json.dumps(result), mimetype)
+
+
+def get_date_distribution(request):
+    dates = FirstTourDates.objects.all().order_by('date')
+    datasets = {
+        'data': [],
+        'backgroundColor': []
+    }
+    result = {
+        'labels': [fdate.date.strftime('%y-%m-%d') for fdate in dates],
+        'datasets': [datasets, ]
+    }
+
+    for ind, fdate in enumerate(dates):
+        datasets['data'].append(fdate.participant_set.all().count())
         datasets['backgroundColor'].append(backgroundColors[ind])
     mimetype = 'application/json'
 
