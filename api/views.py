@@ -115,8 +115,12 @@ def get_out_of_competition(request):
     }
 
     for ind, status in enumerate(STATUS_CHOICES):
+        sum = 0
+        if status == 'N':
+            sum = Participant.objects.filter(Q(privilege_status='') | Q(privilege_status__isnull=True)).count()
         datasets['data'].append(Participant.objects.filter(
-            Q(privilege_status=status[0]) | Q(privilege_status__isnull=True) | Q(privilege_status='')).count())
+            privilege_status=status[0]).count() + sum)
+
         datasets['backgroundColor'].append(colours[status[0]])
     mimetype = 'application/json'
 
