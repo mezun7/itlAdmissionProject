@@ -8,23 +8,25 @@ from admission.models import Profile, Group, GENDER_CHOICES, Participant, STATUS
 
 backgroundColors = ['#f56954', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de', '#6c757d', ]
 
-
-# data = {
-#     'labels': [
-#         'Chrome',
-#         'IE',
-#         'FireFox',
-#         'Safari',
-#         'Opera',
-#         'Navigator'
-#     ],
-#     'datasets': [{
-#         'data': [700, 500, 400, 600, 300, 100],
-#         'backgroundColor': ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-#     }]
-# }
+OptionsTemplate = {
+      'maintainAspectRatio' : False,
+      'responsive' : True,
+      'elements': {
+            'center': {
+                'text': '3000',
+                'color': '#36A2EB',
+                 'fontStyle': 'Helvetica',
+                'sidePadding': 20
+            }
+      }
+}
 
 
+
+
+
+# TODO
+# Delete
 def get_profile(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
@@ -42,6 +44,9 @@ def get_profile(request):
 
 
 def get_all_registration(request):
+    registration_options = OptionsTemplate.copy()
+    registration_options['elements']['center']['text'] = Participant.objects.all().count()
+
     not_finished_label = 'Не завершили регистрацию'
 
     mimetype = 'application/json'
@@ -75,13 +80,19 @@ def get_all_registration(request):
         ]
     }
 
-    data = json.dumps(data)
+    final_result = {
+        'options': registration_options,
+        'data': data
+    }
+    data = json.dumps(final_result)
     if request.is_ajax():
         pass
     return HttpResponse(data, mimetype)
 
 
 def get_all_gender(request):
+    gender_options = OptionsTemplate.copy()
+
     datasets = {
         'data': [],
         'backgroundColor': []
@@ -90,16 +101,24 @@ def get_all_gender(request):
         'labels': [x[1] for x in GENDER_CHOICES],
         'datasets': [datasets, ]
     }
+    overall = 0
     for ind, gender in enumerate(GENDER_CHOICES):
-        datasets['data'].append(Participant.objects.filter(gender__iexact=gender[0]).count())
+        tmp = Participant.objects.filter(gender__iexact=gender[0]).count()
+        overall += tmp
+        datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
-    print(datasets)
+    gender_options['elements']['center']['text'] = overall
+    final_result = {
+        'options': gender_options,
+        'data': result
+    }
     mimetype = 'application/json'
 
-    return HttpResponse(json.dumps(result), mimetype)
+    return HttpResponse(json.dumps(final_result), mimetype)
 
 
 def get_out_of_competition(request):
+
     colours = {
         'N': '#6c757d',
         'R': '#f56954',
@@ -113,22 +132,31 @@ def get_out_of_competition(request):
         'labels': [x[1] for x in STATUS_CHOICES],
         'datasets': [datasets, ]
     }
-
+    overall = 0
     for ind, status in enumerate(STATUS_CHOICES):
         sum2 = 0
         if status[0] == 'N':
             sum2 = Participant.objects.filter(out_of_competition=True, reg_status__isnull='').count()
         print(sum2)
-        datasets['data'].append(Participant.objects.filter(
-            privilege_status=status[0]).count() + sum2)
-
+        tmp = Participant.objects.filter(
+            privilege_status=status[0]).count() + sum2
+        overall += tmp
+        datasets['data'].append(tmp)
         datasets['backgroundColor'].append(colours[status[0]])
-    mimetype = 'application/json'
 
-    return HttpResponse(json.dumps(result), mimetype)
+    mimetype = 'application/json'
+    comp_options = OptionsTemplate.copy()
+    comp_options['elements']['center']['text'] = Participant.objects.all().count()
+    final_result = {
+        'options': comp_options,
+        'data': result
+    }
+
+    return HttpResponse(json.dumps(final_result), mimetype)
 
 
 def get_profiles(request):
+    profile_options = OptionsTemplate.copy()
     profiles = Profile.objects.all().order_by('name')
     colours = {
         'N': '#6c757d',
@@ -143,12 +171,20 @@ def get_profiles(request):
         'labels': [profile.name for profile in profiles],
         'datasets': [datasets, ]
     }
+    overall = 0
     for ind, profile in enumerate(profiles):
-        datasets['data'].append(profile.participant_set.all().count())
+        tmp = profile.participant_set.all().count()
+        overall += tmp
+        datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
+    profile_options['elements']['center']['text'] = overall
+    final_result = {
+        'options': profile_options,
+        'data': result
+    }
     mimetype = 'application/json'
 
-    return HttpResponse(json.dumps(result), mimetype)
+    return HttpResponse(json.dumps(final_result), mimetype)
 
 
 def get_date_distribution(request):
@@ -158,13 +194,20 @@ def get_date_distribution(request):
         'backgroundColor': []
     }
     result = {
-        'labels': [fdate.date.strftime('%y-%m-%d') for fdate in dates],
+        'labels': [fdate.date.strftime('%d/%m/%Y') for fdate in dates],
         'datasets': [datasets, ]
     }
-
+    overall = 0
     for ind, fdate in enumerate(dates):
-        datasets['data'].append(fdate.participant_set.all().count())
+        tmp = fdate.participant_set.all().count()
+        overall += tmp
+        datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
     mimetype = 'application/json'
-
-    return HttpResponse(json.dumps(result), mimetype)
+    dates_options = OptionsTemplate.copy()
+    dates_options['elements']['center']['text'] = overall
+    final_result = {
+        'options': dates_options,
+        'data': result
+    }
+    return HttpResponse(json.dumps(final_result), mimetype)
