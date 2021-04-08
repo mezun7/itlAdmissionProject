@@ -30,7 +30,7 @@ def proxy_func(request):
                 moderator = Moderator.objects.get(user=request.user)
                 return redirect('moderator')
             except Moderator.DoesNotExist:
-                return HttpResponse('Something went wrong)')
+                return redirect('dashboard')
     else:
         return redirect('login')
 
