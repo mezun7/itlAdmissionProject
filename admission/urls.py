@@ -6,6 +6,7 @@ from django.contrib.auth import views as auth_views
 from itlAdmissionProject import settings
 from itlAdmissionProject.settings import SERVER_EMAIL
 from . import views
+from .dashboard import main_dashboard
 from .moderator import moderator
 from .forms import AuthForm, PasswordResetForm, SetPasswordForm
 from .register import main_register
@@ -35,6 +36,7 @@ urlpatterns = [
     path('registration/done/', main_register.register_complete, name='register-done'),
     path('proxy/', views.proxy_func, name='proxy'),
     path('profile/', views.profile, name='main'),
-    path('prf/', profile.main_page, name='main-profile'),
-    path('moderator/', moderator.moderator, name='moderator')
+    path('prf/', profile.profile_test_page, name='main-profile'),
+    path('moderator/', moderator.moderator, name='moderator'),
+    path('dashboard/', main_dashboard.dashboard_main, name='dashboard')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('api/', include('api.urls')),
     path('', include('admission.urls')),
-    path('utest/', include('upload_test_app.urls', namespace='upload_test_app') )
+    path('utest/', include('upload_test_app.urls', namespace='upload_test_app') ),
+    path('api/', include('api.urls'))
 ]

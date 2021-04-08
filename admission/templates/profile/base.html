@@ -193,6 +193,9 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
+        {% block main_content %}
+
+
           <div class="col-12">
 
             <!-- Profile Image -->
@@ -275,7 +278,7 @@
           </div>
           <!-- /.col -->
           <!-- /.col -->
-
+        {% endblock %}
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -302,5 +305,8 @@
 <script src="{% static 'admission/js/adminlte.min.js' %}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{% static 'admission/js/demo.js' %}"></script>
+{% block script %}
+
+{% endblock %}
 </body>
 </html>

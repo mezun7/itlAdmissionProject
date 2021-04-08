@@ -1,0 +1,41 @@
+{% extends 'profile/base.html' %}
+{% load static %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block profile %}
+         Dashboard
+{% endblock %}
+
+{% block right-navbar %}
+        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+
+{% block main_content %}
+    <div class="col-md-6">
+
+        {% include 'dashboard/charts/AllRegistrations.html' %}
+        {% include 'dashboard/charts/ProfileChart.html' %}
+
+
+    </div>
+
+    <div class="col-md-6">
+            {% include 'dashboard/charts/OutOfCompetitionChart.html' %}
+            {% include 'dashboard/charts/genderChart.html' %}
+          </div>
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{% static 'admission/plugins/chart.js/Chart.min.js' %}"></script>
+    <script src="{% static 'admission/js-charts/data-charts.js' %}"></script>
+{% endblock %}
+
