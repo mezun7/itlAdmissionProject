@@ -12,7 +12,7 @@ class AdminGrade(admin.ModelAdmin):
 
 @admin.register(Participant)
 class AdminParticipant(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'fathers_name', 'grade', 'profile')
+    list_display = ('user', 'last_name', 'first_name', 'fathers_name', 'grade', 'profile')
     sortable_by = ('grade', 'last_name', 'first_name')
 
 
