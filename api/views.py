@@ -103,7 +103,7 @@ def get_out_of_competition(request):
     colours = {
         'N': '#6c757d',
         'R': '#f56954',
-        'A': '#f56954',
+        'A': '#00a65a',
     }
     datasets = {
         'data': [],
