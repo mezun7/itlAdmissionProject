@@ -10,8 +10,13 @@ class AdminGrade(admin.ModelAdmin):
     sortable_by = ('number', 'profile_id')
 
 
+@admin.register(Participant)
+class AdminParticipant(admin.ModelAdmin):
+    list_display = ('last_name', 'first_name', 'fathers_name', 'grade', 'profile')
+    sortable_by = ('grade', 'last_name', 'first_name')
+
+
 admin.site.register(File)
-admin.site.register(Participant)
 admin.site.register(FirstTourDates)
 admin.site.register(Group)
 admin.site.register(Profile)
