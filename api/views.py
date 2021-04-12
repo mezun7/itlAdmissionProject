@@ -39,6 +39,7 @@ def get_profile(request):
         data = json.dumps(result)
     else:
         data = 'fail'
+
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
@@ -178,6 +179,16 @@ def get_profiles(request):
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
     profile_options['elements']['center']['text'] = overall
+    profile_options['plugins'] = {
+        'legend': {
+            'position': 'right',
+            'align': "middle"
+        }
+    }
+    # plugins: {
+    #     legend: {
+    #         position: 'right',
+    #     },
     final_result = {
         'options': profile_options,
         'data': result
