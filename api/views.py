@@ -146,7 +146,7 @@ def get_out_of_competition(request):
 
     mimetype = 'application/json'
     comp_options = OptionsTemplate.copy()
-    comp_options['elements']['center']['text'] = Participant.objects.all().count()
+    comp_options['elements']['center']['text'] = overall
     final_result = {
         'options': comp_options,
         'data': result
