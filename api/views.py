@@ -169,7 +169,7 @@ def get_profiles(request):
         'backgroundColor': []
     }
     result = {
-        'labels': [profile.name for profile in profiles],
+        'labels': [profile.name.split()[0] for profile in profiles],
         'datasets': [datasets, ]
     }
     overall = 0
