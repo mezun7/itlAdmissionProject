@@ -15,6 +15,7 @@ class AdminParticipant(admin.ModelAdmin):
     list_display = ('user', 'last_name', 'first_name', 'fathers_name', 'grade', 'profile')
     sortable_by = ('grade', 'last_name', 'first_name')
     list_filter = ('grade', 'profile', 'first_tour_register_date')
+    search_fields = ['first_name', 'last_name']
 
 
 admin.site.register(File)
