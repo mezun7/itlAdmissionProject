@@ -32,6 +32,7 @@ $(function () {
       } else {
         alert(data.result.error_message);
       }
+      $("#modal-progress").modal("hide");
     }
 
   });
