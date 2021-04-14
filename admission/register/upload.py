@@ -18,7 +18,7 @@ class UploadView(View):
                                                                     'form': form})
 
     def post(self, request):
-        time.sleep(1)  # You don't need this line. This is just to delay the process so you can see the progress bar
+        # time.sleep(1)  # You don't need this line. This is just to delay the process so you can see the progress bar
         # testing locally.
         form = FileUploadForm(self.request.POST, self.request.FILES)
         if form.is_valid():
