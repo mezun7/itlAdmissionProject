@@ -13,7 +13,9 @@ $(function () {
     },
 
     stop: function (e) {
-      $("#modal-progress").modal("hide");
+      $("#modal-progress").on("shown.bs.modal", function () {
+        $(this).modal("hide");
+      })
     },
 
     progressall: function (e, data) {
@@ -24,6 +26,7 @@ $(function () {
     },
 
     done: function (e, data) {
+
       if (data.result.is_valid) {
         $("#gallery tbody").prepend(
           "<tr><td><a href='" + data.result.url + "'>" + data.result.name + "</a></td></tr>"

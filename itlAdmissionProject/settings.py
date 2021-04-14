@@ -86,7 +86,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-if platform.system() in ['Darwin', 'win32']:
+if platform.system() in ['Darwin', 'win32', 'Linux']:
     DEBUG = True
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
