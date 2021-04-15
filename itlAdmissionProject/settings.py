@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mst2^99(_vvq81-5!$f*kh@je)2jq2jhf6a)uqk(_*b)9fmrq^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -86,7 +86,7 @@ DATABASES = {
         'PORT': '',
     }
 }
-if platform.system() in ['Darwin', 'win32', 'Linux']:
+if platform.system() in ['Darwin', 'win32']:
     DEBUG = True
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
