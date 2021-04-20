@@ -32,9 +32,11 @@
                 </h3>
                     {{ form.portfolio_text }}
                   <div style="margin-bottom: 20px;">
+                      <h3 class="fs-title">Ограничение на один файл - 2мб</h3>
                     <button type="button" class="btn btn-primary js-upload-photos">
                       <span class="glyphicon glyphicon-cloud-upload"></span> Загрузить дипломы
                     </button>
+
                     <input id="fileupload" type="file" name="file" multiple
                            style="display: none;"
                            data-url="{% url 'register4' %}"
