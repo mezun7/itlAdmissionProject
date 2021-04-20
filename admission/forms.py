@@ -219,10 +219,14 @@ class ChildInfo(forms.ModelForm):
     def clean_fio_mother(self):
         fio_mother = self.cleaned_data.get("fio_mother", "")
         fio_father = self.cleaned_data.get("fio_father", "")
+        if fio_mother is None:
+            return fio_mother
         return " ".join([el.capitalize() for el in fio_mother.split()])
 
     def clean_fio_father(self):
         fio_father = self.cleaned_data.get("fio_father", "")
+        if fio_father is None:
+            return fio_father
         return " ".join([el.capitalize() for el in fio_father.split()])
 
     def clean_phone_mother(self):
