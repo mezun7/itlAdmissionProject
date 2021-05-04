@@ -136,9 +136,9 @@ def get_out_of_competition(request):
     for ind, status in enumerate(STATUS_CHOICES):
         sum2 = 0
         if status[0] == 'N':
-            sum2 = Participant.objects.filter(out_of_competition=True, privilege_status__isnull=True).count()
+            sum2 = Participant.objects.filter(out_of_competition=True, privilege_status__isnull=True, is_dublicate=False).count()
         tmp = Participant.objects.filter(
-            privilege_status=status[0]).count() + sum2
+            privilege_status=status[0], is_dublicate=False).count() + sum2
         overall += tmp
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(colours[status[0]])

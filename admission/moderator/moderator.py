@@ -14,16 +14,18 @@ from django.core.mail import send_mail, EmailMessage
 
 button_type = {
     'Отклонить': 'R',
-    'Подтвердить': 'A'
+    'Подтвердить': 'A',
+    'Дубликат': 'D'
 }
 
 
 # @login_required()
 def moderator(request):
     context = {}
-    participants = Participant.objects.filter(out_of_competition=True, privilege_status=None).order_by('grade__number',
-                                                                                                       'first_name',
-                                                                                                       'last_name')
+    participants = Participant.objects.filter(out_of_competition=True, privilege_status=None,
+                                              is_dublicate=False).order_by('grade__number',
+                                                                           'first_name',
+                                                                           'last_name')
     context['participants'] = participants
 
     return render(request, 'moderator/index.html', context)
@@ -37,6 +39,10 @@ def moderate(request, profile_id):
     if request.POST:
         form = ModeratorMessage2(request.POST)
         if form.is_valid():
+            if button_type[request.POST['status']] == 'D':
+                participant.is_dublicate = True
+                participant.save()
+                return redirect('moderator')
             message = form.save(commit=False)
             message.moderator = moder_user
             message.participant = participant
@@ -44,7 +50,8 @@ def moderate(request, profile_id):
             participant.privilege_status = message.verdict
             message.save()
             participant.save()
-            email_subject, email_message = get_moderator_mail(message.verdict, message.text, participant.first_tour_register_date)
+            email_subject, email_message = get_moderator_mail(message.verdict, message.text,
+                                                              participant.first_tour_register_date)
             email = EmailMessage(email_subject,
                                  email_message,
                                  from_email=SERVER_EMAIL,
