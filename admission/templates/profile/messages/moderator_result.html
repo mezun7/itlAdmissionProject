@@ -1,0 +1,36 @@
+
+                      <!-- timeline time label -->
+                      <div class="time-label">
+                        <span class="bg-blue">
+                          {{ message.sent_at }}
+                        </span>
+                      </div>
+                      <!-- /.timeline-label -->
+                      <!-- timeline item -->
+                      <div>
+                          {% ifequal message.verdict 'A' %}
+                        <i class="fas fa-check-circle bg-green"></i>
+                              {% else %}
+                                <i class="fas fa-check-circle bg-red"></i>
+                              {% endifequal %}
+
+                        <div class="timeline-item">
+                          <span class="time"><i class="far fa-clock"></i> </span>
+
+                          <h3 class="timeline-header"><a href="#">Команда поддержки:</a> </h3>
+
+                          <div class="timeline-body">
+                              {% ifequal message.verdict 'A' %}
+Здравствуйте. Мы рады сообщить, что мы подтверждаем вашу льготу на поступление без экзаменов. По дальнейшим шагам с вами свяжутся(какие документы и куда приносить их). Спасибо, что выбрали нас!
+                              {% else %}
+    Здравствуйте. К сожалению, мы не можем подтвердить вашу льготу по следующим причинам: {{ message.text }}
+    Ждем вас на экзаменах {{ participant.first_tour_register_date.date }}. Спасибо!
+                              {% endifequal %}
+
+                          </div>
+                          <div class="timeline-footer">
+{#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
+{#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
+                          </div>
+                        </div>
+                      </div>

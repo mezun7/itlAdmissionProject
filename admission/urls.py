@@ -39,5 +39,6 @@ urlpatterns = [
     path('prf/', profile.profile_test_page, name='main-profile'),
     path('moderator/', moderator.moderator, name='moderator'),
     path('dashboard/', main_dashboard.dashboard_main, name='dashboard'),
+    path('profile_moderator/<int:profile_id>/', moderator.moderate, name='profile-moderate')
     # path('testu/', UploadView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

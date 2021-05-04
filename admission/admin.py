@@ -4,7 +4,8 @@ from django.contrib import admin
 from django.contrib.admin import TabularInline
 from django.contrib.contenttypes.admin import GenericTabularInline
 
-from admission.models import Grade, Profile, File, Participant, FirstTourDates, Group, Olympiad
+from admission.models import Grade, Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
+    ModeratorMessage
 
 
 class FileAdmin(TabularInline):
@@ -19,14 +20,24 @@ class AdminGrade(admin.ModelAdmin):
 
 @admin.register(Participant)
 class AdminParticipant(admin.ModelAdmin):
-    list_display = ('user', 'last_name', 'first_name', 'fathers_name', 'grade', 'profile')
-    sortable_by = ('grade', 'last_name', 'first_name')
-    list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition')
+    list_display = ('user', 'last_name', 'first_name', 'fathers_name', 'grade', 'profile', 'reg_status')
+    sortable_by = ('grade', 'last_name', 'first_name',)
+    list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition', 'reg_status')
     search_fields = ['first_name', 'last_name']
     exclude = ['portfolio']
     inlines = [
         FileAdmin,
     ]
+
+
+@admin.register(ModeratorMessage)
+class AdminModeratorMessage(admin.ModelAdmin):
+    list_display = ('sent_at', 'moderator', 'participant', 'verdict')
+
+
+@admin.register(Moderator)
+class AdminModerator(admin.ModelAdmin):
+    list_display = ('user',)
 
 
 admin.site.register(File)

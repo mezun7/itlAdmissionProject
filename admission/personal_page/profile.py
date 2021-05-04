@@ -12,7 +12,7 @@ from django.urls import reverse
 
 from admission.forms import RegisterForm, ChildInfo
 from admission.helpers.email_ops import get_register_mail
-from admission.models import Participant, Olympiad
+from admission.models import Participant, Olympiad, ModeratorMessage
 from itlAdmissionProject.settings import SERVER_EMAIL
 
 
@@ -21,7 +21,8 @@ def main_page(request):
     # user = request.user  # type: User
     participant = Participant.objects.get(user=request.user)
     context = {
-        'participant': participant
+        'participant': participant,
+        'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at')
     }
 
     return render(request, 'profile/profile.html', context=context)

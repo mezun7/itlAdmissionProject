@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from django.forms import ClearableFileInput, TextInput, PasswordInput, EmailInput, RadioSelect, Select, DateInput, \
     CheckboxInput, Textarea
 
-from admission.models import File, Participant, GENDER_CHOICES, Group
+from admission.models import File, Participant, GENDER_CHOICES, Group, ModeratorMessage
 
 
 class AuthForm(fr.AuthenticationForm):
@@ -233,3 +233,16 @@ class ChildInfo(forms.ModelForm):
         phone_mother = self.cleaned_data.get('phone_mother', '')
         phone_father = self.cleaned_data.get('phone_father', '')
         return phone_mother
+
+
+class ModeratorMessage2(forms.ModelForm):
+    class Meta:
+        model = ModeratorMessage
+        fields = ('text',)
+
+        widgets = {
+            'text': Textarea(attrs={
+                'placeholder': "Сообщение абитуриенту"
+                # 'class': 'form-control'
+            }),
+        }

@@ -20,6 +20,9 @@ STATUS_CHOICES = (
 class Moderator(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.username
+
 
 class FirstTourDates(models.Model):
     date = models.DateTimeField(verbose_name='Дата первого тура')
@@ -110,3 +113,12 @@ class Olympiad(models.Model):
 
     def __str__(self):
         return self.text
+
+
+class ModeratorMessage(models.Model):
+    text = models.CharField(max_length=2000, verbose_name='Сообщение', blank=True, null=True)
+    moderator = models.ForeignKey(Moderator, verbose_name=u'Проверено', on_delete=models.CASCADE)
+    sent_at = models.DateTimeField(auto_now_add=True)
+    participant = models.ForeignKey(Participant, verbose_name='Участник', on_delete=models.CASCADE)
+    verdict = models.CharField(choices=STATUS_CHOICES, max_length=2, verbose_name='Вердикт')
+

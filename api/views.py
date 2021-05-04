@@ -73,7 +73,6 @@ def get_all_registration(request):
         datasets['data'].append(v[0])
         datasets['backgroundColor'].append(v[1])
 
-    print(datasets)
     data = {
         'labels': labels,
         'datasets': [
@@ -137,8 +136,7 @@ def get_out_of_competition(request):
     for ind, status in enumerate(STATUS_CHOICES):
         sum2 = 0
         if status[0] == 'N':
-            sum2 = Participant.objects.filter(out_of_competition=True, reg_status__isnull='').count()
-        print(sum2)
+            sum2 = Participant.objects.filter(out_of_competition=True, privilege_status__isnull=True).count()
         tmp = Participant.objects.filter(
             privilege_status=status[0]).count() + sum2
         overall += tmp
