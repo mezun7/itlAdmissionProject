@@ -29,7 +29,7 @@
                     <td>{{ participant.fio_father }}</td>
                     <td>{{ participant.phone_father }}</td>
                     <td>{% for portfolio in participant.portfolio.all %}
-                        <a href="{% get_media_prefix %}{{ portfolio }}">{{ portfolio }}</a><br>
+                        <a href="{% get_media_prefix %}{{ portfolio }}">{{ portfolio|truncatechars:20 }}</a><br>
                     {% endfor %}
                     </td>
                     <td><input type="submit" class="btn-primary" name="{{ participant.pk }}" value="Дубликат">
