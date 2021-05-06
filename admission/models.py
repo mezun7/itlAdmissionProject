@@ -104,6 +104,7 @@ class Participant(models.Model):
     date_privilege_check = models.DateTimeField(verbose_name='Дата проверки', blank=True, null=True)
     moderator = models.ForeignKey(Moderator, verbose_name='Кто проверил', blank=True, null=True, on_delete=models.CASCADE)
     is_dublicate = models.BooleanField(default=False, verbose_name='Дубликат?')
+    is_checked = models.BooleanField(default=False, verbose_name='Проверен на дублирование?')
 
     def __str__(self):
         return self.user.username

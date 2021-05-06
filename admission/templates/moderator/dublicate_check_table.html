@@ -1,0 +1,43 @@
+ {% load static %}
+
+<form method="post" action="{% url 'dublicate' %}" class="">
+    {% csrf_token %}
+    <table class="table table-responsive-lg table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>email</th>
+                <th>Номер телефона ребенка</th>
+                <th>ФИО мамы</th>
+                <th>Номер телефона мамы</th>
+                <th>ФИО отца</th>
+                <th>Номер телефона отца</th>
+                <th>Портфолио</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for participant in participants %}
+                <tr>
+                    <td>{{ participant.pk }}</td>
+                    <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
+                    <td>{{ participant.user.email }}</td>
+                    <td>{{ participant.phone_party }}</td>
+                    <td>{{ participant.fio_mother }}</td>
+                    <td>{{ participant.phone_mother }}</td>
+                    <td>{{ participant.fio_father }}</td>
+                    <td>{{ participant.phone_father }}</td>
+                    <td>{% for portfolio in participant.portfolio.all %}
+                        <a href="{% get_media_prefix %}{{ portfolio }}">{{ portfolio }}</a><br>
+                    {% endfor %}
+                    </td>
+                    <td><input type="submit" class="btn-primary" name="{{ participant.pk }}" value="Дубликат">
+                        <input type="submit" class="btn-info" name="{{ participant.pk }}" value="Пропустить">
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+</form>
