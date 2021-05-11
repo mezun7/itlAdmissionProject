@@ -46,7 +46,7 @@ def get_profile(request):
 
 def get_all_registration(request):
     registration_options = OptionsTemplate.copy()
-    registration_options['elements']['center']['text'] = Participant.objects.all().count()
+    registration_options['elements']['center']['text'] = Participant.objects.filter(is_dublicate=False).count()
 
     not_finished_label = 'Не завершили регистрацию'
 
@@ -60,7 +60,7 @@ def get_all_registration(request):
     for grade in grades:
         tmp = grade.participant_set.filter(reg_status__lt=99).count()
         not_finished_registration += tmp
-        res[str(grade.number) + " класс"] = [grade.participant_set.all().count() - tmp, backgroundColors[ind]]
+        res[str(grade.number) + " класс"] = [grade.participant_set.filter(is_dublicate=False).count() - tmp, backgroundColors[ind]]
         ind += 1
     res[not_finished_label] = [not_finished_registration, backgroundColors[-1]]
     labels = []
