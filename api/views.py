@@ -103,7 +103,7 @@ def get_all_gender(request):
     }
     overall = 0
     for ind, gender in enumerate(GENDER_CHOICES):
-        tmp = Participant.objects.filter(gender__iexact=gender[0]).count()
+        tmp = Participant.objects.filter(gender__iexact=gender[0], is_dublicate=False).count()
         overall += tmp
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
@@ -172,7 +172,7 @@ def get_profiles(request):
     }
     overall = 0
     for ind, profile in enumerate(profiles):
-        tmp = profile.participant_set.all().count()
+        tmp = profile.participant_set.filter(is_dublicate=False).count()
         overall += tmp
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
@@ -208,7 +208,7 @@ def get_date_distribution(request):
     }
     overall = 0
     for ind, fdate in enumerate(dates):
-        tmp = fdate.participant_set.all().count()
+        tmp = fdate.participant_set.filter(is_dublicate=False).count()
         overall += tmp
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
