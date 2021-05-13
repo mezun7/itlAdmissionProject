@@ -26,7 +26,7 @@ def olymp_list(request):
         'participants': participants,
         'accept': 'Придет',
         'reject': 'Отказ',
-        'action': reverse('checker')
+        'action': reverse('checker'),
     }
 
     action_list = {
@@ -37,4 +37,5 @@ def olymp_list(request):
     if request.POST:
         key = list(request.POST.keys())[-1]
         set_olymp_coming_status(key, action_list[request.POST[key]])
+        return redirect('checker')
     return render(request, 'moderator/olymp_coming_check.html', context)

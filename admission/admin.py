@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.admin import TabularInline
 from django.contrib.contenttypes.admin import GenericTabularInline
 
-from admission.actions import export_as_xls
+from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Grade, Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage
 
@@ -30,7 +30,7 @@ class AdminParticipant(admin.ModelAdmin):
     inlines = [
         FileAdmin,
     ]
-    actions = [export_as_xls]
+    actions = [export_as_xls, export_as_xls_full_participant_data]
 
     def get_email(self, participant):
          return str(participant.user.email)
