@@ -1,10 +1,12 @@
+import datetime
+
 from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from itlAdmissionProject import settings
-from itlAdmissionProject.settings import SERVER_EMAIL
+from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 from . import views
 from .dashboard import main_dashboard
 from .moderator import moderator
@@ -15,7 +17,9 @@ from .personal_page import profile as profile
 urlpatterns = [
     path('', views.proxy_func, name='home'),
     # path('test/', views.test_upload, name='test-upload'),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', authentication_form=AuthForm),
+    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html', authentication_form=AuthForm,
+                                                extra_context={'stop_register': datetime.date.today() > REGISTER_END_DATE
+                                                               }),
          name='login'),
     path('reset/', auth_views.PasswordResetView.as_view(template_name='registration/password_reset_form.html', form_class=PasswordResetForm, from_email=SERVER_EMAIL),
          name='reset'),

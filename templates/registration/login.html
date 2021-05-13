@@ -10,6 +10,7 @@
     please login with an account that has access.</p>
   {% endif %}
 {% endif %}
+
 <div class="row justify-content-center">
     <div class="col-md-6 col-md-offset-3">
 
@@ -20,8 +21,18 @@
         <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
                 </div><p></p>
                 <h2 class="fs-title">Войти</h2>
+            <h3 class="fs-subtitle alert-info">
+                                <ul class="text-blue">
+                                                {% if stop_register %}
+        Регистрация абитуриентов в 2021 году завершена.
+    {% endif %}
+                                </ul>
+            </h3>
                 <h3 class="fs-subtitle alert-danger">
+
+
                     <ul class="alert-danger">
+
                     {% for field in form %}
                         {% for error in field.errors %}
                             <li>{{ error }}</li>
@@ -34,8 +45,11 @@
                 <p><a href="{% url 'reset' %}">Забыли пароль?</a></p>
                 <input type="submit" name="Submit" class="action-button" value="Войти"/>
             <div class="modal-footer">
-                <div class=""> Вы не зарегистрированы?
-                <a href="{% url 'register' %}">Зарегистрируйтесь.</a>
+                {% if not stop_register %}
+                    <div class=""> Вы не зарегистрированы?
+                    <a href="{% url 'register' %}">Зарегистрируйтесь.</a>
+                {% endif %}
+
 
                 </div>
                 <div class="-align-left">

@@ -13,12 +13,15 @@ from django.urls import reverse
 from admission.forms import RegisterForm, ChildInfo
 from admission.helpers.email_ops import get_register_mail
 from admission.models import Participant, Olympiad
-from itlAdmissionProject.settings import SERVER_EMAIL
+from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 
 salt = "asdvcx"
+today = datetime.date.today()
 
 
 def register(request):
+    if today > REGISTER_END_DATE:
+        return redirect('login')
     if request.user.is_authenticated:
         return redirect('proxy')
     return render(request, 'registration/register.html')
@@ -26,6 +29,8 @@ def register(request):
 
 def register_2(request):
     context = {}
+    if today > REGISTER_END_DATE:
+        return redirect('login')
     if request.user.is_authenticated:
         return redirect('proxy')
 
@@ -108,7 +113,6 @@ def confirm(request, activation_key):
 
 @login_required()
 def register_complete(request):
-
     participant = Participant.objects.get(user=request.user)
     if participant.key_expires is None:
         participant.activation_key = hashlib.sha1(

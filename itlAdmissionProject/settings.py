@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
+import datetime
 import os
 import platform
 from pathlib import Path
@@ -150,5 +151,6 @@ PROTOCOL = 'https'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
-FILE_SIZE_LIMIT = 2 * 1024 * 1024 # 2 MB
+FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+REGISTER_END_DATE = datetime.date(2021, 5, 13)
