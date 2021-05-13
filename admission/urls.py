@@ -9,7 +9,7 @@ from itlAdmissionProject import settings
 from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 from . import views
 from .dashboard import main_dashboard
-from .moderator import moderator
+from .moderator import moderator, olymp_checker
 from .forms import AuthForm, PasswordResetForm, SetPasswordForm
 from .register import main_register
 from .register.upload import PortfolioUploadView, UploadView
@@ -45,6 +45,7 @@ urlpatterns = [
     path('dashboard/', main_dashboard.dashboard_main, name='dashboard'),
     path('profile_moderator/<int:profile_id>/', moderator.moderate, name='profile-moderate'),
     path('dublicate/', moderator.dublicate_check, name='dublicate'),
+    path('olymp_check', olymp_checker.olymp_list, name='checker')
     # path('duplicate_post/', moderator.duplicate_check_post, name='duplicate_post')
     # path('testu/', UploadView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

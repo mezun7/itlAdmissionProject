@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 # Create your views here.
 # from admission.forms import FileUpload
+from django.urls import reverse
 from django.views.generic import ListView
 
 from admission.forms import ModeratorMessage2
@@ -84,7 +85,10 @@ def dublicate_check(request):
                                               is_checked=False).order_by('last_name',
                                                                          'first_name')
     context = {
-        'participants': participants
+        'participants': participants,
+        'accept': 'Дубликат',
+        'reject': 'Пропустить',
+        'action': reverse('dublicate')
     }
     action_list = {
         'Дубликат': set_duplicate_status,

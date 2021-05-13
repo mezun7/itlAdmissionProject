@@ -149,4 +149,27 @@ $(function () {
       data: datesData,
       options: datesOptions
     })
+
+    //-----Olymp coming status
+        var DatesChartCanvas = $('#olympComingChart').get(0).getContext('2d')
+    var olympComingData = {}
+    var olympComingOptions = {}
+      $.ajax({
+
+    url: "/api/olymp_coming_status/",
+    dataType: "json",
+     async: false,
+    success: function (data){
+        olympComingData = data['data']
+        olympComingOptions = data['options']
+    }
+  })
+
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    new Chart(DatesChartCanvas, {
+      type: 'doughnut',
+      data: olympComingData,
+      options: olympComingOptions
+    })
   })

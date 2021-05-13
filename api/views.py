@@ -9,20 +9,17 @@ from admission.models import Profile, Group, GENDER_CHOICES, Participant, STATUS
 backgroundColors = ['#f56954', '#00a65a', '#00c0ef', '#3c8dbc', '#d2d6de', '#6c757d', ]
 
 OptionsTemplate = {
-      'maintainAspectRatio' : False,
-      'responsive' : True,
-      'elements': {
-            'center': {
-                'text': '3000',
-                'color': '#36A2EB',
-                 'fontStyle': 'Helvetica',
-                'sidePadding': 20
-            }
-      }
+    'maintainAspectRatio': False,
+    'responsive': True,
+    'elements': {
+        'center': {
+            'text': '3000',
+            'color': '#36A2EB',
+            'fontStyle': 'Helvetica',
+            'sidePadding': 20
+        }
+    }
 }
-
-
-
 
 
 # TODO
@@ -60,7 +57,8 @@ def get_all_registration(request):
     for grade in grades:
         tmp = grade.participant_set.filter(reg_status__lt=99).count()
         not_finished_registration += tmp
-        res[str(grade.number) + " класс"] = [grade.participant_set.filter(is_dublicate=False).count() - tmp, backgroundColors[ind]]
+        res[str(grade.number) + " класс"] = [grade.participant_set.filter(is_dublicate=False).count() - tmp,
+                                             backgroundColors[ind]]
         ind += 1
     res[not_finished_label] = [not_finished_registration, backgroundColors[-1]]
     labels = []
@@ -118,7 +116,6 @@ def get_all_gender(request):
 
 
 def get_out_of_competition(request):
-
     colours = {
         'N': '#6c757d',
         'R': '#f56954',
@@ -136,7 +133,8 @@ def get_out_of_competition(request):
     for ind, status in enumerate(STATUS_CHOICES):
         sum2 = 0
         if status[0] == 'N':
-            sum2 = Participant.objects.filter(out_of_competition=True, privilege_status__isnull=True, is_dublicate=False).count()
+            sum2 = Participant.objects.filter(out_of_competition=True, privilege_status__isnull=True,
+                                              is_dublicate=False).count()
         tmp = Participant.objects.filter(
             privilege_status=status[0], is_dublicate=False).count() + sum2
         overall += tmp
@@ -219,4 +217,42 @@ def get_date_distribution(request):
         'options': dates_options,
         'data': result
     }
+    return HttpResponse(json.dumps(final_result), mimetype)
+
+
+def get_olymp_coming(request):
+    colours = {
+        'N': '#6c757d',
+        'R': '#f56954',
+        'A': '#00a65a',
+    }
+    NAMES = {
+        'N': 'Не позвонили',
+        'R': 'Не придет',
+        'A': 'Придет',
+    }
+    datasets = {
+        'data': [],
+        'backgroundColor': []
+    }
+    result = {
+        'labels': [NAMES[x[0]] for x in STATUS_CHOICES],
+        'datasets': [datasets, ]
+    }
+    overall = 0
+    for ind, status in enumerate(STATUS_CHOICES):
+        tmp = Participant.objects.filter(
+            olymp_coming_status=status[0], is_dublicate=False, privilege_status__iexact='A').count()
+        overall += tmp
+        datasets['data'].append(tmp)
+        datasets['backgroundColor'].append(colours[status[0]])
+
+    mimetype = 'application/json'
+    comp_options = OptionsTemplate.copy()
+    comp_options['elements']['center']['text'] = overall
+    final_result = {
+        'options': comp_options,
+        'data': result
+    }
+
     return HttpResponse(json.dumps(final_result), mimetype)

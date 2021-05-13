@@ -105,6 +105,7 @@ class Participant(models.Model):
     moderator = models.ForeignKey(Moderator, verbose_name='Кто проверил', blank=True, null=True, on_delete=models.CASCADE)
     is_dublicate = models.BooleanField(default=False, verbose_name='Дубликат?')
     is_checked = models.BooleanField(default=False, verbose_name='Проверен на дублирование?')
+    olymp_coming_status = models.CharField(default='N', verbose_name='Статус прихода', max_length=2)
 
     def __str__(self):
         return self.user.username
