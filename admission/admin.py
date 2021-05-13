@@ -22,7 +22,7 @@ class AdminGrade(admin.ModelAdmin):
 @admin.register(Participant)
 class AdminParticipant(admin.ModelAdmin):
     list_display = ('id', 'user', 'last_name', 'first_name', 'fathers_name', 'grade',
-                    'profile', 'first_tour_register_date', 'reg_status', 'is_dublicate')
+                    'profile', 'first_tour_register_date', 'get_email', 'reg_status', 'is_dublicate')
     sortable_by = ('grade', 'last_name', 'first_name',)
     list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition', 'reg_status', 'privilege_status')
     search_fields = ['first_name', 'last_name']
@@ -31,6 +31,12 @@ class AdminParticipant(admin.ModelAdmin):
         FileAdmin,
     ]
     actions = [export_as_xls]
+
+    def get_email(self, participant):
+         return str(participant.user.email)
+
+    get_email.short_description = 'email'
+    get_email.admin_order_field = 'book__author'
 
 
 @admin.register(ModeratorMessage)
