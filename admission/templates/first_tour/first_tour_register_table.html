@@ -18,7 +18,7 @@
                     <td>{{ participant.pk }}</td>
                     <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
                     <td>{{ participant.grade }}</td>
-                    <td>{{ participant.profile }}</td>
+                    <td>{% if participant.profile %}{{ participant.profile }} {% endif %}</td>
 
                     <td><input type="submit" class="btn-primary" name="{{ participant.pk }}" value="Пришел">
                     </td>
