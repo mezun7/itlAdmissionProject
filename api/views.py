@@ -272,10 +272,10 @@ def get_first_tour_coming_register(request):
         'labels': ['Не пришли'],
         'datasets': [datasets, ]
     }
-    overall = 0
+    overall = Participant.objects.filter(first_tour_come_date__isnull=True,
+                                                       is_dublicate=False, first_name__isnull=False).count()
     ind = 0
-    datasets['data'].append(Participant.objects.filter(first_tour_come_date__isnull=True,
-                                                       is_dublicate=False, first_name__isnull=False).count())
+    datasets['data'].append(overall)
     datasets['backgroundColor'].append('#6c757d')
     for ft_date, grade in product_dt_grades:
         tmp = Participant.objects.filter(
