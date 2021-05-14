@@ -145,7 +145,7 @@ class ChildInfo(forms.ModelForm):
         # fileds = ['last_name', 'first_name', 'fathers_name', 'gender' ,'birthday', 'place_of_birth', 'phone_party',
         # 'school', 'grade']
         exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
-                   'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate']
+                   'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate', 'olymp_coming_status']
 
         widgets = {
             'last_name': TextInput(attrs={
