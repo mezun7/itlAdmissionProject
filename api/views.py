@@ -1,3 +1,4 @@
+import itertools
 import json
 from django.db.models import Q
 from django.http import HttpResponse
@@ -246,6 +247,46 @@ def get_olymp_coming(request):
         overall += tmp
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(colours[status[0]])
+
+    mimetype = 'application/json'
+    comp_options = OptionsTemplate.copy()
+    comp_options['elements']['center']['text'] = overall
+    final_result = {
+        'options': comp_options,
+        'data': result
+    }
+
+    return HttpResponse(json.dumps(final_result), mimetype)
+
+
+def get_first_tour_coming_register(request):
+    datasets = {
+        'data': [],
+        'backgroundColor': []
+    }
+    first_tour_dates = FirstTourDates.objects.all().order_by('date')
+    grades = Group.objects.all().order_by('number')
+    product_dt_grades = itertools.product(first_tour_dates, grades)
+
+    result = {
+        'labels': ['Не пришли'],
+        'datasets': [datasets, ]
+    }
+    overall = 0
+    ind = 0
+    datasets['data'].append(Participant.objects.filter(first_tour_come_date__isnull=True,
+                                                       is_dublicate=False, first_name__isnull=False).count())
+    datasets['backgroundColor'].append('#6c757d')
+    for ft_date, grade in product_dt_grades:
+        tmp = Participant.objects.filter(
+            first_tour_come_date__date=ft_date.date.date(), grade=grade).count()
+        overall += tmp
+
+        result['labels'].append(str(ft_date.date.date()) + " " + str(grade.number) + " Класс")
+        datasets['data'].append(tmp)
+        datasets['backgroundColor'].append(backgroundColors[ind])
+        ind += 1
+    # print(result['labels'], datasets['data'])
 
     mimetype = 'application/json'
     comp_options = OptionsTemplate.copy()

@@ -8,7 +8,9 @@ from django.contrib.auth import views as auth_views
 from itlAdmissionProject import settings
 from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 from . import views
+from admission import first_tour
 from .dashboard import main_dashboard
+from .first_tour.first_tour_register import register_coming
 from .moderator import moderator, olymp_checker
 from .forms import AuthForm, PasswordResetForm, SetPasswordForm
 from .register import main_register
@@ -45,7 +47,9 @@ urlpatterns = [
     path('dashboard/', main_dashboard.dashboard_main, name='dashboard'),
     path('profile_moderator/<int:profile_id>/', moderator.moderate, name='profile-moderate'),
     path('dublicate/', moderator.dublicate_check, name='dublicate'),
-    path('olymp_check', olymp_checker.olymp_list, name='checker')
+    path('olymp_check', olymp_checker.olymp_list, name='checker'),
+    path('first_tour_register/', register_coming, name='first_tour_register'),
+    path('first_tour_register/<int:grade_id>/', register_coming, name='first_tour_register'),
     # path('duplicate_post/', moderator.duplicate_check_post, name='duplicate_post')
     # path('testu/', UploadView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

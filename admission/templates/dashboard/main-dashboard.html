@@ -28,16 +28,17 @@
     </div>
 
     <div class="col-md-6">
+            {% include 'dashboard/charts/ComingFirstTourRegister.html' %}
             {% include 'dashboard/charts/OlympComingCheckStatus.html' %}
             {% include 'dashboard/charts/OutOfCompetitionChart.html' %}
             {% include 'dashboard/charts/genderChart.html' %}
-          </div>
+    </div>
 
 {% endblock %}
 
 
 {% block script %}
     <script src="{% static 'admission/plugins/chart.js/Chart.min.js' %}"></script>
-    <script src="{% static 'admission/js-charts/data-charts.js' %}"></script>
+    <script src="{% static 'admission/js-charts/data-charts2.js' %}"></script>
 {% endblock %}
 

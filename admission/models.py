@@ -46,13 +46,14 @@ class Group(models.Model):
         return str(self.number)
 
 
-class Grade(models.Model):
-    number = models.IntegerField(verbose_name='Класс')
-    profile_id = models.ForeignKey(Profile, verbose_name=u'Профиль обучения', on_delete=models.CASCADE, blank=True,
-                                   null=True)
-
-    def __str__(self):
-        return str(self.number)
+#
+# class Grade(models.Model):
+#     number = models.IntegerField(verbose_name='Класс')
+#     profile_id = models.ForeignKey(Profile, verbose_name=u'Профиль обучения', on_delete=models.CASCADE, blank=True,
+#                                    null=True)
+#
+#     def __str__(self):
+#         return str(self.number)
 
 
 class FileType(models.Model):
@@ -102,10 +103,12 @@ class Participant(models.Model):
     privilege_status = models.CharField(max_length=1, verbose_name="Статус проверки льготы", blank=True,
                                         null=True, choices=STATUS_CHOICES)
     date_privilege_check = models.DateTimeField(verbose_name='Дата проверки', blank=True, null=True)
-    moderator = models.ForeignKey(Moderator, verbose_name='Кто проверил', blank=True, null=True, on_delete=models.CASCADE)
+    moderator = models.ForeignKey(Moderator, verbose_name='Кто проверил', blank=True, null=True,
+                                  on_delete=models.CASCADE)
     is_dublicate = models.BooleanField(default=False, verbose_name='Дубликат?')
     is_checked = models.BooleanField(default=False, verbose_name='Проверен на дублирование?')
     olymp_coming_status = models.CharField(default='N', verbose_name='Статус прихода', max_length=2)
+    first_tour_come_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Пришел')
 
     def __str__(self):
         return self.user.username
@@ -125,3 +128,9 @@ class ModeratorMessage(models.Model):
     participant = models.ForeignKey(Participant, verbose_name='Участник', on_delete=models.CASCADE)
     verdict = models.CharField(choices=STATUS_CHOICES, max_length=2, verbose_name='Вердикт')
 
+
+class ParticipantRegistrator(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.user.username)

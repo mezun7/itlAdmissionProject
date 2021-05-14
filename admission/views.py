@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 # Create your views here.
 # from admission.forms import FileUpload
-from admission.models import File, Participant, Moderator
+from admission.models import File, Participant, Moderator, ParticipantRegistrator
 from admission.personal_page.profile import main_page
 from itlAdmissionProject.settings import SERVER_EMAIL
 
@@ -26,6 +26,12 @@ def proxy_func(request):
             elif participant.reg_status == 100:
                 return redirect('main')
         except Participant.DoesNotExist:
+            try:
+                registrator = ParticipantRegistrator.objects.get(user=request.user)
+                return redirect('first_tour_register')
+            except ParticipantRegistrator.DoesNotExist:
+                # Go to the next try clause.
+                pass
             try:
                 moderator = Moderator.objects.get(user=request.user)
                 return redirect('moderator')
