@@ -34,6 +34,8 @@ def register_coming(request, grade_id=Group.objects.first().pk):
                           kwargs={
                               'grade_id': grade_id
                           }),
+        'processed': Participant.objects.filter(first_tour_come_date__isnull=False, grade_id=grade_id).count(),
+        'overall': Participant.objects.filter(is_dublicate=False, first_name__isnull=False, grade_id=grade_id).count()
     }
     # frst: FirstTourDates = FirstTourDates.objects.first()
     # frst.date.date()

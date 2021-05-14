@@ -5,7 +5,6 @@
     <table class="table table-responsive-lg table-striped">
         <thead>
             <tr>
-                <th>#</th>
                 <th>ID ребенка</th>
                 <th>ФИО</th>
                 <th>Класс</th>
@@ -16,7 +15,6 @@
         <tbody>
             {% for participant in participants %}
                 <tr>
-                    <td>{{ forloop.counter }} </td>
                     <td>{{ participant.pk }}</td>
                     <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
                     <td>{{ participant.grade }}</td>
