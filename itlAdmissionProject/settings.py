@@ -153,4 +153,4 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'med
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-REGISTER_END_DATE = datetime.date(2021, 5, 13)
+REGISTER_END_DATE = datetime.date(2021, 5, 16)
