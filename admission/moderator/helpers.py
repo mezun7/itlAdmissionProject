@@ -1,4 +1,5 @@
 from admission.models import Participant
+import datetime
 
 
 def set_duplicate_status(pk):
@@ -21,3 +22,9 @@ def set_olymp_coming_status(pk, status):
 
 def set_refuse_status(pk):
     participant = Participant.objects.get(pk=pk)
+
+
+def set_first_tour_coming_status(pk):
+    participant = Participant.objects.get(pk=pk)
+    participant.first_tour_come_date = datetime.datetime.now()
+    participant.save()

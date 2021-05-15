@@ -14,7 +14,8 @@ from django.views.generic import ListView
 
 from admission.forms import ModeratorMessage2
 from admission.models import File, Participant, Moderator, ModeratorMessage, Group, FirstTourDates
-from admission.moderator.helpers import set_duplicate_status, set_skip_status, set_olymp_coming_status
+from admission.moderator.helpers import set_duplicate_status, set_skip_status, set_olymp_coming_status, \
+    set_first_tour_coming_status
 from admission.moderator.moderator_email import get_moderator_mail
 from admission.personal_page.profile import main_page
 from itlAdmissionProject.settings import SERVER_EMAIL
@@ -40,13 +41,15 @@ def register_coming(request, grade_id=Group.objects.first().pk):
     # frst: FirstTourDates = FirstTourDates.objects.first()
     # frst.date.date()
     # Participant.objects.filter(first_tour_register_date__date=)
-
+    action_list = {
+        'Дубликат': set_duplicate_status,
+        'Пропустить': set_skip_status,
+        'Пришел': set_first_tour_coming_status
+    }
     if request.POST:
         key = list(request.POST.keys())[-1]
-        if request.POST[key] == 'Пришел':
-            participant = Participant.objects.get(pk=key)
-            participant.first_tour_come_date = datetime.datetime.now()
-            participant.save()
+        action_list[request.POST[key]](key)
+
         return redirect(context['action'])
 
     return render(request, 'first_tour/register.html', context=context)
