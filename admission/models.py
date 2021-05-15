@@ -109,6 +109,7 @@ class Participant(models.Model):
     is_checked = models.BooleanField(default=False, verbose_name='Проверен на дублирование?')
     olymp_coming_status = models.CharField(default='N', verbose_name='Статус прихода', max_length=2)
     first_tour_come_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Пришел')
+    extra_score = models.IntegerField(null=True, verbose_name=u'Дополнительные баллы')
 
     def __str__(self):
         return self.user.username

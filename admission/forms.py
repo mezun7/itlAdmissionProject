@@ -146,7 +146,7 @@ class ChildInfo(forms.ModelForm):
         # 'school', 'grade']
         exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
                    'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate',
-                   'olymp_coming_status', 'first_tour_come_date']
+                   'olymp_coming_status', 'first_tour_come_date', "extra_score"]
 
         widgets = {
             'last_name': TextInput(attrs={

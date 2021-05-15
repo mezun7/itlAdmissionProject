@@ -34,6 +34,10 @@
                     </td>
                     <td><input type="submit" class="btn-primary" name="{{ participant.pk }}" value="{{ accept }}">
                         <input type="submit" class="btn-info" name="{{ participant.pk }}" value="{{ reject }}">
+                        {% if skip %}
+                              <input type="submit" class="btn-danger" name="{{ participant.pk }}" value="{{ skip }}">
+
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
