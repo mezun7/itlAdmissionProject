@@ -25,7 +25,7 @@ from django.core.mail import send_mail, EmailMessage
 @staff_member_required
 def set_extra_score(request):
     participants = Participant.objects.filter(portfolio__file__isnull=False,
-                                              privilege_status__iexact='R', extra_score__isnull=True).distinct().order_by('last_name', 'first_name')
+                                              privilege_status__iexact='R', extra_score__isnull=True, is_dublicate=False).distinct().order_by('last_name', 'first_name')
     context = {
         'participants': participants,
         'left': len(participants),
