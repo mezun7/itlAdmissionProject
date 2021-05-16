@@ -26,7 +26,7 @@ class AdminParticipant(admin.ModelAdmin):
                     'is_dublicate', 'first_tour_come_date', "extra_score")
     sortable_by = ('grade', 'last_name', 'first_name',)
     list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition', 'reg_status', 'privilege_status')
-    search_fields = ['user','first_name', 'last_name']
+    search_fields = ['user__username','first_name', 'last_name']
     exclude = ['portfolio']
     inlines = [
         FileAdmin,
