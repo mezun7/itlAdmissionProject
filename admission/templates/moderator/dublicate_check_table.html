@@ -1,6 +1,6 @@
  {% load static %}
 
-<form method="post" action="{{ action }}?page={{ page_obj.number }}" class="">
+<form method="post" action="{{ action }}" class="">
     {% csrf_token %}
     <table class="table table-responsive-lg table-striped">
         <thead>
