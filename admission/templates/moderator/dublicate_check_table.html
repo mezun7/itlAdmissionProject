@@ -1,6 +1,6 @@
  {% load static %}
 
-<form method="post" action="{{ action }}" class="">
+<form method="post" action="{{ action }}?page={{ page_obj.number }}" class="">
     {% csrf_token %}
     <table class="table table-responsive-lg table-striped">
         <thead>
@@ -44,4 +44,5 @@
         </tbody>
 
     </table>
+{% include 'moderator/paginator.html' %}
 </form>

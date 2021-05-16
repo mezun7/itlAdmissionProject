@@ -1,0 +1,31 @@
+<ul class="pagination pagination-sm m-0 float-right">
+    {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">«</a></li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+{#    <li class="page-item"><a class="page-link" href="#">2</a></li>#}
+{#    <li class="page-item"><a class="page-link" href="#">3</a></li>#}
+{#    <li class="page-item"><a class="page-link" href="#">»</a></li>#}
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt;</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">»</a></li>
+        {% endif %}
+</ul>
+<div class="pagination">
+
+    <span class="step-links">
+{#        {% if page_obj.has_previous %}#}
+{#            <a href="?page=1">&laquo; Первая</a>#}
+{#            <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>#}
+{#        {% endif %}#}
+
+        <span class="current">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+        </span>
+
+{#        {% if page_obj.has_next %}#}
+{#            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>#}
+{#            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>#}
+{#        {% endif %}#}
+    </span>
+</div>

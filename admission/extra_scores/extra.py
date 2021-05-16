@@ -3,6 +3,7 @@ import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.db.models import Q, Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -27,13 +28,17 @@ def set_extra_score(request):
     participants = Participant.objects.filter(Q(privilege_status__iexact='R') | Q(privilege_status__isnull=True),
                                               portfolio__file__isnull=False, extra_score__isnull=True,
                                               is_dublicate=False).distinct().annotate(num_diplomas=Count('portfolio')).order_by('-num_diplomas','last_name', 'first_name')
+    paginator = Paginator(participants, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
     context = {
-        'participants': participants,
+        'participants': page_obj,
         'left': len(participants),
         'action': reverse('set_extra_score'),
         'accept': '+10',
         'reject': '+5',
-        'skip': '0'
+        'skip': '0',
+        'page_obj': page_obj
     }
     action_list = {
         '+10': 10,
@@ -49,3 +54,8 @@ def set_extra_score(request):
         return redirect(context['action'])
 
     return render(request, 'moderator/dublicate_check.html', context=context)
+
+
+class ExtraScoreView(ListView):
+    paginate_by = 1
+    model = Participant
