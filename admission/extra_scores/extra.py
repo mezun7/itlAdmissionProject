@@ -29,7 +29,10 @@ def set_extra_score(request):
                                               portfolio__file__isnull=False, extra_score__isnull=True,
                                               is_dublicate=False).distinct().annotate(num_diplomas=Count('portfolio')).order_by('-num_diplomas','last_name', 'first_name')
     paginator = Paginator(participants, 10)
-    page_number = int(request.GET.get('page'))
+    page_number = request.GET.get('page')
+    if page_number is None:
+        page_number = 1
+    page_number = int(page_number)
     page_obj = paginator.get_page(page_number)
     if int(page_number) > page_obj.paginator.num_pages:
         page_number = page_obj.paginator.num_pages
