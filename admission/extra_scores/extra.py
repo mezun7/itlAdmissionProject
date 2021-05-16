@@ -28,11 +28,11 @@ def set_extra_score(request):
     participants = Participant.objects.filter(Q(privilege_status__iexact='R') | Q(privilege_status__isnull=True),
                                               portfolio__file__isnull=False, extra_score__isnull=True,
                                               is_dublicate=False).distinct().annotate(num_diplomas=Count('portfolio')).order_by('-num_diplomas','last_name', 'first_name')
-    paginator = Paginator(participants, 10)
+    paginator = Paginator(participants, 1)
     page_number = int(request.GET.get('page'))
     page_obj = paginator.get_page(page_number)
     if int(page_number) > page_obj.paginator.num_pages:
-        page_number = page_obj.page_obj.paginator.num_pages
+        page_number = page_obj.paginator.num_pages
     context = {
         'participants': page_obj,
         'left': len(participants),
