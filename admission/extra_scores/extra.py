@@ -3,7 +3,7 @@ import datetime
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
@@ -26,7 +26,7 @@ from django.core.mail import send_mail, EmailMessage
 def set_extra_score(request):
     participants = Participant.objects.filter(Q(privilege_status__iexact='R') | Q(privilege_status__isnull=True),
                                               portfolio__file__isnull=False, extra_score__isnull=True,
-                                              is_dublicate=False).distinct().order_by('last_name', 'first_name')
+                                              is_dublicate=False).distinct().annotate(num_diplomas=Count('portfolio')).order_by('-num_diplomas','last_name', 'first_name')
     context = {
         'participants': participants,
         'left': len(participants),
