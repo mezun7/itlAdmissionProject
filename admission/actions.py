@@ -91,7 +91,8 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'КЛАСС',
         'Профиль',
         'Школа',
-        'Дата первого тура'
+        'Дата первого тура',
+        'Когда пришел на второй тур?'
     ]
 
     wb = Workbook()
@@ -114,7 +115,8 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 get_value(participant.grade.number),
                 'Нет' if participant.profile is None else participant.profile.name,
                 participant.school,
-                str(participant.first_tour_register_date)
+                str(participant.first_tour_register_date),
+                get_value(participant.first_tour_come_date)
             ])
     ws = style_output_file(ws)
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
