@@ -13,7 +13,7 @@ from first_tour.task import test_celery
 class AppealStruct:
     appeal: UserAppeal = None
     participant: Participant = None
-    subjects: list[ExamResult] = None
+    subjects = None
     tour: Tour = None
     formset = None
 
