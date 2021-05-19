@@ -5,16 +5,16 @@ from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan
 
 
 class ResultParticipant:
-    result: list[ExamResult] = None
-    passing_type: str = None
-    result_release_date: datetime.datetime = None
-    final_result_release_date: datetime.datetime = None
-    scan: str = None
-    score: int = None
-    portfolio_score: int = 0
-    tour: Tour = None
-    form: UserAppealForm = None
-    apeal_application: bool = False
+    result = None
+    passing_type = None
+    result_release_date = None
+    final_result_release_date = None
+    scan = None
+    score = None
+    portfolio_score = 0
+    tour = None
+    form = None
+    apeal_application = False
 
     def get_form(self):
         participant = self.result[0].participant
