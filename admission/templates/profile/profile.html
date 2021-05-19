@@ -121,11 +121,18 @@
                     <div class="tab-pane active" id="timeline">
                     <!-- The timeline -->
                         <div class="timeline timeline-inverse">
+      {% for result in results %}
+                            {% include 'profile/messages/admission_process.html' %}
+                        {% endfor %}
                         {% include 'profile/messages/successful_join.html' %}
                             {% for message in messages %}
                                  {% include 'profile/messages/moderator_result.html' %}
                             {% endfor %}
 
+
+
+
+{#                        </div>#}
 
 
                       <!-- END timeline item -->
@@ -138,5 +145,12 @@
               </div>
               <!-- /.card-body -->
             </div>
+
+
+            {% for result in results %}
+                {% if result.form %}
+                    {% include 'profile/modal.html' %}
+                {% endif %}
+            {% endfor %}
             <!-- /.card -->
 {% endblock %}

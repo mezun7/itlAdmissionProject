@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'admission.apps.AdmissionConfig',
     'crispy_forms',
     'api.apps.ApiConfig',
-    'upload_test_app.apps.UploadTestAppConfig'
+    'upload_test_app.apps.UploadTestAppConfig',
+    'first_tour.apps.FirstTourConfig'
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,14 @@ ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 REGISTER_END_DATE = datetime.date(2021, 5, 13)
+
+# REDIS related settings
+REDIS_HOST = 'localhost'
+REDIS_PORT = '6379'
+BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+CELERY_IMPORTS = [
+    'first_tour.task',
+    'admission.task'
+]

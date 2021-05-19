@@ -22,7 +22,7 @@ class FileAdmin(TabularInline):
 @admin.register(Participant)
 class AdminParticipant(admin.ModelAdmin):
     list_display = ('id', 'user', 'last_name', 'first_name', 'fathers_name', 'grade',
-                    'profile', 'first_tour_register_date', 'get_email', 'reg_status',
+                    'profile', 'first_tour_register_date', 'get_email', 'get_last_login_time', 'reg_status',
                     'is_dublicate', 'first_tour_come_date', "extra_score")
     sortable_by = ('grade', 'last_name', 'first_name',)
     list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition', 'reg_status', 'privilege_status')
@@ -38,6 +38,12 @@ class AdminParticipant(admin.ModelAdmin):
 
     get_email.short_description = 'email'
     get_email.admin_order_field = 'book__author'
+
+    def get_last_login_time(self, participant):
+         return str(participant.user.last_login)
+
+    get_last_login_time.short_description = 'Время последнего входа'
+    get_last_login_time.admin_order_field = 'book__author'
 
 
 @admin.register(ModeratorMessage)

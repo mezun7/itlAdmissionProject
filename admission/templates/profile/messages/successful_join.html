@@ -1,32 +1,32 @@
 
-                      <!-- timeline time label -->
-                      <div class="time-label">
+<!-- timeline time label -->
+<div class="time-label">
                         <span class="bg-success">
                           {{ participant.user.date_joined }}
                         </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                        <i class="fas fa-envelope bg-primary"></i>
+</div>
+<!-- /.timeline-label -->
+<!-- timeline item -->
+<div>
+    <i class="fas fa-envelope bg-primary"></i>
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> </span>
+    <div class="timeline-item">
+        <span class="time"><i class="far fa-clock"></i> </span>
 
-                          <h3 class="timeline-header"><a href="#">Команда поддержки:</a> </h3>
+        <h3 class="timeline-header"><a href="#">Команда поддержки:</a> </h3>
 
-                          <div class="timeline-body">
-                              {% if participant.out_of_competition %}
-                                    Спасибо за проявленный интерес к IT-лицею. Ваша анкета успешно принята. Мы обрабатываем ваше портфолио, чтобы подтвердить льготу на поступление без экзаменов.
-                                    В личном кабинете будет отображен статус проверки.
+        <div class="timeline-body">
+            {% if participant.out_of_competition %}
+                Спасибо за проявленный интерес к IT-лицею. Ваша анкета успешно принята. Мы обрабатываем ваше портфолио, чтобы подтвердить льготу на поступление без экзаменов.
+                В личном кабинете будет отображен статус проверки.
 
-                              {% else %}
-                                  Спасибо за проявленный интерес к IT-лицею. Ваша анкета успешно принята. Ждем вас на 1 туре.
-                              {% endif %}
-                          </div>
-                          <div class="timeline-footer">
-{#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
-{#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
-                          </div>
-                        </div>
-                      </div>
+            {% else %}
+                Спасибо за проявленный интерес к IT-лицею. Ваша анкета успешно принята. Ждем вас на 1 туре.
+            {% endif %}
+        </div>
+        <div class="timeline-footer">
+            {#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
+            {#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
+        </div>
+    </div>
+</div>

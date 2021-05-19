@@ -1,0 +1,65 @@
+ {% load static %}
+
+<form method="post" action="{{ action }}" class="">
+    {% csrf_token %}
+    <table class="table table-responsive-lg table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>ФИО</th>
+                <th>Класс</th>
+                <th>Профиль</th>
+                <th>Баллы за предметы</th>
+                <th>Результаты апелляции</th>
+                <th>Причина апелляции</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.participant.pk }}</td>
+                    <td><a href="{% url 'appeal-person' result.participant.pk %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</a></td>
+                    <td>{{ result.participant.grade }}</td>
+                    <td>{{ result.participant.profile }}</td>
+                    <td>
+                        {% for subject in result.subjects %}
+                            {{ subject.exam_subject.subject }}: {{ subject.score }}
+                            <br>
+                        {% endfor %}
+
+                    </td>
+                    <td>
+                    {% if result.appeal.is_absent_appeal %}
+                         <span class="text-danger">Пропустил апелляцию</span><br>
+                    {% endif %}
+                        {% for subject in result.subjects %}
+                            {% if subject.appeal_score %}
+
+
+                            {{ subject.exam_subject.subject }}: {{ subject.appeal_score }}
+                            <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ result.appeal.appeal_reason }}</td>
+                    <td>
+                        {% if not admin %}
+
+
+                        <a class="btn btn-info btn-sm" href="{% url 'appeal-person' result.participant.pk %}">
+                        Апеллировать
+                    </a>
+                        <form action="{% url 'appeal-list' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Не пришел" name="{{ result.participant.pk }}" class="btn btn-danger btn-sm">
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+{% include 'moderator/paginator.html' %}
+</form>
