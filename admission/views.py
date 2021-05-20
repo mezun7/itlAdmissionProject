@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 # from admission.forms import FileUpload
 from admission.models import File, Participant, Moderator, ParticipantRegistrator
 from admission.personal_page.profile import main_page
+from first_tour.models import AppealUser
 from itlAdmissionProject.settings import SERVER_EMAIL
 
 
@@ -36,6 +37,13 @@ def proxy_func(request):
                 moderator = Moderator.objects.get(user=request.user)
                 return redirect('moderator')
             except Moderator.DoesNotExist:
+                pass
+            try:
+                print(request.user)
+                au = AppealUser.objects.get(user=request.user)
+                return redirect('appeal-list')
+            except AppealUser.DoesNotExist:
+                print(request.user)
                 return redirect('dashboard')
     else:
         return redirect('login')
