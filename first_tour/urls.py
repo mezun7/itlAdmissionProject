@@ -17,5 +17,5 @@ urlpatterns = [
     path('appeal/', appeals_list, name='appeal-list'),
     path('appeal/<int:pk>/', appeal_person, name='appeal-person'),
     path('start-email/', send_results, name='send-results'),
-    path('start-test/', send_results, name='send-test'),
+    # path('start-test/', send_results, name='send-test'),
 ]
