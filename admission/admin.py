@@ -7,6 +7,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage, ParticipantRegistrator
+from first_tour.models import TourUploadFile
 
 
 class FileAdmin(TabularInline):
@@ -25,7 +26,9 @@ class AdminParticipant(admin.ModelAdmin):
                     'profile', 'first_tour_register_date', 'get_email', 'get_last_login_time', 'reg_status',
                     'is_dublicate', 'first_tour_come_date', "extra_score")
     sortable_by = ('grade', 'last_name', 'first_name',)
-    list_filter = ('grade', 'profile', 'first_tour_register_date', 'out_of_competition', 'reg_status', 'privilege_status')
+    list_filter = ('grade', 'profile', 'first_tour_register_date',
+                   'out_of_competition', 'reg_status', 'privilege_status',
+                   "olymp_coming_status")
     search_fields = ['user__username','first_name', 'last_name']
     exclude = ['portfolio']
     inlines = [
@@ -62,3 +65,4 @@ admin.site.register(Group)
 admin.site.register(Profile)
 admin.site.register(Olympiad)
 admin.site.register(ParticipantRegistrator)
+admin.site.register(TourUploadFile)

@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.timezone import now
 
 from admission.models import Participant, Profile, Group
+from first_tour.result_uploader.rupload import upload
 
 EXAM_TYPES = (
     ('S', 'Балл'),
@@ -46,7 +47,8 @@ class Tour(models.Model):
     grade = models.ForeignKey(Group, verbose_name='Класс', on_delete=models.CASCADE, null=True)
     final_result_release_date = models.DateTimeField(verbose_name='Дата опубликования финальных результатов',
                                                      blank=True, null=True)
-    appeal_application_end_date = models.DateTimeField(verbose_name='Дата закрытия доступа к аппелляции', blank=True, null=True)
+    appeal_application_end_date = models.DateTimeField(verbose_name='Дата закрытия доступа к аппелляции', blank=True,
+                                                       null=True)
     appeal_url = models.CharField(verbose_name='Ссылка на апелляцию', max_length=500, blank=True, null=True)
 
     class Meta:
@@ -136,3 +138,12 @@ class TourParticipantScan(models.Model):
 
     def __str__(self):
         return " ".join([self.participant.last_name, self.tour.name, self.scan_file_name])
+
+
+class TourUploadFile(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name='Тур')
+    file = models.FileField(verbose_name='Файл')
+
+    def save(self, *args, **kwargs):
+        super(TourUploadFile, self).save(*args, **kwargs)
+        upload(self.file.path, self.tour)
