@@ -26,5 +26,5 @@ def get_scans(participant, tour):
         fl_name = SALT + scan_user.scan_file_name.split('.')[0]
         scan_file = str(hashlib.sha256(fl_name.encode('utf-8')).hexdigest()) + '.zip'
         return scan_file
-    except TourParticipantScan.DoesNotExist:
+    except:
         return None
