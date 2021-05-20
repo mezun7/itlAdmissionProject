@@ -12,8 +12,9 @@ def upload(path, tour):
         print(subj)
         results = []
         scans = []
-        na = False
+
         for row in reader:
+            na = False
             try:
                 participant = Participant.objects.get(id=row['id'])
             except:
