@@ -88,7 +88,7 @@ class ExamSubject(models.Model):
 class ExamResult(models.Model):
     participant = models.ForeignKey(Participant, on_delete=models.CASCADE, verbose_name='Абитуриент')
     exam_subject = models.ForeignKey(ExamSubject, on_delete=models.CASCADE, verbose_name='Предмет')
-    score = models.IntegerField(verbose_name='Набранный балл')
+    score = models.FloatField(verbose_name='Набранный балл')
     comment = models.CharField(max_length=500, blank=True, null=True, verbose_name='Комментарий')
     appeal_application = models.CharField(max_length=10, verbose_name='Заявился на аппеляцию?', blank=True, null=True,
                                           choices=APPEAL_STATUSES)
