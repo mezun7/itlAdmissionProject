@@ -73,6 +73,6 @@ def send_results(request):
 
 @staff_member_required
 def send_test(request):
-    for i in range:
+    for i in range(10):
         make_mailing.delay(email_subject='Sorry', email_message='Testing email', email='sa@kpfu.ru')
     return HttpResponse('Started')
