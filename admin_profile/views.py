@@ -47,9 +47,12 @@ def user_page(request, pk):
 @staff_member_required
 def profiles_page(request):
     participants = Participant.objects.filter(is_dublicate=False, first_tour_come_date__isnull=False)
+
     results = []
     context = {
-        'results': results
+        'results': results,
+        'now': datetime.datetime.now()
+
     }
     for participant in participants:
         results.append(ListStruct(participant))
