@@ -13,6 +13,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
+from admin_profile.helpers.user_struct import ListStruct
 from admission.forms import RegisterForm, ChildInfo
 from admission.helpers.email_ops import get_register_mail
 from admission.models import Participant, Olympiad, ModeratorMessage
@@ -27,7 +28,7 @@ from itlAdmissionProject.settings import SERVER_EMAIL
 def user_page(request, pk):
     # user = request.user  # type: User
     participant = Participant.objects.get(pk=pk)
-    results = get_result_user(participant.pk)
+    results = get_result_user(participant.pk, exclude_date=True)
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
@@ -45,24 +46,12 @@ def user_page(request, pk):
 
 @staff_member_required
 def profiles_page(request):
-    userAppeals = UserAppeal.objects.filter().order_by('appeal_apply_time')
+    participants = Participant.objects.filter(is_dublicate=False, first_tour_come_date__isnull=False)
     results = []
     context = {
-        'results': results,
-        'admin': True
+        'results': results
     }
+    for participant in participants:
+        results.append(ListStruct(participant))
 
-    for ua in userAppeals:
-        participant = ua.participant
-        tour = ua.tour
-        examResults = participant.examresult_set.filter(exam_subject__in=tour.examsubject_set.all()).order_by(
-            'exam_subject__type_of_scoring')
-        results.append(AppealStruct(participant=participant,
-                                    appeal=ua,
-                                    subjects=examResults,
-                                    tour=tour
-                                    )
-                       )
-        print(examResults)
-
-    return render(request, 'first_tour/appeal_list.html', context=context)
+    return render(request, 'admin_profile/user_list.html', context=context)

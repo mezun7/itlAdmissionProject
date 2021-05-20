@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'api.apps.ApiConfig',
     'upload_test_app.apps.UploadTestAppConfig',
-    'first_tour.apps.FirstTourConfig'
+    'first_tour.apps.FirstTourConfig',
+    'admin_profile.apps.AdminProfileConfig'
 ]
 
 MIDDLEWARE = [

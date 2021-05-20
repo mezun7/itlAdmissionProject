@@ -1,13 +1,17 @@
+import hashlib
+
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from admin_profile.helpers.user_struct import get_scans
 from admission.models import Participant
 from first_tour.forms import UserAppealForm, TeacherAppealForm
-from first_tour.models import Tour, UserAppeal, ExamResult
+from first_tour.models import Tour, UserAppeal, ExamResult, TourParticipantScan
 from first_tour.task import test_celery
+from itlAdmissionProject.settings import SALT
 
 
 class AppealStruct:
@@ -16,6 +20,7 @@ class AppealStruct:
     subjects = None
     tour: Tour = None
     formset = None
+    scan: str = None
 
     def __init__(self, participant, appeal, subjects, tour):
         self.participant = participant
@@ -23,6 +28,9 @@ class AppealStruct:
         self.subjects = subjects
         self.tour = tour
         self.formset = self.get_formset()
+        self.scan = get_scans(participant=participant,
+                              tour=tour)
+        print(self.scan)
 
     def get_formset(self):
         formSetQuery = ExamResult.objects.filter(participant=self.participant)
@@ -68,7 +76,7 @@ def appeal_person(request, pk):
     # test_celery.delay(1)
     tour = Tour.objects.first()
     participant = Participant.objects.first()
-    formSetQuery = ExamResult.objects.filter(participant_id=4)
+    formSetQuery = ExamResult.objects.filter(participant_id=pk)
     FormSet = modelformset_factory(model=ExamResult, form=TeacherAppealForm, max_num=len(formSetQuery))
     formset = FormSet(queryset=formSetQuery)
     if request.POST:
@@ -78,7 +86,7 @@ def appeal_person(request, pk):
             formset2.save()
             return redirect('appeal-list')
 
-    print(tour.id)
+    # print(tour.id)
     context = {
         'formset': formset,
         'pk': pk

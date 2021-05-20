@@ -20,11 +20,11 @@
         {% for result in results %}
             <tr>
                 <td>{{ result.participant.pk }}</td>
-                <td><a href="{% url 'appeal-person' result.participant.pk %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</a></td>
+                <td><a href="{% url 'admin-porfile' result.participant.pk %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</a></td>
                 <td>{{ result.participant.grade }}</td>
                 <td>{{ result.participant.profile }}</td>
                 <td>
-                    {% for subject in result.subjects %}
+                    {% for subject in result.exam_result %}
                         {{ subject.exam_subject.subject }}: {{ subject.score }}
                         <br>
                     {% endfor %}
@@ -34,7 +34,7 @@
                     {% if result.appeal.is_absent_appeal %}
                         <span class="text-danger">Пропустил апелляцию</span><br>
                     {% endif %}
-                    {% for subject in result.subjects %}
+                    {% for subject in result.exam_result %}
                         {% if subject.appeal_score %}
 
 

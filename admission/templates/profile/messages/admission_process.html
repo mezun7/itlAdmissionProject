@@ -31,7 +31,7 @@
                 <tbody>
                 {% for subjres in result.result %}
                     <tr>
-                        <td>{{ subjres.exam_subject.subject }} (Минимальный балл для допуска к рейтингу: {{ subjres.exam_subject.min_score }})</td>
+                        <td>{{ subjres.exam_subject.subject }}</td>
                         <td>{{ subjres.score  }} из {{ subjres.exam_subject.max_score }}</td>
                         <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                         <td>{{ subjres.get_final_score }}</td>
