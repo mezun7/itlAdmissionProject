@@ -13,3 +13,11 @@ def get_register_mail(username, activation_key):
     })
 
     return email_subject, email_body
+
+
+def get_email_with_results(participant):
+    email_subject = 'Результаты первого тура.'
+    email_body = render_to_string('admin_profile/result_email.html', {
+
+    })
+    return email_subject, email_body
