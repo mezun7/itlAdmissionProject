@@ -40,7 +40,9 @@ def proxy_func(request):
                 pass
             try:
                 print(request.user)
-                au = AppealUser.objects.get(user=request.user)
+                au = AppealUser.objects.first(user=request.user)
+                if au is None:
+                    raise AppealUser.DoesNotExist
                 return redirect('appeal-list')
             except AppealUser.DoesNotExist:
                 print(request.user)
