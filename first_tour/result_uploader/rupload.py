@@ -19,9 +19,11 @@ def upload(path, tour):
                 print('help')
             for esubj in exam_subjects:
                 exam_result = ExamResult()
+                print(participant)
                 exam_result.participant = participant
+
                 exam_result.exam_subject = esubj
-                exam_result.score = row[esubj.subject.name]
+                exam_result.score = float(row[esubj.subject.name].replace(',', '.'))
                 results.append(exam_result)
             tscan = TourParticipantScan()
             tscan.participant = participant
