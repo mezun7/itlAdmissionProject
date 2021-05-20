@@ -1,5 +1,6 @@
 import datetime
 
+from admin_profile.helpers.user_struct import get_scans
 from first_tour.forms import UserAppealForm
 from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan
 
@@ -49,7 +50,7 @@ class ResultParticipant:
             return None
 
     def __init__(self, result, result_release_date, final_result_release_date, portfolio_score, tour, passing_type=None,
-                 scan=None):
+                 scan=None, participant=None):
         self.result = result
         self.passing_type = passing_type
         self.result_release_date = result_release_date
@@ -61,4 +62,4 @@ class ResultParticipant:
         self.score = self.get_final_score()
         self.tour = tour
         self.form = self.get_form()
-        self.scan = self.get_scan()
+        self.scan = get_scans(participant, tour)
