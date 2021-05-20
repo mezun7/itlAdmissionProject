@@ -112,6 +112,7 @@ class ExamResult(models.Model):
     class Meta:
         verbose_name = 'Результат экзамена'
         verbose_name_plural = 'Результаты экзаменов'
+        unique_together = ('participant', 'exam_subject')
 
 
 class NextTourPass(models.Model):
@@ -138,6 +139,9 @@ class TourParticipantScan(models.Model):
 
     def __str__(self):
         return " ".join([self.participant.last_name, self.tour.name, self.scan_file_name])
+
+    class Meta:
+        unique_together = ('participant', 'tour')
 
 
 class TourUploadFile(models.Model):

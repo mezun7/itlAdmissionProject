@@ -166,3 +166,5 @@ CELERY_IMPORTS = [
     'first_tour.task',
     'admission.task'
 ]
+
+SALT = 'zxsaqwwqasxz'
