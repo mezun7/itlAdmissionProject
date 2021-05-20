@@ -23,13 +23,18 @@ def upload(path, tour):
                 exam_result.participant = participant
 
                 exam_result.exam_subject = esubj
-                exam_result.score = float(row[esubj.subject.name].replace(',', '.'))
+
                 results.append(exam_result)
             tscan = TourParticipantScan()
             tscan.participant = participant
             tscan.tour = tour
             tscan.scan_file_name = row['blank']
-            scans.append(tscan)
+            if row[esubj.subject.name] != '#N/A':
+                exam_result.score = float(row[esubj.subject.name].replace(',', '.'))
+                scans.append(tscan)
+            else:
+                exam_result.score = 0
+
         ExamResult.objects.bulk_create(results)
         TourParticipantScan.objects.bulk_create(scans)
         print(results)
