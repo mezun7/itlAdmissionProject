@@ -17,7 +17,8 @@ class ListStruct:
             self.appeal = UserAppeal.objects.get(participant=participant)
         except UserAppeal.DoesNotExist:
             self.appeal = None
-        self.scan = get_scans(participant, self.exam_result.first().exam_subject.tour)
+        if len(self.exam_result) > 0:
+            self.scan = get_scans(participant, self.exam_result.first().exam_subject.tour)
 
 
 def get_scans(participant, tour):
