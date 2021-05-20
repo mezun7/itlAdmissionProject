@@ -12,6 +12,7 @@ def upload(path, tour):
         print(subj)
         results = []
         scans = []
+        na = False
         for row in reader:
             try:
                 participant = Participant.objects.get(id=row['id'])
@@ -21,19 +22,19 @@ def upload(path, tour):
                 exam_result = ExamResult()
                 print(participant)
                 exam_result.participant = participant
-
+                if row[esubj.subject.name] != '#N/A':
+                    na = True
+                    exam_result.score = float(row[esubj.subject.name].replace(',', '.'))
+                else:
+                    exam_result.score = 0
                 exam_result.exam_subject = esubj
-
                 results.append(exam_result)
             tscan = TourParticipantScan()
             tscan.participant = participant
             tscan.tour = tour
             tscan.scan_file_name = row['blank']
-            if row[esubj.subject.name] != '#N/A':
-                exam_result.score = float(row[esubj.subject.name].replace(',', '.'))
+            if not na:
                 scans.append(tscan)
-            else:
-                exam_result.score = 0
 
         ExamResult.objects.bulk_create(results)
         TourParticipantScan.objects.bulk_create(scans)
