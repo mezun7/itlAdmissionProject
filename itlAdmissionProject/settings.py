@@ -156,7 +156,9 @@ ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 REGISTER_END_DATE = datetime.date(2021, 5, 13)
-
+APPEAL_START_TIME = datetime.datetime(2021, 5, 22, 13, 0, 0)
+APPEAL_ANNOUNCE_TIME = datetime.datetime(2021, 5, 22, 12, 30, 0)
+APPEAL_PERIOD_MINUTES = 7
 # REDIS related settings
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'

@@ -13,6 +13,7 @@
             <th>Результаты апелляции</th>
             <th>Причина апелляции</th>
             <th>Скан работы</th>
+            <th>Время апелляции</th>
             <th>Действие</th>
         </tr>
         </thead>
@@ -47,6 +48,7 @@
                 <td>{% if result.scan %}
                     <a href="{% get_media_prefix %}ft/{{ result.scan }}">Скан работы</a>
                 {% endif %}</td>
+                <td>{{ result.appeal_time }}</td>
                 <td>
                     {% if not admin %}
 

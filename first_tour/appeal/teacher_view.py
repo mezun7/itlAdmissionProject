@@ -1,4 +1,5 @@
 import hashlib
+import datetime
 
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
@@ -7,11 +8,12 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from admin_profile.helpers.user_struct import get_scans
+from admission.helpers.appeal_order import get_appeal_order
 from admission.models import Participant
 from first_tour.forms import UserAppealForm, TeacherAppealForm
 from first_tour.models import Tour, UserAppeal, ExamResult, TourParticipantScan
 from first_tour.task import test_celery
-from itlAdmissionProject.settings import SALT
+from itlAdmissionProject.settings import SALT, APPEAL_START_TIME, APPEAL_PERIOD_MINUTES
 
 
 class AppealStruct:
@@ -21,6 +23,7 @@ class AppealStruct:
     tour: Tour = None
     formset = None
     scan: str = None
+    appeal_time = None
 
     def __init__(self, participant, appeal, subjects, tour):
         self.participant = participant
@@ -30,13 +33,18 @@ class AppealStruct:
         self.formset = self.get_formset()
         self.scan = get_scans(participant=participant,
                               tour=tour)
-        print(self.scan)
+        self.appeal_time = self.get_time()
 
     def get_formset(self):
         formSetQuery = ExamResult.objects.filter(participant=self.participant)
         FormSet = modelformset_factory(model=ExamResult, form=TeacherAppealForm, max_num=len(formSetQuery))
         formset = FormSet(queryset=formSetQuery)
         return formset
+
+    def get_time(self):
+        a = get_appeal_order(self.participant)
+        appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a * APPEAL_PERIOD_MINUTES)
+        return appeal_order
 
 
 @staff_member_required

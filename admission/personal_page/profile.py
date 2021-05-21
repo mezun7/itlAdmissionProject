@@ -11,11 +11,12 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from admission.forms import RegisterForm, ChildInfo
+from admission.helpers.appeal_order import get_appeal_order
 from admission.helpers.email_ops import get_register_mail
 from admission.models import Participant, Olympiad, ModeratorMessage
 from first_tour.forms import UserAppealForm
 from first_tour.results.result import get_result_user
-from itlAdmissionProject.settings import SERVER_EMAIL
+from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_PERIOD_MINUTES, APPEAL_START_TIME
 
 
 @login_required()
@@ -23,10 +24,15 @@ def main_page(request):
     # user = request.user  # type: User
     participant = Participant.objects.get(user=request.user)
     results = get_result_user(participant.pk)
+    a = get_appeal_order(participant)
+    appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
+
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
-        'results': results
+        'results': results,
+        'appeal_order': appeal_order
+
     }
 
     if request.POST:
