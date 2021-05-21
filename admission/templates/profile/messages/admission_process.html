@@ -41,6 +41,7 @@
                 </tbody>
 
             </table>
+        <br><a href="{% get_media_prefix %}ft/tasks.zip">Задания первого тура</a>
             {% if result.scan %}
 
 
@@ -55,7 +56,7 @@
 
                     {#                            <a href="#" class="btn btn-danger btn-sm">Подать аппелляцию</a>#}
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#tour{{ result.tour.pk }}">
-                        Подать аппелляцию
+                        Подать апелляцию
                     </button>
                 </div>
             {% else %}
