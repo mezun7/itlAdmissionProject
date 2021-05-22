@@ -66,5 +66,10 @@ class UserTourScanAdmin(admin.ModelAdmin):
     list_filter = ('tour',)
 
 
+@admin.register(UserAppeal)
+class UserAppealAdmin(admin.ModelAdmin):
+    list_display = ('participant', 'tour', 'appeal_apply_time', 'appeal_reason')
+    list_filter = ('tour',)
+
+
 admin.site.register(Subject)
-admin.site.register(UserAppeal)
