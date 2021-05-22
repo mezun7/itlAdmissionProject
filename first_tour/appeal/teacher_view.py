@@ -52,7 +52,7 @@ def appeals_list(request):
     userAppeals = UserAppeal.objects.filter().order_by('appeal_apply_time', 'participant__last_name')
     results = []
     context = {
-        'results': results
+        'results': results,
     }
 
     if request.POST:
