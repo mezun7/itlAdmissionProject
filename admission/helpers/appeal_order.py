@@ -5,5 +5,5 @@ def get_appeal_order(participant):
     uas = UserAppeal.objects.all().order_by('appeal_apply_time')
     for ind, ua in enumerate(uas):
         if ua.participant == participant:
-            return ind + 1
+            return ind
     return 100000
