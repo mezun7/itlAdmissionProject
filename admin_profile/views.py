@@ -15,6 +15,7 @@ from django.urls import reverse
 
 from admin_profile.helpers.user_struct import ListStruct
 from admission.forms import RegisterForm, ChildInfo
+from admission.helpers.appeal_order import get_appeal_order
 from admission.helpers.email_ops import get_register_mail, get_email_with_results
 from admission.models import Participant, Olympiad, ModeratorMessage
 from first_tour.appeal.teacher_view import AppealStruct
@@ -22,7 +23,7 @@ from first_tour.forms import UserAppealForm
 from first_tour.models import UserAppeal
 from first_tour.results.result import get_result_user
 from first_tour.task import make_mailing
-from itlAdmissionProject.settings import SERVER_EMAIL
+from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_START_TIME, APPEAL_PERIOD_MINUTES
 
 
 @staff_member_required
@@ -30,10 +31,13 @@ def user_page(request, pk):
     # user = request.user  # type: User
     participant = Participant.objects.get(pk=pk)
     results = get_result_user(participant.pk, exclude_date=True)
+    a = get_appeal_order(participant)
+    appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
-        'results': results
+        'results': results,
+        'appeal_order': appeal_order
     }
 
     if request.POST:

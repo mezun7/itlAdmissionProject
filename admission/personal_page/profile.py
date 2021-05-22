@@ -26,7 +26,7 @@ def main_page(request):
     results = get_result_user(participant.pk)
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
-
+    print(appeal_order)
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
