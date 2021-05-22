@@ -68,7 +68,7 @@
                         <br> Апелляция будет проходить в программе Microsoft Teams. <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Скачать</a>
                         <br>Комиссия будет ждать вас 5 минут, если вы не успеете подключиться, апелляция считается аннулированной. Имя в конференции должно быть ваше реальное. Видео доступ обязателен.
                         {% if  result.tour.appeal_url %}
-                            <br> Апелляция будет проходить по следующей <a href="{{ result.tour.appeal_url }}">ссылке.</a>
+                            <h3 class="text-info"> Апелляция будет проходить по следующей <a href="{{ result.tour.appeal_url }}">ссылке.</a></h3>
                             <h3>Время вашей апелляции: {{ appeal_order }}</h3>
                         {% endif %}
                     {% else %}
