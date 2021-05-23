@@ -49,8 +49,18 @@ def get_headers(subjects=[]):
     return header
 
 
+def get_correct_str(name: str):
+    invalid_chars = ['*', ':', '/', '\\', '?', '[', ']']
+    for c in invalid_chars:
+        if c in name:
+            name = name.replace(c, '')
+    return name
+
+
 def get_sheet_name(tour: Tour):
-    return '%s_%s%s' % (tour.name, str(tour.grade.number), '' if tour.profile is None else '_' + tour.profile.name)
+    return '%s_%s%s' % (get_correct_str(tour.name),
+                        get_correct_str(str(tour.grade.number)),
+                        '' if tour.profile is None else '_' + get_correct_str(tour.profile.name))
 
 
 def export_results(self, request, queryset):
