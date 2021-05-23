@@ -7,6 +7,7 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage, ParticipantRegistrator
+from first_tour.action import export_results
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
     TourParticipantScan
 
@@ -25,6 +26,8 @@ class AdminTour(admin.ModelAdmin):
     inlines = [
         SubjectExamInlineAdmin,
     ]
+    actions = [export_results,]
+
     # actions = [export_as_xls, export_as_xls_full_participant_data]
 
     # def get_email(self, participant):
