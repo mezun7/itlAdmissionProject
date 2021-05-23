@@ -14,7 +14,7 @@ def get_result(res: ExamResult):
     if res.appeal_score is not None:
         return res.appeal_score
     else:
-        res.score
+        return res.score
 
 
 def get_value(obj):
