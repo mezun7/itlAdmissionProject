@@ -118,7 +118,7 @@ def export_results(self, request, queryset):
     # ws = style_output_file(ws)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = f'attachment; filename=Participants.xlsx'
+    response['Content-Disposition'] = f'attachment; filename=ExamResults.xlsx'
     wb.save(response)
     return response
 
