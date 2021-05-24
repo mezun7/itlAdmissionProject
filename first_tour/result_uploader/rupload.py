@@ -48,3 +48,19 @@ def upload(path, tour):
 #     from first_tour.models import Tour
 #
 #     upload('/Users/shuhrat/Downloads/results.csv', Tour.objects.get('2'))
+
+
+def upload_next_tour_participants(path, tour):
+    from first_tour.models import NextTourPass
+    with open(path) as File:
+        reader = csv.DictReader(File)
+        results = []
+        for row in reader:
+
+            tmp = NextTourPass()
+            tmp.tour = tour
+            tmp.participant = Participant.objects.get(id=row['id'])
+            tmp.type_of_pass = 'P'
+            results.append(tmp)
+
+        NextTourPass.objects.bulk_create(results)

@@ -9,7 +9,7 @@ from admission.models import Profile, File, Participant, FirstTourDates, Group, 
     ModeratorMessage, ParticipantRegistrator
 from first_tour.action import export_results
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
-    TourParticipantScan
+    TourParticipantScan, UploadConfirm, NextTourParticipantUpload
 
 
 class SubjectExamInlineAdmin(TabularInline):
@@ -26,7 +26,7 @@ class AdminTour(admin.ModelAdmin):
     inlines = [
         SubjectExamInlineAdmin,
     ]
-    actions = [export_results,]
+    actions = [export_results, ]
 
     # actions = [export_as_xls, export_as_xls_full_participant_data]
 
@@ -75,4 +75,11 @@ class UserAppealAdmin(admin.ModelAdmin):
     list_filter = ('tour',)
 
 
+@admin.register(UploadConfirm)
+class UploadConfirmAdmin(admin.ModelAdmin):
+    list_display = ('participant', 'tour', 'pps', 'agreement_tour')
+    list_filter = ('tour',)
+
+
 admin.site.register(Subject)
+admin.site.register(NextTourParticipantUpload)

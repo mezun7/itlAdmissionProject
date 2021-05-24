@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
+from django.core.validators import FileExtensionValidator
 from django.db import models
 
 # Create your models here.
 from django.utils.timezone import now
 
+from admission.helpers.validators_files import file_size
 from admission.models import Participant, Profile, Group
-from first_tour.result_uploader.rupload import upload
+from first_tour.result_uploader.rupload import upload, upload_next_tour_participants
 
 EXAM_TYPES = (
     ('S', 'Балл'),
@@ -151,3 +153,32 @@ class TourUploadFile(models.Model):
     def save(self, *args, **kwargs):
         super(TourUploadFile, self).save(*args, **kwargs)
         upload(self.file.path, self.tour)
+
+
+class NextTourParticipantUpload(models.Model):
+    tour = models.ForeignKey(Tour, verbose_name='Тур', on_delete=models.CASCADE)
+    file = models.FileField(verbose_name='Файл')
+
+    def save(self,  *args, **kwargs):
+        super(NextTourParticipantUpload, self).save(*args, **kwargs)
+        upload_next_tour_participants(self.file.path, self.tour)
+
+
+class UploadConfirm(models.Model):
+    pps = models.FileField(upload_to='confirm/pps', verbose_name='Согласие на психолого-педагогическое сбеседование',
+                           validators=[FileExtensionValidator(['pdf', 'jpeg', 'jpg', 'png'],
+                                                              message='Запрещенный формат файла.')
+                                       ])
+    agreement_tour = models.FileField(upload_to='confirm/agreement', verbose_name='Согласие на участие во 2 туре '
+                                                                                  'вступительных испытаний',
+                                      validators=[FileExtensionValidator(['pdf', 'jpeg', 'jpg', 'png'],
+                                                                         message='Запрещенный формат файла.')
+                                                  ])
+    participant = models.ForeignKey(Participant, verbose_name='Абитуриент', on_delete=models.CASCADE)
+    tour = models.ForeignKey(Tour, verbose_name='Тур', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('participant', 'tour')
+
+    def __str__(self):
+        return self.participant.last_name + self.participant.first_name

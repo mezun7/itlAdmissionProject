@@ -1,8 +1,13 @@
 import datetime
 
 from admin_profile.helpers.user_struct import get_scans
-from first_tour.forms import UserAppealForm
-from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan
+from admission.models import Participant
+from first_tour.forms import UserAppealForm, UserConfirmForm
+from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan, NextTourPass, UploadConfirm
+
+
+def get_final_result_release_date(final_result_release_date):
+    return False if final_result_release_date is None else datetime.datetime.now() > final_result_release_date
 
 
 class ResultParticipant:
@@ -16,6 +21,18 @@ class ResultParticipant:
     tour = None
     form = None
     apeal_application = False
+    participant: Participant = None
+    final_apply_form = None
+
+    def get_passing_type(self):
+        try:
+            if self.tour.final_result_release_date is None:
+                return None
+            if self.tour.final_result_release_date > datetime.datetime.now():
+                return None
+            return NextTourPass.objects.get(tour=self.tour, participant=self.participant).type_of_pass
+        except:
+            return None
 
     def get_form(self):
         participant = self.result[0].participant
@@ -32,6 +49,19 @@ class ResultParticipant:
                 'participant': self.result[0].participant
             })
 
+    def get_final_form(self):
+        if self.passing_type is None:
+            return None
+        try:
+            uconfirm = UploadConfirm.objects.get(participant=self.participant, tour=self.tour)
+            return None
+        except:
+            form = UserConfirmForm(initial={
+                'tour': self.tour,
+                'participant': self.participant
+            })
+            return form
+
     def get_final_score(self):
         score = self.portfolio_score
         for subject in self.result:
@@ -39,7 +69,6 @@ class ResultParticipant:
             score += subject.score
             if subject.appeal_score is not None:
                 score += subject.appeal_score
-
         return score
 
     def get_scan(self):
@@ -52,14 +81,17 @@ class ResultParticipant:
     def __init__(self, result, result_release_date, final_result_release_date, portfolio_score, tour, passing_type=None,
                  scan=None, participant=None):
         self.result = result
-        self.passing_type = passing_type
-        self.result_release_date = result_release_date
-        self.final_result_release_date = final_result_release_date
 
+        self.result_release_date = result_release_date
+        self.final_result_release_date = get_final_result_release_date(final_result_release_date)
+        # self.final_result_release_date = final_result_release_date
         self.portfolio_score = portfolio_score
         if portfolio_score is None:
             self.portfolio_score = 0
         self.score = self.get_final_score()
         self.tour = tour
         self.form = self.get_form()
+        self.participant = participant
         self.scan = get_scans(participant, tour)
+        self.passing_type = self.get_passing_type()
+        self.final_apply_form = self.get_final_form()

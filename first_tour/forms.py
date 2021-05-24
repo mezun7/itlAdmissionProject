@@ -6,7 +6,7 @@ from django.forms import ClearableFileInput, TextInput, PasswordInput, EmailInpu
     CheckboxInput, Textarea, HiddenInput
 
 from admission.models import File, Participant, GENDER_CHOICES, Group, ModeratorMessage
-from first_tour.models import AppealUser, UserAppeal, ExamSubject, ExamResult
+from first_tour.models import AppealUser, UserAppeal, ExamSubject, ExamResult, UploadConfirm
 
 
 class UserAppealForm(forms.ModelForm):
@@ -41,3 +41,23 @@ class TeacherAppealForm(forms.ModelForm):
         widgets = {
             'exam_subject': HiddenInput()
         }
+
+
+class UserConfirmForm(forms.ModelForm):
+    class Meta:
+        model = UploadConfirm
+        fields = ['tour', 'participant', 'pps', 'agreement_tour']
+        widgets = {
+            'tour': HiddenInput(),
+            'participant': HiddenInput(),
+            # 'pps': forms.FileInput(attrs={
+            #     'placeholder': "",
+            #     'class': 'form-control-file"'
+            # }),
+            # 'agreement_tour': forms.FileInput(attrs={
+            #     'placeholder': "",
+            #     'class': 'form-control-file"'
+            # }),
+        }
+
+        # fields =

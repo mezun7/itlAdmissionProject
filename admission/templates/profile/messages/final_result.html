@@ -1,0 +1,88 @@
+{% load static %}
+
+
+
+
+
+<!-- timeline time label -->
+<div class="time-label">
+                        <span class="bg-success">
+                            {{ result.tour.final_result_release_date }}
+                        </span>
+</div>
+<!-- /.timeline-label -->
+<!-- timeline item -->
+<div>
+    <i class="fas fa-envelope bg-primary"></i>
+
+    <div class="timeline-item">
+        <span class="time"><i class="far fa-clock"></i> </span>
+
+        <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a> </h3>
+        {#TYPE_OF_EXAM_PASS = (#}
+        {#    ('R', 'Резерв'),#}
+        {#    ('P', 'Прошел')#}
+        {#)#}
+
+        <div class="timeline-body">
+            Добрый день!
+            {% if result.passing_type %}
+                {% ifequal result.passing_type "P" %}
+                    Поздравляем Вас! Вы успешно прошли на 2 тур вступительных испытаний.
+                    <br> 2 тур вступительных испытаний пройдет с 30 мая по 3 июня 2021 года с обязательным проживанием в лицее.
+                    <br> 30 мая 2021 года с 17.00 до 18.00 начнется регистрация и заселение в интернат.
+                    Для того, чтобы подтвердить свое участие на втором туре вступительных испытаний вам необходимо прикрепить скан следующих документов в форме ниже:
+                    <ul>
+                        <li><a href="{% get_media_prefix %}docs/pps.pdf">Согласие на участие во втором туре вступительных испытаний.</a></li>
+                        <li><a href="{% get_media_prefix %}docs/soglasiye.pdf">Согласие на психолого-педагогическое собеседование.</a></li>
+                    </ul>
+                    <br> Дополнительно сообщаем Вам, что на заселение ребенку необходимо принести:
+                    <ul>
+                        <li>Оригинал согласия на участие во втором туре вступительных испытаний.</li>
+                        <li>Оригинал согласия на психолого-педагогическое собеседование.</li>
+                        <li>Справку об отсутсвии контактов с инфекционными больными в т.ч. Covid-19.</li>
+                        <li> Одежда для сна.(пижама) </li>
+                        <li> Спортивную форму (спорт. обувь).</li>
+                        <li> Тетради (4 в клетку, 2 в линейку), ручки.</li>
+                        <li> В школьной форме нет никакой необходимости.</li>
+                        <li> Также необходимо подписаться на телеграмм канал приемной кампании по следующей <a href="https://t.me/apply_itl"> ссылке.</a></li>
+                        <li> На все организационные вопросы ответим на родительском собрании <b>30 мая в 18.30</b></li>
+                    </ul>
+                    {% if result.final_apply_form %}
+                        <br> В случае, если Вы не заполните анкету до 26.05.2021 12:00. Мы в праве пригласить следующего по списку абитуриента.
+                        <div class="col">
+                            <form method="post" action="{% url 'upload_confirm' result.participant.pk %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{ result.final_apply_form.non_field_errors }}
+
+                                {% for hidden_field in result.final_apply_form.hidden_fields %}
+                                    {{ hidden_field.errors }}
+                                    {{ hidden_field }}
+                                {% endfor %}
+                                {% for field in result.final_apply_form.visible_fields %}
+                                    <div class="form-group">
+                                        {{ field.label_tag }}
+                                        {{ field.errors }}
+                                        {{ field }}
+                                        {{ field.help_text }}
+                                    </div>
+
+                                {% endfor %}
+                                <input type="submit" value="Отправить">
+                            </form>
+                            {#                        {{ result.final_apply_form.as_p }}#}
+                        </div>
+                    {% else %}
+                        <h3><span class="text-info"> Ваше заявление на участие во втором туре принято.</span></h3>
+                    {% endif %}
+                {% else %}
+                    Hi!
+                {% endifequal %}
+            {% else %}
+                Добрый день. К сожалению Вы не проходите на 2 тур вступительных испытаний.
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
