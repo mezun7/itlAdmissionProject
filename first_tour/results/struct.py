@@ -35,7 +35,7 @@ class ResultParticipant:
             return None
 
     def get_form(self):
-        participant = self.result[0].participant
+        participant = self.participant
 
         try:
             UserAppeal.objects.get(participant=participant, tour=self.tour)
@@ -46,7 +46,7 @@ class ResultParticipant:
                 return None
             return UserAppealForm(initial={
                 'tour': self.tour,
-                'participant': self.result[0].participant
+                'participant': self.participant
             })
 
     def get_final_form(self):
@@ -74,14 +74,14 @@ class ResultParticipant:
     def get_scan(self):
         try:
             return TourParticipantScan.objects.get(tour=self.tour,
-                                                   participant=self.result[0].participant).scan_file_name
+                                                   participant=self.participant).scan_file_name
         except:
             return None
 
     def __init__(self, result, result_release_date, final_result_release_date, portfolio_score, tour, passing_type=None,
                  scan=None, participant=None):
         self.result = result
-
+        self.participant = participant
         self.result_release_date = result_release_date
         self.final_result_release_date = get_final_result_release_date(final_result_release_date)
         # self.final_result_release_date = final_result_release_date
@@ -91,7 +91,6 @@ class ResultParticipant:
         self.score = self.get_final_score()
         self.tour = tour
         self.form = self.get_form()
-        self.participant = participant
         self.scan = get_scans(participant, tour)
         self.passing_type = self.get_passing_type()
         self.final_apply_form = self.get_final_form()
