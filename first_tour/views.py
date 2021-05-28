@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import formset_factory, modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -5,8 +6,26 @@ from django.shortcuts import render
 # Create your views here.
 from admission.models import Participant
 from first_tour.forms import UserAppealForm, TeacherAppealForm
-from first_tour.models import Tour, ExamResult
+from first_tour.models import Tour, ExamResult, UploadConfirm, NextTourPass
 from first_tour.task import test_celery
+
+
+def get_party_register(participant: Participant):
+    try:
+        UploadConfirm.objects.get(participant=participant)
+        return 'True'
+    except:
+        return 'False'
+
+
+def get_part_info(participant: Participant):
+    return [str(participant.id),
+            ' '.join([participant.last_name, participant.first_name, participant.fathers_name]),
+            str(participant.grade.number),
+            participant.profile.name,
+            participant.school,
+            get_party_register(participant)
+            ]
 
 
 def main(request):
@@ -32,3 +51,14 @@ def main(request):
     #     if formset.is_valid():
     #         formset.save()
     return render(request, 'profile/test.html', context=context)
+
+
+@staff_member_required
+def get_registered(request):
+    nxt = NextTourPass.objects.all()
+    s = 'id;fio;grade;profile;school;registration\n'
+    for u in nxt:
+        tmp = ';'.join(get_part_info(u.participant))
+        s = s + tmp + '\n'
+    # print(s)
+    return HttpResponse(s, content_type="text/plain; charset=utf-8")

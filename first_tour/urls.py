@@ -11,11 +11,13 @@ from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 from . import views
 from first_tour.appeal.teacher_view import appeals_list, appeal_person
 from admission import first_tour
+from .views import get_registered
 
 urlpatterns = [
     path('main/', views.main, name='test-email'),
     path('appeal/', appeals_list, name='appeal-list'),
     path('appeal/<int:pk>/', appeal_person, name='appeal-person'),
     path('start-email/', send_results, name='send-results'),
+    path('get-parties/', get_registered, name='get-registered')
     # path('start-test/', send_results, name='send-test'),
 ]

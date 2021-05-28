@@ -9,13 +9,14 @@ from django.core.mail import send_mail
 # Create your views here.
 # from admission.forms import FileUpload
 from admission.models import File, Participant, Moderator, ParticipantRegistrator
-from first_tour.models import Tour, ExamResult, NextTourPass
+from first_tour.models import Tour, ExamResult, NextTourPass, UploadConfirm
 from first_tour.results.struct import ResultParticipant
 from itlAdmissionProject.settings import SERVER_EMAIL
 
 
 def get_results():
     tours = Tour.objects.all().order_by('tour_order', 'grade__number', 'profile__name')
+    p = UploadConfirm.objects.filter(participant__privilege_status='A')
     print(tours)
 
 
