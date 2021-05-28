@@ -51,25 +51,25 @@
                     {% if result.final_apply_form %}
                         <br> В случае, если Вы не заполните анкету до 26.05.2021 12:00. Мы в праве пригласить следующего по списку абитуриента.
                         <div class="col">
-                            <form method="post" action="{% url 'upload_confirm' result.participant.pk %}" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ result.final_apply_form.non_field_errors }}
-
-                                {% for hidden_field in result.final_apply_form.hidden_fields %}
-                                    {{ hidden_field.errors }}
-                                    {{ hidden_field }}
-                                {% endfor %}
-                                {% for field in result.final_apply_form.visible_fields %}
-                                    <div class="form-group">
-                                        {{ field.label_tag }}
-                                        {{ field.errors }}
-                                        {{ field }}
-                                        {{ field.help_text }}
-                                    </div>
-
-                                {% endfor %}
-                                <input type="submit" value="Отправить">
-                            </form>
+{#                            <form method="post" action="{% url 'upload_confirm' result.participant.pk %}" enctype="multipart/form-data">#}
+{#                                {% csrf_token %}#}
+{#                                {{ result.final_apply_form.non_field_errors }}#}
+{##}
+{#                                {% for hidden_field in result.final_apply_form.hidden_fields %}#}
+{#                                    {{ hidden_field.errors }}#}
+{#                                    {{ hidden_field }}#}
+{#                                {% endfor %}#}
+{#                                {% for field in result.final_apply_form.visible_fields %}#}
+{#                                    <div class="form-group">#}
+{#                                        {{ field.label_tag }}#}
+{#                                        {{ field.errors }}#}
+{#                                        {{ field }}#}
+{#                                        {{ field.help_text }}#}
+{#                                    </div>#}
+{##}
+{#                                {% endfor %}#}
+{#                                <input type="submit" value="Отправить">#}
+{#                            </form>#}
                             {#                        {{ result.final_apply_form.as_p }}#}
                         </div>
                     {% else %}
