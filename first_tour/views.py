@@ -18,11 +18,17 @@ def get_party_register(participant: Participant):
         return 'False'
 
 
+def get_value(obj):
+    if obj is None:
+        return '-'
+    return obj.name
+
+
 def get_part_info(participant: Participant):
     return [str(participant.id),
             ' '.join([participant.last_name, participant.first_name, participant.fathers_name]),
             str(participant.grade.number),
-            participant.profile.name,
+            get_value(participant.profile),
             participant.school,
             get_party_register(participant)
             ]
