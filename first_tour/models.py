@@ -187,7 +187,7 @@ class UploadConfirm(models.Model):
 
 class LiterGrade(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name='Тур')
-    participants = models.ManyToManyField(Participant, verbose_name='Ученики', blank=True, null=True)
+    participants = models.ManyToManyField(Participant, verbose_name='Ученики', blank=True)
     name = models.CharField(max_length=40, verbose_name='Литер')
 
     def __str__(self):
