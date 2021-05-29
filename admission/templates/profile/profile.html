@@ -122,11 +122,15 @@
                 <!-- The timeline -->
                 <div class="timeline timeline-inverse">
                     {% for result in results %}
+                        {% ifequal result.tour.tour_order 1 %}
 
-                        {% if result.final_result_release_date %}
-                            {% include 'profile/messages/final_result.html' %}
-                        {% endif %}
-                        {% include 'profile/messages/admission_process.html' %}
+
+
+                            {% if result.final_result_release_date %}
+                                {% include 'profile/messages/final_result.html' %}
+                            {% endif %}
+                            {% include 'profile/messages/admission_process.html' %}
+                        {% endifequal %}
                     {% endfor %}
                     {% include 'profile/messages/successful_join.html' %}
                     {% for message in messages %}
