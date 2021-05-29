@@ -74,6 +74,7 @@ class File(models.Model):
 
 class Participant(models.Model):
     user = models.ForeignKey(User, verbose_name=u'Пользователь', null=True, blank=True, on_delete=models.CASCADE)
+    profile_photo = models.ImageField(verbose_name='Фото профиля', blank=True, null=True)
     first_name = models.CharField(max_length=200, verbose_name='Имя', null=True, blank=True)
     last_name = models.CharField(max_length=200, verbose_name='Фамилия', null=True, blank=True)
     fathers_name = models.CharField(max_length=100, verbose_name='Отчество', null=True, blank=True)

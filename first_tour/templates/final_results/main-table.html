@@ -1,0 +1,53 @@
+{% extends 'profile/base.html' %}
+ {% load static %}
+{% block title %}
+            Список участников
+{% endblock %}
+{% block profile %}
+         Регистрация абитуриентов на Первый тур. ({{ current_grade }} классы)
+{% endblock %}
+
+{% block right-navbar %}
+        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+{% block left-navbar %}
+    {% for tour in tours %}
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{% url 'final-table' tour.pk %}" class="nav-link">{{ tour.grade }}  {% if tour.profile %}
+                класс, {{ tour.profile.name }}
+              {% else %}
+                класс
+          {% endif %} </a>
+        </li>
+    {% endfor %}
+{##}
+{#                <li class="nav-item d-none d-sm-inline-block">#}
+{#                      <span class="nav-link">Пришли {{ processed }} из {{ overall }}</span>#}
+{#                </li>#}
+
+
+{% endblock %}
+{% block content %}
+ <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+
+
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                                      {% include 'first_tour/final_table.html' %}
+        </div>
+                    </div>
+{#                  <div class="text-center">#}
+{#                <a href="#" class="btn btn-primary"><b>Изменить данные</b></a>#}
+{#                      </div>#}
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+            <!-- /.card -->
+{% endblock %}

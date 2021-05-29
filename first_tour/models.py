@@ -7,7 +7,7 @@ from django.utils.timezone import now
 
 from admission.helpers.validators_files import file_size
 from admission.models import Participant, Profile, Group
-from first_tour.result_uploader.rupload import upload, upload_next_tour_participants
+from first_tour.result_uploader.rupload import upload, upload_next_tour_participants, upload_liter
 
 EXAM_TYPES = (
     ('S', 'Балл'),
@@ -121,6 +121,7 @@ class NextTourPass(models.Model):
     tour = models.ForeignKey(Tour, verbose_name='Тур', on_delete=models.CASCADE)
     participant = models.ForeignKey(Participant, verbose_name='Абитуриент', on_delete=models.CASCADE)
     type_of_pass = models.CharField(max_length=2, verbose_name='Прошел?', choices=TYPE_OF_EXAM_PASS)
+    has_come = models.BooleanField(verbose_name='Пришел?', default=False)
 
     def __str__(self):
         return '%s;%s;%s' % (self.participant, self.tour.name, self.type_of_pass)
@@ -159,7 +160,7 @@ class NextTourParticipantUpload(models.Model):
     tour = models.ForeignKey(Tour, verbose_name='Тур', on_delete=models.CASCADE)
     file = models.FileField(verbose_name='Файл')
 
-    def save(self,  *args, **kwargs):
+    def save(self, *args, **kwargs):
         super(NextTourParticipantUpload, self).save(*args, **kwargs)
         upload_next_tour_participants(self.file.path, self.tour)
 
@@ -182,3 +183,21 @@ class UploadConfirm(models.Model):
 
     def __str__(self):
         return self.participant.last_name + self.participant.first_name
+
+
+class LiterGrade(models.Model):
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name='Тур')
+    participants = models.ManyToManyField(Participant, verbose_name='Ученики', blank=True, null=True)
+    name = models.CharField(max_length=40, verbose_name='Литер')
+
+    def __str__(self):
+        return str(self.tour.grade.number) + "." + self.name
+
+
+class AddLiter(models.Model):
+    file = models.FileField(verbose_name='Файл')
+    tour_ordering = models.IntegerField(verbose_name='Очередность тура')
+
+    def save(self, *args, **kwargs):
+        super(AddLiter, self).save(*args, **kwargs)
+        upload_liter(self.file.path, self.tour_ordering)

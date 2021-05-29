@@ -1,0 +1,81 @@
+{% extends 'profile/base.html' %}
+ {% load static %}
+{% block title %}
+            Журнал {{ liter}} класса
+{% endblock %}
+{% block profile %}
+{#         Журнал {{ liter}} класса#}
+{% endblock %}
+
+{% block right-navbar %}
+        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+{% endblock %}
+
+{% block breadcrumb %}
+
+{% endblock %}
+{% block left-navbar %}
+    {% for el in liters %}
+        <li class="nav-item d-none d-sm-inline-block">
+          <a href="{% url 'journal' el.pk %}" class="nav-link">{{ el }} класс</a>
+        </li>
+    {% endfor %}
+{##}
+{#                <li class="nav-item d-none d-sm-inline-block">#}
+{#                      <span class="nav-link">Пришли {{ processed }} из {{ overall }}</span>#}
+{#                </li>#}
+
+
+{% endblock %}
+{% block content %}
+ <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+
+
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                                      {% include 'first_tour/journal_table.html' %}
+        </div>
+                    </div>
+{#                  <div class="text-center">#}
+{#                <a href="#" class="btn btn-primary"><b>Изменить данные</b></a>#}
+{#                      </div>#}
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+
+
+
+
+            <!-- /.card -->
+
+
+
+{% endblock %}
+
+{% block script %}
+<!-- Bootstrap --><!-- jQuery UI -->
+<script src="{% static 'admission/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Ekko Lightbox -->
+<script src="{% static 'admission/plugins/ekko-lightbox/ekko-lightbox.min.js' %}"></script>
+<!-- AdminLTE App -->
+<!-- AdminLTE for demo purposes --><!-- Filterizr-->
+<script src="{% static 'admission/plugins/filterizr/jquery.filterizr.min.js' %}"></script>
+    <script>
+  $(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+
+    $('.filter-container').filterizr({gutterPixels: 3});
+    $('.btn[data-filter]').on('click', function() {
+      $('.btn[data-filter]').removeClass('active');
+      $(this).addClass('active');
+    });
+  })
+</script>
+{% endblock %}

@@ -11,6 +11,7 @@ from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 from . import views
 from first_tour.appeal.teacher_view import appeals_list, appeal_person
 from admission import first_tour
+from .final_results.main_raiting import main_table, journal_with_photos
 from .views import get_registered
 
 urlpatterns = [
@@ -18,6 +19,10 @@ urlpatterns = [
     path('appeal/', appeals_list, name='appeal-list'),
     path('appeal/<int:pk>/', appeal_person, name='appeal-person'),
     path('start-email/', send_results, name='send-results'),
-    path('get-parties/', get_registered, name='get-registered')
+    path('get-parties/', get_registered, name='get-registered'),
+    path('final-table/', main_table, name='final-table'),
+    path('final-table/<int:tour_id>/', main_table, name='final-table'),
+    path('journal/', journal_with_photos, name='journal'),
+    path('journal/<int:liter_id>/', journal_with_photos, name='journal')
     # path('start-test/', send_results, name='send-test'),
 ]

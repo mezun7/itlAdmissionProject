@@ -9,7 +9,7 @@ from admission.models import Profile, File, Participant, FirstTourDates, Group, 
     ModeratorMessage, ParticipantRegistrator
 from first_tour.action import export_results
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
-    TourParticipantScan, UploadConfirm, NextTourParticipantUpload
+    TourParticipantScan, UploadConfirm, NextTourParticipantUpload, LiterGrade, AddLiter
 
 
 class SubjectExamInlineAdmin(TabularInline):
@@ -81,5 +81,11 @@ class UploadConfirmAdmin(admin.ModelAdmin):
     list_filter = ('tour',)
 
 
+@admin.register(LiterGrade)
+class LiterGradeAdmin(admin.ModelAdmin):
+    list_display = ('tour', 'name')
+
+
 admin.site.register(Subject)
 admin.site.register(NextTourParticipantUpload)
+admin.site.register(AddLiter)

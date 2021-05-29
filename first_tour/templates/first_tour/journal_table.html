@@ -1,0 +1,40 @@
+ {% load static %}
+<h4><span class="center">Журнал {{ liter}} класса</span></h4>
+    <table class="table table-responsive-lg table-striped">
+        <thead class="text-center">
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>ФОТО</th>
+                <th>ФИО</th>
+                <th>Телефон</th>
+                <th>Контакты родителей</th>
+                <th>Комментарии</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for participant in participants %}
+                <tr>
+                <td>{{ forloop.counter }}</td>
+                    <td>{{ participant.pk }}</td>
+                    <td><div class="text-center">
+                        <a href="{% get_media_prefix %}{{ participant.profile_photo }}" data-toggle="lightbox" data-title="{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}" data-gallery="gallery">
+                            <img class="profile-user-img img-fluid" src="{% get_media_prefix %}{{ participant.profile_photo }}" alt="User profile picture">
+                        </a>
+                        </div>
+                        </td>
+                    <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
+                    <td>{{ participant.phone_party }}</td>
+                    <td><b>{{ participant.fio_mother }}</b> <br>{{ participant.phone_mother }}
+                    {% if participant.fio_father %}
+                        <br><b>{{ participant.fio_father }}</b> <br>{{ participant.phone_father }}
+                    {% endif %}
+                    </td>
+                <td></td>
+
+
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
