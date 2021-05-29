@@ -75,8 +75,7 @@ def upload_liter(path, tour_ordering):
         for row in reader:
             participant = Participant.objects.get(pk=row['id'])
             try:
-                lg = LiterGrade.objects.get(tour__profile=participant.profile,
-                                            tour__grade=participant.grade,
+                lg = LiterGrade.objects.get(tour__grade=participant.grade,
                                             tour__tour_order=tour_ordering,
                                             name=row['liter'])
                 lg.participants.add(participant)
