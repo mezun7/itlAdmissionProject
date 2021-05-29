@@ -24,13 +24,25 @@ def get_value(obj):
     return obj.name
 
 
+def get_value_str(obj):
+    if obj is not None:
+        return str(obj)
+    else:
+        return '-'
+
+
 def get_part_info(participant: Participant):
     return [str(participant.id),
             ' '.join([participant.last_name, participant.first_name, participant.fathers_name]),
+            get_value_str(participant.phone_party),
             str(participant.grade.number),
             get_value(participant.profile),
             participant.school,
-            get_party_register(participant)
+            get_party_register(participant),
+            get_value_str(participant.fio_mother),
+            get_value_str(participant.phone_mother),
+            get_value_str(participant.fio_father),
+            get_value_str(participant.phone_father)
             ]
 
 
@@ -62,7 +74,7 @@ def main(request):
 @staff_member_required
 def get_registered(request):
     nxt = NextTourPass.objects.all()
-    s = 'id;fio;grade;profile;school;registration\n'
+    s = 'id;fio;phone;grade;profile;school;registration;parent1;phone1;parent2;phone2\n'
     for u in nxt:
         tmp = ';'.join(get_part_info(u.participant))
         s = s + tmp + '\n'

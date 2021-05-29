@@ -7,11 +7,12 @@ from django.contrib.contenttypes.admin import GenericTabularInline
 from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage, ParticipantRegistrator
-from first_tour.models import TourUploadFile
+from first_tour.models import TourUploadFile, NextTourPass
 
 
 class FileAdmin(TabularInline):
     model = Participant.portfolio.through
+
 
 #
 # @admin.register(Grade)
@@ -29,7 +30,7 @@ class AdminParticipant(admin.ModelAdmin):
     list_filter = ('grade', 'profile', 'first_tour_register_date',
                    'out_of_competition', 'reg_status', 'privilege_status',
                    "olymp_coming_status")
-    search_fields = ['user__username','first_name', 'last_name']
+    search_fields = ['user__username', 'first_name', 'last_name']
     exclude = ['portfolio']
     inlines = [
         FileAdmin,
@@ -37,17 +38,24 @@ class AdminParticipant(admin.ModelAdmin):
     actions = [export_as_xls, export_as_xls_full_participant_data]
 
     def get_email(self, participant):
-         return str(participant.user.email)
+        return str(participant.user.email)
 
     get_email.short_description = 'email'
     get_email.admin_order_field = 'book__author'
 
     def get_last_login_time(self, participant):
-         return str(participant.user.last_login)
+        return str(participant.user.last_login)
+
+    # def get_passed(self, participant: Participant):
+    #     try:
+    #         np = NextTourPass.objects.get(participant=participant)
+    #         return 'True'
+    #     except:
+    #         return 'False'
 
     get_last_login_time.short_description = 'Время последнего входа'
     get_last_login_time.admin_order_field = 'book__author'
-
+    # get_passed.short_description = 'Прошел?'
 
 @admin.register(ModeratorMessage)
 class AdminModeratorMessage(admin.ModelAdmin):
