@@ -23,6 +23,9 @@
                         </a>
                         </div>
                         </td>
+                {% if request.GET.noinfo %}
+                    asdasds
+                {% endif %}
                     <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
                     <td>{{ participant.phone_party }}</td>
                     <td><b>{{ participant.fio_mother }}</b> <br>{{ participant.phone_mother }}
