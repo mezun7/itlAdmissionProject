@@ -7,7 +7,8 @@ from django.utils.timezone import now
 
 from admission.helpers.validators_files import file_size
 from admission.models import Participant, Profile, Group
-from first_tour.result_uploader.rupload import upload, upload_next_tour_participants, upload_liter
+from first_tour.result_uploader.rupload import upload, upload_next_tour_participants
+from first_tour.task import upload_liter
 
 EXAM_TYPES = (
     ('S', 'Балл'),
@@ -200,4 +201,4 @@ class AddLiter(models.Model):
 
     def save(self, *args, **kwargs):
         super(AddLiter, self).save(*args, **kwargs)
-        upload_liter(self.file.path, self.tour_ordering)
+        upload_liter.delay(self.file.path, self.tour_ordering)

@@ -67,21 +67,21 @@ def upload_next_tour_participants(path, tour):
         NextTourPass.objects.bulk_create(results)
 
 
-def upload_liter(path, tour_ordering):
-    from first_tour.models import LiterGrade
-
-    with open(path) as File:
-        reader = csv.DictReader(File)
-        for row in reader:
-            participant = Participant.objects.get(pk=row['id'])
-            try:
-                lg = LiterGrade.objects.get(tour__grade=participant.grade,
-                                            tour__tour_order=tour_ordering,
-                                            name=row['liter'])
-                lg.participants.add(participant)
-            except LiterGrade.DoesNotExist:
-                error = Error()
-                error.participant = participant
-                error.message = 'Doesnt exists LiterGrade'
-                error.save()
+# def upload_liter(path, tour_ordering):
+#     from first_tour.models import LiterGrade
+#
+#     with open(path) as File:
+#         reader = csv.DictReader(File)
+#         for row in reader:
+#             participant = Participant.objects.get(pk=row['id'])
+#             try:
+#                 lg = LiterGrade.objects.get(tour__grade=participant.grade,
+#                                             tour__tour_order=tour_ordering,
+#                                             name=row['liter'])
+#                 lg.participants.add(participant)
+#             except LiterGrade.DoesNotExist:
+#                 error = Error()
+#                 error.participant = participant
+#                 error.message = 'Doesnt exists LiterGrade'
+#                 error.save()
 
