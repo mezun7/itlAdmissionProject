@@ -18,7 +18,7 @@
                 <td>{{ forloop.counter }}</td>
                     <td>{{ participant.pk }}</td>
                     <td><div class="text-center">
-                        <a href="{% get_media_prefix %}avatars/{{ participant.id }}" data-toggle="lightbox" data-title="{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}" data-gallery="gallery">
+                        <a href="{% get_media_prefix %}avatars/{{ participant.id }}.jpg" data-toggle="lightbox" data-title="{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}" data-gallery="gallery">
                             <img class="profile-user-img img-fluid" src="{% get_media_prefix %}{{ participant.profile_photo }}" alt="User profile picture">
                         </a>
                         </div>
