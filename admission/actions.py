@@ -6,6 +6,8 @@ from action_export.export_excel import ExportExcelAction
 from openpyxl.styles import Font
 from unidecode import unidecode
 
+from first_tour.models import LiterGrade
+
 
 def get_value(obj):
     if obj is None:
@@ -92,7 +94,8 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'Профиль',
         'Школа',
         'Дата первого тура',
-        'Когда пришел на второй тур?'
+        'Когда пришел на второй тур?',
+        'Пришел на второу тур?'
     ]
 
     wb = Workbook()
@@ -101,6 +104,12 @@ def export_as_xls_full_participant_data(self, request, queryset):
 
     for participant in queryset.order_by('last_name', 'first_name', 'fathers_name', 'grade'):
         if not participant.is_dublicate and participant.first_name is not None:
+            # came = "false"
+            try:
+                lg = LiterGrade.objects.get(participants__in=[participant,])
+                came = 'True'
+            except LiterGrade.DoesNotExist:
+                came = 'False'
             ws.append([
                 str(participant.pk),
                 participant.last_name,
@@ -116,7 +125,8 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 'Нет' if participant.profile is None else participant.profile.name,
                 participant.school,
                 str(participant.first_tour_register_date),
-                get_value(participant.first_tour_come_date)
+                get_value(participant.first_tour_come_date),
+                came
             ])
     ws = style_output_file(ws)
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
