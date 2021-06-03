@@ -33,6 +33,8 @@ def main_table(request, tour_ordering=None, tour_id=None):
             tour = Tour.objects.filter(tour_order=tour_ordering).first()
         except:
             return HttpResponse('No active tours')
+    else:
+        tour = Tour.objects.get(pk=tour_id)
     tours = Tour.objects.filter(tour_order=tour_ordering).order_by('grade__number', 'profile')
     exam_subj = ExamSubject.objects.filter(tour=tour).order_by(*SUBJECTS_ORDERING)
     results = []
