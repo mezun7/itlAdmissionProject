@@ -1,5 +1,24 @@
 {% load static %}
+<style>
+    table {
+  /* Not required only for visualizing */
+  border-collapse: collapse;
+  width: 100%;
+}
 
+table thead tr th {
+  /* Important */
+  background-color: red;
+  position: sticky;
+  z-index: 100;
+  top: 0;
+}
+
+td {
+  /* Not required only for visualizing */
+  padding: 1em;
+}
+</style>
 <form method="post" action="{{ action }}" class="">
     {% csrf_token %}
     <table class="table table-responsive-lg table-striped">
