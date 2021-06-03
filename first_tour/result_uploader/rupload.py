@@ -67,6 +67,29 @@ def upload_next_tour_participants(path, tour):
         NextTourPass.objects.bulk_create(results)
 
 
+def upload_results(path, tour_order: int, subject):
+    from first_tour.models import ExamResult, Tour, ExamSubject
+
+    with open(path) as File:
+        reader = csv.DictReader(File)
+        res = []
+        for row in reader:
+            participant = Participant.objects.get(pk=row['id'])
+            tour = Tour.objects.get(tour_order=tour_order, litergrade__participants__in=[participant])
+            exam_subject = ExamSubject.objects.get(tour=tour, subject=subject)
+            try:
+                exam_result = ExamResult()
+                exam_result.participant = participant
+                exam_result.score = float(row['score'].replace(',', '.'))
+                exam_result.exam_subject = exam_subject
+                res.append(exam_result)
+            except:
+                error = Error()
+                error.participant = participant
+                error.message = 'probleeeem'
+                error.save()
+        ExamResult.objects.bulk_create(res)
+
 # def upload_liter(path, tour_ordering):
 #     from first_tour.models import LiterGrade
 #
@@ -84,4 +107,3 @@ def upload_next_tour_participants(path, tour):
 #                 error.participant = participant
 #                 error.message = 'Doesnt exists LiterGrade'
 #                 error.save()
-

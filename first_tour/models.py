@@ -7,7 +7,7 @@ from django.utils.timezone import now
 
 from admission.helpers.validators_files import file_size
 from admission.models import Participant, Profile, Group
-from first_tour.result_uploader.rupload import upload, upload_next_tour_participants
+from first_tour.result_uploader.rupload import upload, upload_next_tour_participants, upload_results
 from first_tour.task import upload_liter
 
 EXAM_TYPES = (
@@ -149,12 +149,17 @@ class TourParticipantScan(models.Model):
 
 
 class TourUploadFile(models.Model):
-    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name='Тур')
+    tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name='Тур', blank=True, null=True)
+    tour_order = models.IntegerField(blank=True, null=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name='Предмет', blank=True, null=True)
     file = models.FileField(verbose_name='Файл')
 
     def save(self, *args, **kwargs):
         super(TourUploadFile, self).save(*args, **kwargs)
-        upload(self.file.path, self.tour)
+        if self.tour is not None:
+            upload(self.file.path, self.tour)
+        elif (self.tour_order is not None) and (self.subject is not None):
+            upload_results(self.file.path, self.tour_order, self.subject)
 
 
 class NextTourParticipantUpload(models.Model):
