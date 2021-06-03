@@ -4,7 +4,11 @@
             Список участников
 {% endblock %}
 {% block profile %}
-         Регистрация абитуриентов на Первый тур. ({{ current_grade }} классы)
+         Результаты {{ cur_tour.grade }} {% if cur_tour.profile %}
+                класса, {{ cur_tour.profile.name }}
+              {% else %}
+                класса
+    {% endif %}
 {% endblock %}
 
 {% block right-navbar %}

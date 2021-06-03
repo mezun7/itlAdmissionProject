@@ -47,7 +47,8 @@ def main_table(request, tour_ordering=None, tour_id=None):
     context = {
         'tours': tours,
         'subjects': exam_subj,
-        'results': results
+        'results': results,
+        'cur_tour': tour
     }
 
     return render(request, 'final_results/main-table.html', context=context)

@@ -33,6 +33,10 @@
                 {% for res in result.results %}
                     <td>
                         {% if res %}
+                            {% ifequal res.exam_subject.type_of_scoring "R" %}
+                                fsfsdfsdfsdf
+                            {% endifequal %}
+
                             {{ res.score }}
                         {% else %}
                             -
@@ -46,18 +50,6 @@
                 {% endif %}
                 </td>
                 <td>{{ result.overall }}</td>
-            </tr>
-        {% endfor %}
-        {% for participant in participants %}
-            <tr>
-                <td>{{ participant.pk }}</td>
-                <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
-                <td>{{ participant.grade }}</td>
-                <td>{% if participant.profile %}{{ participant.profile }} {% endif %}</td>
-
-                <td><input type="submit" class="btn-primary" name="{{ participant.pk }}" value="Пришел">
-                    <input type="submit" class="btn-danger" name="{{ participant.pk }}" value="Дубликат">
-                </td>
             </tr>
         {% endfor %}
         </tbody>
