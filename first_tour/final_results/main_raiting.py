@@ -15,19 +15,37 @@ from admission.models import File, Participant, Moderator, ModeratorMessage
 from admission.moderator.helpers import set_duplicate_status, set_skip_status, set_olymp_coming_status
 from admission.moderator.moderator_email import get_moderator_mail
 from admission.personal_page.profile import main_page
-from first_tour.models import Tour, LiterGrade
+from first_tour.final_results.final_struct import FinalResult
+from first_tour.models import Tour, LiterGrade, ExamSubject
 from itlAdmissionProject.settings import SERVER_EMAIL
 from django.core.mail import send_mail, EmailMessage
 
+SUBJECTS_ORDERING = ('ordering', 'type_of_scoring', 'subject__name')
 
 @staff_member_required
-def main_table(request, tour_id=None):
+def main_table(request, tour_ordering=None, tour_id=None):
+    tour = None
+    if tour_ordering is None:
+        tour_ordering = 1
+        print(tour_ordering)
     if tour_id is None:
-        tour_id = Tour.objects.first().pk
-    tour = Tour.objects.get(pk=tour_id)
-    tours = Tour.objects.filter().order_by('grade__number')
+        try:
+            tour = Tour.objects.filter(tour_order=tour_ordering).first()
+        except:
+            return HttpResponse('No active tours')
+    tours = Tour.objects.filter(tour_order=tour_ordering).order_by('grade__number', 'profile')
+    exam_subj = ExamSubject.objects.filter(tour=tour).order_by(*SUBJECTS_ORDERING)
+    results = []
+    for lg in LiterGrade.objects.filter(tour=tour):
+        participants = lg.participants.all()
+        print(lg)
+        for participant in participants:
+            results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))
+    results.sort(reverse=True)
     context = {
-        'tours': tours
+        'tours': tours,
+        'subjects': exam_subj,
+        'results': results
     }
 
     return render(request, 'final_results/main-table.html', context=context)

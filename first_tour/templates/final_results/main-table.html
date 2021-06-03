@@ -17,7 +17,7 @@
 {% block left-navbar %}
     {% for tour in tours %}
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="{% url 'final-table' tour.pk %}" class="nav-link">{{ tour.grade }}  {% if tour.profile %}
+          <a href="{% url 'final-table' tour.tour_order tour.pk %}" class="nav-link">{{ tour.grade }}  {% if tour.profile %}
                 класс, {{ tour.profile.name }}
               {% else %}
                 класс
@@ -50,4 +50,30 @@
             <!-- /.card -->
 
             <!-- /.card -->
+{% endblock %}
+
+{% block script %}
+<!-- Bootstrap --><!-- jQuery UI -->
+<script src="{% static 'admission/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Ekko Lightbox -->
+<script src="{% static 'admission/plugins/ekko-lightbox/ekko-lightbox.min.js' %}"></script>
+<!-- AdminLTE App -->
+<!-- AdminLTE for demo purposes --><!-- Filterizr-->
+<script src="{% static 'admission/plugins/filterizr/jquery.filterizr.min.js' %}"></script>
+    <script>
+  $(function () {
+    $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+      event.preventDefault();
+      $(this).ekkoLightbox({
+        alwaysShowClose: true
+      });
+    });
+
+    $('.filter-container').filterizr({gutterPixels: 3});
+    $('.btn[data-filter]').on('click', function() {
+      $('.btn[data-filter]').removeClass('active');
+      $(this).addClass('active');
+    });
+  })
+</script>
 {% endblock %}

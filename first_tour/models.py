@@ -96,7 +96,7 @@ class ExamResult(models.Model):
     appeal_application = models.CharField(max_length=10, verbose_name='Заявился на аппеляцию?', blank=True, null=True,
                                           choices=APPEAL_STATUSES)
     appeal_reason = models.CharField(max_length=1000, verbose_name='Причина аппеляции', blank=True, null=True)
-    appeal_score = models.IntegerField(verbose_name='Аппелляционный балл', blank=True, null=True)
+    appeal_score = models.FloatField(verbose_name='Аппелляционный балл', blank=True, null=True)
     is_absent_appeal = models.BooleanField(verbose_name='Отсутствовал на аппелляции', default=False)
 
     appeal_time = models.DateTimeField(verbose_name='Время аппелляции', blank=True, null=True)
