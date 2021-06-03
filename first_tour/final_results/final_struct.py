@@ -49,8 +49,8 @@ class FinalResult:
         self.results = self.calc_result()
 
     def __lt__(self, other):
-        if not self.olymp_status and other.olymp_status:
-            return True
+        if self.olymp_status != other.olymp_status:
+            return self.olymp_status < other.olymp_status
         if self.overall == other.overall:
             if self.recommended == other.recommended:
                 if self.zachet == other.zachet:
