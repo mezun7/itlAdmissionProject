@@ -47,7 +47,9 @@ td {
                         </a>
                     </div></td>
                 <td>{{ result.participant.pk }}</td>
-                <td>{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</td>
+                <td {% if result.olymp_status %}
+                    class="alert-info"
+                {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</td>
                 <td>{{ result.liter }}</td>
                 {% for res in result.results %}
                     <td
