@@ -76,7 +76,13 @@ def upload_results(path, tour_order: int, subject):
         for row in reader:
             participant = Participant.objects.get(pk=row['id'])
             tour = Tour.objects.get(tour_order=tour_order, litergrade__participants__in=[participant])
-            exam_subject = ExamSubject.objects.get(tour=tour, subject=subject)
+            try:
+                exam_subject = ExamSubject.objects.get(tour=tour, subject=subject)
+            except ExamSubject.DoesNotExist:
+                error = Error()
+                error.participant = participant
+                error.message = subject.name + ' ' + tour.name + ' ' + str(participant.id) + participant.last_name
+                error.save()
             try:
                 exam_result = ExamResult()
                 exam_result.participant = participant
