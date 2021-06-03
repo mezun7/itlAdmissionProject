@@ -31,13 +31,22 @@
                 <td>{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</td>
                 <td>{{ result.liter }}</td>
                 {% for res in result.results %}
-                    <td>
+                    <td
                         {% if res %}
                             {% ifequal res.exam_subject.type_of_scoring "R" %}
-                                fsfsdfsdfsdf
+                                {% if res.score < 1 %}
+                                    class="alert-danger">
+                                    Нерекомендован
+                                    {% else %}
+                                    >
+                                    Рекомендован
+                                {% endif %}
+                            {% else %}
+                                >
+                                {{ res.score }}
                             {% endifequal %}
 
-                            {{ res.score }}
+
                         {% else %}
                             -
                         {% endif %}
