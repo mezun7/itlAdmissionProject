@@ -25,7 +25,7 @@ td {
         <thead>
         <tr class="text-center">
             <th>ФОТО</th>
-            <th>ID</th>
+            <th>#</th>
             <th>ФИО</th>
             <th>Класс</th>
             {% for subject in subjects %}
@@ -46,7 +46,7 @@ td {
                             <img class="profile-user-img img-fluid" src="{% get_media_prefix %}avatars/{{ result.participant.id }}.jpg" alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
                         </a>
                     </div></td>
-                <td>{{ result.participant.pk }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td {% if result.olymp_status %}
                     class="alert-info"
                 {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</td>
