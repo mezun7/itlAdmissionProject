@@ -11,6 +11,7 @@ class FinalResult:
     zachet = True
     exam_subjects: [ExamSubject] = None
     liter: LiterGrade = None
+    olymp_status = False
 
     def calc_result(self):
         types = {
@@ -19,6 +20,7 @@ class FinalResult:
         }
         ex_results = ExamResult.objects.filter(participant=self.participant,
                                                exam_subject__tour=self.tour)
+        self.olymp_status = self.participant.privilege_status == 'A'
         # print(len(ex_results), self.participant)
 
         subjects = list(self.exam_subjects.values_list('subject__name', flat=True))
@@ -47,6 +49,8 @@ class FinalResult:
         self.results = self.calc_result()
 
     def __lt__(self, other):
+        if not self.olymp_status and other.olymp_status:
+            return True
         if self.overall == other.overall:
             if self.recommended == other.recommended:
                 if self.zachet == other.zachet:
