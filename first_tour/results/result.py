@@ -23,13 +23,14 @@ def get_results():
 def get_result_user(pk, exclude_date=False):
     participant = Participant.objects.get(pk=pk)
     if exclude_date:
-        tours = Tour.objects.filter(profile=participant.profile,
+        tours = Tour.objects.filter(Q(profile=participant.profile)|Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
                                     )
     else:
-        tours = Tour.objects.filter(profile=participant.profile,
+        tours = Tour.objects.filter(Q(profile=participant.profile)|Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
                                     results_release_date__lte=datetime.datetime.now())
+    print(tours)
     results = []
     for tour in tours:
         party_results = ExamResult.objects.filter(exam_subject__tour=tour,

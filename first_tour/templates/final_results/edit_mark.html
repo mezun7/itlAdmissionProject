@@ -1,0 +1,7 @@
+<form action="" method="post">
+    {% csrf_token %}
+    <p>{{ mark.participant.last_name }} {{ mark.participant.first_name }}</p>
+    <p>{{ form.subject_name }}</p>
+    {{ form.as_p }}
+    <input type="submit" value="Изменить">
+</form>

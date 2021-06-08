@@ -61,3 +61,21 @@ class UserConfirmForm(forms.ModelForm):
         }
 
         # fields =
+
+
+class MarkEditForm(forms.ModelForm):
+    subject_name = None
+
+    def __init__(self, *args, **kwargs):
+        super(MarkEditForm, self).__init__(*args, **kwargs)
+        # self.fields['exam_subject'].widget.attrs['disabled'] = 'disabled'
+
+        self.subject_name = self.instance.exam_subject.subject
+        self.fields['score'].widget.attrs['required'] = 'required'
+
+    class Meta:
+        model = ExamResult
+        fields = ('exam_subject', 'score')
+        widgets = {
+            'exam_subject': HiddenInput()
+        }

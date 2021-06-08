@@ -16,7 +16,8 @@ from admission.moderator.helpers import set_duplicate_status, set_skip_status, s
 from admission.moderator.moderator_email import get_moderator_mail
 from admission.personal_page.profile import main_page
 from first_tour.final_results.final_struct import FinalResult
-from first_tour.models import Tour, LiterGrade, ExamSubject
+from first_tour.forms import MarkEditForm
+from first_tour.models import Tour, LiterGrade, ExamSubject, ExamResult
 from itlAdmissionProject.settings import SERVER_EMAIL
 from django.core.mail import send_mail, EmailMessage
 
@@ -27,7 +28,6 @@ def main_table(request, tour_ordering=None, tour_id=None):
     tour = None
     if tour_ordering is None:
         tour_ordering = 1
-        print(tour_ordering)
     if tour_id is None:
         try:
             tour = Tour.objects.filter(tour_order=tour_ordering).first()
@@ -40,7 +40,6 @@ def main_table(request, tour_ordering=None, tour_id=None):
     results = []
     for lg in LiterGrade.objects.filter(tour=tour):
         participants = lg.participants.all()
-        print(lg)
         for participant in participants:
             results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))
     results.sort(reverse=True)
@@ -64,7 +63,6 @@ def journal_with_photos(request, liter_id=None):
         except LiterGrade.DoesNotExist:
             print(liter_id, 'Does\'nt exists')
     participants = liter.participants.all().order_by('last_name', 'first_name')
-    print(liter)
     context = {
         'liters': liters,
         'liter': liter,
@@ -72,3 +70,21 @@ def journal_with_photos(request, liter_id=None):
     }
 
     return render(request, 'final_results/journal.html', context)
+
+
+@staff_member_required
+def edit_mark(request, mark_id):
+    mark = ExamResult.objects.get(pk=mark_id)
+    form = MarkEditForm(instance=mark)
+    if request.POST:
+        form = MarkEditForm(request.POST, instance=mark)
+        if form.is_valid():
+            form.save()
+            from_url = request.GET.get('from')
+            return redirect(from_url)
+
+    context = {
+        'form': form,
+        'mark': mark
+    }
+    return render(request, 'final_results/edit_mark.html', context)
