@@ -42,13 +42,11 @@ def get_result_user(pk, exclude_date=False):
         except NextTourPass.DoesNotExist:
             passing_type = None
         final_release_date = tour.results_release_date
-        if exclude_date:
-            final_release_date = datetime.datetime.now() - datetime.timedelta(days=10)
         results.append(ResultParticipant(party_results,
                                          result_release_date=final_release_date,
                                          final_result_release_date=tour.final_result_release_date,
                                          passing_type=passing_type,
                                          tour=tour,
-                                         portfolio_score=participant.extra_score, participant=participant)
+                                         portfolio_score=participant.extra_score, participant=participant, exclude_date=exclude_date)
                        )
     return results
