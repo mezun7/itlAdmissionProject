@@ -165,10 +165,11 @@ class TourUploadFile(models.Model):
 class NextTourParticipantUpload(models.Model):
     tour = models.ForeignKey(Tour, verbose_name='Тур', on_delete=models.CASCADE)
     file = models.FileField(verbose_name='Файл')
+    type_of_pass = models.CharField(verbose_name='Тип прохождения', choices=TYPE_OF_EXAM_PASS, blank=True, null=True, max_length=5)
 
     def save(self, *args, **kwargs):
         super(NextTourParticipantUpload, self).save(*args, **kwargs)
-        upload_next_tour_participants(self.file.path, self.tour)
+        upload_next_tour_participants(self.file.path, self.tour, self.type_of_pass)
 
 
 class UploadConfirm(models.Model):

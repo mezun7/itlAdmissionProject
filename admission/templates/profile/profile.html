@@ -129,11 +129,7 @@
                             {% include 'profile/messages/admission_process_2.html' %}
                         {% endifequal %}
 
-
                         {% ifequal result.tour.tour_order 1 %}
-
-
-
                             {% if result.final_result_release_date %}
                                 {% include 'profile/messages/final_result.html' %}
                             {% endif %}

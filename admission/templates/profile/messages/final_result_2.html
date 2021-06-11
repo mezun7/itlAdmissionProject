@@ -1,0 +1,46 @@
+{% load static %}
+
+
+
+
+
+<!-- timeline time label -->
+<div class="time-label">
+                        <span class="bg-success">
+                            {{ result.tour.final_result_release_date }}
+                        </span>
+</div>
+<!-- /.timeline-label -->
+<!-- timeline item -->
+<div>
+    <i class="fas fa-envelope bg-primary"></i>
+
+    <div class="timeline-item">
+        <span class="time"><i class="far fa-clock"></i> </span>
+
+        <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a> </h3>
+        {#TYPE_OF_EXAM_PASS = (#}
+        {#    ('R', 'Резерв'),#}
+        {#    ('P', 'Прошел')#}
+        {#)#}
+
+        <div class="timeline-body">
+            {% if result.passing_type %}
+                {% ifequal result.passing_type "P" %}
+                    {% if participant.pk == 124 %}
+                        Здравствуйте. Мы Вас условно рекомендуем для поступления в СУНЦ IT-Лицей КФУ.
+                        <br>15.06.2021 в 18.00 будет проходить родительское собрание в Лицее. Просьба подойти до собрания(в кабинет 229) и поговорить по поводу состояния здоровья Вашего ребенка.
+                    {% else %}
+                        {% include 'profile/messages/passed_message.html' %}
+                    {% endif %}
+                {% else %}
+                    {% include 'profile/messages/reserve_message.html' %}
+                {% endifequal %}
+            {% else %}
+                Добрый день. По результатам второго тура Вы показали не плохой результат. Но были абитуриенты, которые показали результат лучше. К сожалению мы вынуждены Вам отказать.
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
