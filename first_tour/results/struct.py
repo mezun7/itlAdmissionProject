@@ -79,13 +79,11 @@ class ResultParticipant:
             return None
 
     def __init__(self, result, result_release_date, final_result_release_date, portfolio_score, tour, passing_type=None,
-                 scan=None, participant=None, exclude_date=False):
+                 scan=None, participant=None):
         self.result = result
         self.participant = participant
         self.result_release_date = result_release_date
         self.final_result_release_date = get_final_result_release_date(final_result_release_date)
-        if exclude_date:
-            self.final_result_release_date = True
         # self.final_result_release_date = final_result_release_date
         self.portfolio_score = portfolio_score
         if portfolio_score is None:

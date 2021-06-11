@@ -47,6 +47,6 @@ def get_result_user(pk, exclude_date=False):
                                          final_result_release_date=tour.final_result_release_date,
                                          passing_type=passing_type,
                                          tour=tour,
-                                         portfolio_score=participant.extra_score, participant=participant, exclude_date=exclude_date)
+                                         portfolio_score=participant.extra_score, participant=participant)
                        )
     return results
