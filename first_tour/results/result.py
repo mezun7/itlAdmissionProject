@@ -23,11 +23,11 @@ def get_results():
 def get_result_user(pk, exclude_date=False):
     participant = Participant.objects.get(pk=pk)
     if exclude_date:
-        tours = Tour.objects.filter(Q(profile=participant.profile)|Q(litergrade__participants__in=[participant]),
+        tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
                                     )
     else:
-        tours = Tour.objects.filter(Q(profile=participant.profile)|Q(litergrade__participants__in=[participant]),
+        tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
                                     results_release_date__lte=datetime.datetime.now())
     print(tours)
@@ -41,8 +41,11 @@ def get_result_user(pk, exclude_date=False):
             passing_type = participant.nexttourpass_set.get(tour=tour)
         except NextTourPass.DoesNotExist:
             passing_type = None
+        final_release_date = tour.results_release_date
+        if exclude_date:
+            final_release_date = datetime.datetime.now() - datetime.timedelta(days=10)
         results.append(ResultParticipant(party_results,
-                                         result_release_date=tour.results_release_date,
+                                         result_release_date=final_release_date,
                                          final_result_release_date=tour.final_result_release_date,
                                          passing_type=passing_type,
                                          tour=tour,
