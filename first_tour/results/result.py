@@ -25,13 +25,14 @@ def get_result_user(pk, exclude_date=False):
     if exclude_date:
         tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
-                                    )
+                                    ).order_by('tour_order')
     else:
         tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
                                     grade=participant.grade,
-                                    results_release_date__lte=datetime.datetime.now())
+                                    results_release_date__lte=datetime.datetime.now()).order_by('tour_order')
     print(tours)
     results = []
+
     for tour in tours:
         party_results = ExamResult.objects.filter(exam_subject__tour=tour,
                                                   participant=participant).order_by('exam_subject__ordering')
