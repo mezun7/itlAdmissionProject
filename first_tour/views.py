@@ -73,10 +73,16 @@ def main(request):
 
 @staff_member_required
 def get_registered(request):
-    nxt = NextTourPass.objects.all()
+    nxt = NextTourPass.objects.filter(tour__tour_order=2).order_by('tour__grade__number', 'tour__profile__name')
     s = 'id;fio;phone;grade;profile;school;registration;parent1;phone1;parent2;phone2\n'
     for u in nxt:
         tmp = ';'.join(get_part_info(u.participant))
         s = s + tmp + '\n'
     # print(s)
     return HttpResponse(s, content_type="text/plain; charset=utf-8")
+
+
+# def get_passed(request):
+#     nxt = NextTourPass.objects.filter(tour__tour_order=2).order_by('tour__grade__number', 'tour__profile__name')
+#     s = 'id;fio;phone;grade;profile;school;registration;parent1;phone1;parent2;phone2\n'
+#     for u in
