@@ -2,7 +2,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import formset_factory, modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render
-
+from django.core.mail import send_mail, EmailMessage
 # Create your views here.
 from admission.models import Participant
 from first_tour.forms import UserAppealForm, TeacherAppealForm
@@ -47,6 +47,14 @@ def get_part_info(participant: Participant):
     ]
 
 
+@staff_member_required()
+def test_email(request):
+    email = EmailMessage(email_subject,
+                         email_message,
+                         from_email=SERVER_EMAIL,
+                         to=[request.user.email])
+    email.send()
+    return render(request, 'profile/test.html')
 def main(request):
     # test_celery.delay(1)
     tour = Tour.objects.first()

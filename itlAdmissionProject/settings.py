@@ -159,8 +159,8 @@ LOGIN_URL = '/login/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'ex.kpfu.ru'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = r'int\apply-itl'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = r'apply-itl'
 EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
 SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
