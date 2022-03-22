@@ -1,0 +1,54 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% load bootstrap4 %}
+
+{% block title %}Личный кабинет{% endblock %}
+{% block profile %}Личный кабинет поступающего: изменение данных{% endblock %}
+
+{% block right-navbar %}<a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>{% endblock %}
+
+{% block content %}
+<div class="mx-3">
+    <form class="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="data_update container-fluid d-flex justify-content-around">
+            <section class="section_one col-5">
+                <div class="mb-3">{{ form.last_name.label }} <span class="float-right">{{ form.last_name }}</span></div>
+                <div class="mb-3">{{ form.first_name.label }} <span class="float-right">{{ form.first_name }}</span></div>
+                <div class="mb-3">{{ form.fathers_name.label }} <span class="float-right">{{ form.fathers_name }}</span></div>
+                <div class="mb-3">{{ form.birthday.label }} <span class="float-right">{{ form.birthday }}</span></div>
+                <div class="mb-3">{{ form.gender.label }} <span class="float-right">{{ form.gender }}</span></div>
+                <div class="mb-3">{{ form.place_of_birth.label }} <span class="float-right">{{ form.place_of_birth }}</span></div>
+                <div class="mb-3">{{ form.school.label }} <span class="float-right">{{ form.school }}</span></div>
+                <div class="mb-3">Номер телефона <span class="float-right">{{ form.phone_party }}</span></div>
+                <div class="mb-3">{{ form.lives.label }} <span class="float-right">{{ form.lives }}</span></div>
+            </section>
+            <div class="border-left"></div>
+            <section class="section_two col-5">
+                <div class="mb-3">Первый тур приёма <span class="float-right">{{ form.first_tour_register_date }}</span></div>
+                <div class="mb-3">Класс поступления <span class="float-right">{{ grade }}</span></div>
+                {% if form.profile %}
+                    <div class="mb-3">Профиль обучения <span class="float-right">{{ form.profile }}</span></div>
+                {% endif %}
+                <hr>
+                <div class="mb-3">{{ form.fio_mother.label }} <span class="float-right">{{ form.fio_mother }}</span></div>
+                <div class="mb-3">Номер телефона<span class="float-right">{{ form.phone_mother }}</span></div>
+                <hr>
+                <div class="mb-3">{{ form.fio_father.label }} <span class="float-right">{{ form.fio_father }}</span></div>
+                <div class="mb-3">Номер телефона<span class="float-right">{{ form.phone_father }}</span></div>
+                <div class="mb-3">В какой класс <span class="float-right">{{ form.grade }}</span></div>
+            </section>
+        </div>
+        <input class="btn btn-primary mt-3 ml-5" type="submit" value="Сохранить">
+    </form>
+</div>
+
+{#<div class="data_update container-fluid">#}
+{#    <form method="post" enctype="multipart/form-data">#}
+{#        {% csrf_token %}#}
+{#        {% bootstrap_form form layout='horizontal' %}#}
+{#        {% buttons submit='Сохранить' %}{% endbuttons %}#}
+{#    </form>#}
+{#</div>#}
+{% endblock %}
