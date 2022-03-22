@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% load bootstrap4 %}
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    {% block meta %}{% endblock %}
+    <title>{% block title %}Главная{% endblock %} - Приём учащихся</title>
+    {% bootstrap_css %}
+    {% block head %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'admission/multistepform/css/style.css' %}">
+    {% bootstrap_javascript jquery='slim' %}
+</head>
+{% block script %}{% endblock %}
+<body>
+    <header class="">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+            <a class="navbar-brand" href="#">Admission</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+{#                <li class="nav-item active">#}
+{#                    <a class="nav-link" href="{% url 'admission:index' %}">Главная <span class="sr-only">(current)</span></a>#}
+{#                </li>#}
+            {% if user.is_authenticated and not user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:main' %}">Мой профиль</a>
+                </li>
+            {% endif %}
+            {% if user.is_authenticated and user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:first_tour_register' %}">Первый тур</a>
+                </li>
+{#                {% block grades_nav %}{% endblock %}#}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                        Классы#}
+{#                    </a>#}
+{#                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                        #}
+{#                        <div class="dropdown-divider"></div>#}
+{#                        <a class="dropdown-item" href="#"></a>#}
+{#                    </div>#}
+{#                </li>#}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:checker' %}">Checker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:dublicate' %}">Дубликаты</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:moderator' %}">Модератор</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:set_extra_score' %}">Экстра балл</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:dashboard' %}">Dashboard</a>
+                </li>
+            {% endif %}
+            </ul>
+                <ul class="nav navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    {% if not user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admission:register' %}">Регистрация</a>
+                        </li>
+                    {% endif %}
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ user.username.title }}
+                            </a>
+                            <div class="dropdown-menu mr-5 dropdown-menu-right" aria-labelledby="navbarDropdown">
+{#                                <a class="dropdown-item" href="{_% url 'admission:user_profile' %}">Мой профиль</a>#}
+{#                              <a class="dropdown-item" href="{_% url 'admission:user_info_change' %}">Изменить личные данные</a>#}
+                                <a class="dropdown-item" href="{% url 'admission:reset' %}">Изменить пароль</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'admission:logout' %}">Выйти</a>
+                            </div>
+                        </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admission:login' %}">Вход</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="main">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 text-center">
+                        <h1>{% block profile %}{% endblock %}</h1>
+                    </div>
+                <div class="col d-flex justify-content-center">
+                    {% block grades_nav %}{% endblock %}
+                </div>
+                </div>
+            </div>
+        </section>
+        <section class="content py-2">
+            <div class="container-fluid">
+                <div class="row">
+                    {% block main_content %}
+                        <div class="col-12">
+                            {% block content %}{% endblock %}
+                        </div>
+                    {% endblock %}
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer d-flex justify-content-center">
+        <div>&copy; СУНЦ IT-лицей</div>
+    </footer>
+
+   {% block script_buttom %}{% endblock %}
+
+</body>
+</html>
