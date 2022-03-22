@@ -47,14 +47,14 @@ def get_part_info(participant: Participant):
     ]
 
 
-@staff_member_required()
-def test_email(request):
-    email = EmailMessage(email_subject,
-                         email_message,
-                         from_email=SERVER_EMAIL,
-                         to=[request.user.email])
-    email.send()
-    return render(request, 'profile/test.html')
+# @staff_member_required()
+# def test_email(request):
+#     email = EmailMessage(email_subject,
+#                          email_message,
+#                          from_email=SERVER_EMAIL,
+#                          to=[request.user.email])
+#     email.send()
+#     return render(request, 'profile/test.html')
 def main(request):
     # test_celery.delay(1)
     tour = Tour.objects.first()
