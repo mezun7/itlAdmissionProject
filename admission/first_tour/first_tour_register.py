@@ -23,8 +23,13 @@ from django.core.mail import send_mail, EmailMessage
 
 
 @staff_member_required
-def register_coming(request, grade_id=Group.objects.first().pk):
-# def register_coming(request, grade_id=Group.objects.first()):
+# def register_coming(request, grade_id=Group.objects.first().pk):
+def register_coming(request, grade_id=None):
+    if grade_id is None:
+        grade_id = Group.objects.first()
+        if grade_id is not None:
+            grade_id = grade_id.pk
+
     context = {
         'participants': Participant.objects.filter(grade_id=grade_id, first_name__isnull=False,
                                                    is_dublicate=False, first_tour_come_date__isnull=True).order_by(
