@@ -251,7 +251,3 @@ body {
 .cert-image-wrapper {
     width: 130px;
 }
-
-#id_out_of_competition, #id_out_of_competition + label {
-    display: none;
-}
