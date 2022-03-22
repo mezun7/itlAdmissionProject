@@ -1,16 +1,18 @@
-{% extends 'profile/base.html' %}
+{#{% extends 'profile/base.html' %}#}
+{% extends "layout/base.html" %}
+
 {% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'admission/css/adminlte.min.css' %}">
+{% endblock %}
 
 {% block title %}
     Dashboard
 {% endblock %}
 
 {% block profile %}
-         Dashboard
-{% endblock %}
-
-{% block right-navbar %}
-        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+    Dashboard
 {% endblock %}
 
 {% block breadcrumb %}
@@ -19,25 +21,27 @@
 
 {% block main_content %}
     <div class="col-md-6">
-
         {% include 'dashboard/charts/AllRegistrations.html' %}
         {% include 'dashboard/charts/ProfileChart.html' %}
-    {% include 'dashboard/charts/DatesChart.html' %}
-
-
+        {% include 'dashboard/charts/DatesChart.html' %}
     </div>
-
     <div class="col-md-6">
-            {% include 'dashboard/charts/ComingFirstTourRegister.html' %}
-            {% include 'dashboard/charts/OlympComingCheckStatus.html' %}
-            {% include 'dashboard/charts/OutOfCompetitionChart.html' %}
-            {% include 'dashboard/charts/genderChart.html' %}
+        {% include 'dashboard/charts/ComingFirstTourRegister.html' %}
+        {% include 'dashboard/charts/OlympComingCheckStatus.html' %}
+        {% include 'dashboard/charts/OutOfCompetitionChart.html' %}
+        {% include 'dashboard/charts/genderChart.html' %}
     </div>
-
 {% endblock %}
 
-
-{% block script %}
+{% block script_buttom %}
+    <!-- jQuery -->
+    <script src="{% static 'admission/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+{#    <script src="{% static 'admission/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>#}
+    <!-- AdminLTE App -->
+    <script src="{% static 'admission/js/adminlte.min.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+{#    <script src="{% static 'admission/js/demo.js' %}"></script>#}
     <script src="{% static 'admission/plugins/chart.js/Chart.min.js' %}"></script>
     <script src="{% static 'admission/js-charts/data-charts2.js' %}"></script>
 {% endblock %}

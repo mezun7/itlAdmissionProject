@@ -1,66 +1,59 @@
-{% extends "registration/base.html" %}
+{#{% extends "registration/base.html" %}#}
+{% extends "layout/base.html" %}
 {% load static %}
-{% block title %}
-    Авторизация
-{% endblock %}
+
+{% block title %}Авторизация{% endblock %}
+
 {% block content %}
     {% if next %}
-  {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-  {% endif %}
-{% endif %}
-
-<div class="row justify-content-center">
-    <div class="col-md-6 col-md-offset-3">
-
-        <form id="msform" method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-            <fieldset>
-               <div class="modal-header">
-        <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
-                </div><p></p>
-                <h2 class="fs-title">Войти</h2>
-            <h3 class="fs-subtitle alert-info">
-                                <ul class="text-blue">
-                                                {% if stop_register %}
-        Регистрация абитуриентов в 2021 году завершена.
+        {% if user.is_authenticated %}
+            <p>
+                Your account doesn't have access to this page. To proceed,
+                please login with an account that has access.
+            </p>
+        {% endif %}
     {% endif %}
-                                </ul>
-            </h3>
-                <h3 class="fs-subtitle alert-danger">
 
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            <form id="msform" method="post" action="{% url 'admission:login' %}">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="modal-header">
+                        <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
+                    </div>
+                    <h2 class="fs-title mt-4">Войти</h2>
+                    <h3 class="fs-subtitle alert-info">
+                        <ul class="text-blue">
+                            {% if stop_register %}
+                                Регистрация абитуриентов в 2021 году завершена.
+                            {% endif %}
+                        </ul>
+                    </h3>
+                    <h3 class="fs-subtitle alert-danger">
+                        <ul class="alert-danger">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </h3>
+                    {{ form.username }}
+                    {{ form.password }}
+                    <p class="mt-2"><a href="{% url 'admission:reset' %}">Забыли пароль?</a></p>
+                    <input type="submit" name="Submit" class="action-button mb-3" value="Войти"/>
+                    <div class="modal-footer d-flex justify-content-center">
+                        {% if not stop_register %}
+                            <div class="mt-2">
+                                <span>Не зарегистрированы?</span>
+                                <a href="{% url 'admission:register' %}">Зарегистрируйтесь.</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </fieldset>
+            </form>
 
-                    <ul class="alert-danger">
-
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    {% endfor %}
-                    </ul>
-                </h3>
-                {{ form.username }}
-                {{ form.password }}
-                <p><a href="{% url 'reset' %}">Забыли пароль?</a></p>
-                <input type="submit" name="Submit" class="action-button" value="Войти"/>
-            <div class="modal-footer">
-                {% if not stop_register %}
-                    <div class=""> Вы не зарегистрированы?
-                    <a href="{% url 'register' %}">Зарегистрируйтесь.</a>
-                {% endif %}
-
-
-                </div>
-                <div class="-align-left">
-
-                </div>
-            </div>
-            </fieldset>
-        </form>
-
+        </div>
     </div>
-</div>
-
-
 {% endblock %}

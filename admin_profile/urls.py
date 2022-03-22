@@ -11,8 +11,10 @@ from . import views
 from first_tour.appeal.teacher_view import appeals_list, appeal_person
 from admission import first_tour
 
+app_name = 'admin_profile'
+
 urlpatterns = [
-    path('profile/<int:pk>/', views.user_page, name='admin-porfile'),
+    path('profile/<int:pk>/', views.user_page, name='admin-profile'),
     path('list/', views.profiles_page, name='admin-list-profiles')
 
 ]

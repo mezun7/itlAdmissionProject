@@ -1,5 +1,6 @@
 import hashlib
 import datetime
+import os
 from django.utils import timezone
 
 from django.contrib.auth import authenticate, login
@@ -27,19 +28,20 @@ def main_page(request):
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
     print(appeal_order)
+    docs = file_info(participant.portfolio.all())
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
         'results': results,
-        'appeal_order': appeal_order
-
+        'appeal_order': appeal_order,
+        'docs': docs
     }
 
     if request.POST:
         form = UserAppealForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('main'))
+            return redirect(reverse('admission:main'))
 
     return render(request, 'profile/profile.html', context=context)
 
@@ -52,3 +54,12 @@ def profile_test_page(request):
     }
 
     return render(request, 'profile/profile.html', context=context)
+
+
+def file_info(file_names):
+    f_info = []
+    for x in file_names:
+        f = list(os.path.splitext(f'{x}'))
+        f[0] = f'{x}'
+        f_info.append({'name': f[0], 'ext': f[1]})
+    return f_info

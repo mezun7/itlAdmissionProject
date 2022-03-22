@@ -16,14 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-import admission
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('api/', include('api.urls')),
-    path('', include('admission.urls')),
-    path('utest/', include('upload_test_app.urls', namespace='upload_test_app')),
+    # path('', include('admission.urls')),
+    path('', include(('admission.urls', 'admission'), namespace='admission')),
     path('api/', include('api.urls')),
+    path('utest/', include('upload_test_app.urls', namespace='upload_test_app')),
+    # path('adm_api/', include('api.urls')),
     path('first_tour/', include('first_tour.urls')),
-    path('ap/', include('admin_profile.urls'))
+    path('ap/', include('admin_profile.urls')),
+    path('admin/', admin.site.urls),
+    path('', include('django.contrib.auth.urls')),
 ]

@@ -1,5 +1,5 @@
 /*custom font*/
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
+/*@import url(https://fonts.googleapis.com/css?family=Montserrat);*/
 
 /*basic reset*/
 * {
@@ -15,7 +15,17 @@ html {
 
 body {
     font-family: montserrat, arial, verdana;
-    background: transparent;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #dddddd;
+}
+
+.main {
+    border-top: 1px solid #dee2e6;
+    width: 90%;
+    min-height: 87.8vh!important;
+    margin: 0 auto;
+    background-color: #f4f6f9;
 }
 
 /*form styles*/
@@ -28,7 +38,7 @@ body {
 #msform fieldset {
     background: white;
     border: 0 none;
-    border-radius: 0px;
+    border-radius: 5px;
     box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
     padding: 20px 30px;
     box-sizing: border-box;
@@ -36,7 +46,7 @@ body {
     margin: 0 10%;
 
     /*stacking fieldsets above each other*/
-    position: relative;
+    /*position: relative;*/
 }
 @media all and (max-width: 480px) {
     #msform fieldset{
@@ -51,6 +61,7 @@ body {
 }
 
 /*inputs*/
+
 #msform input, #msform textarea, #msform select {
     padding: 15px;
     border: 1px solid #ccc;
@@ -61,6 +72,10 @@ body {
     font-family: montserrat;
     color: #2C3E50;
     font-size: 13px;
+}
+
+#msform input, #msform select {
+    font-size: 16px;
 }
 
 #msform input:focus, #msform textarea:focus {
@@ -78,14 +93,16 @@ body {
 /*buttons*/
 #msform .action-button {
     width: auto;
+    height: 42px;
     background: #1f5bff;
     font-weight: bold;
     color: white;
     border: 0 none;
-    border-radius: 25px;
+    border-radius: 5px;
     cursor: pointer;
-    padding: 10px 5px;
-    margin: 10px 5px;
+    padding: 10px 20px;
+    /*margin: 10px 5px;*/
+    font-size: 14px;
 }
 
 #msform .action-button:hover, #msform .action-button:focus {
@@ -203,4 +220,38 @@ body {
 .dme_link a:hover, .dme_link a:focus {
     background: #C5C5F1;
     text-decoration: none;
+}
+
+.main-footer {
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+    color: #869099;
+    padding: 1rem;
+}
+
+.data_update input {
+    width: 420px;
+    padding-left: 10px;
+    height: 32px;
+}
+
+.data_update select {
+    width: 420px;
+    height: 32px;
+}
+
+.cert-image {
+    width: 105px;
+    height: 148px;
+    /*object-fit: cover;*/
+    object-fit: contain;
+    border: solid grey 1px;
+}
+
+.cert-image-wrapper {
+    width: 130px;
+}
+
+#id_out_of_competition, #id_out_of_competition + label {
+    display: none;
 }

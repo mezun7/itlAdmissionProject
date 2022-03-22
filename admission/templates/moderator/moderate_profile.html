@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block right-navbar %}
-        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+        <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -140,7 +140,7 @@
               {% endif %}
 
               </div>
-            <form method="post" action="{% url 'profile-moderate'  participant.id %}">
+            <form method="post" action="{% url 'admission:profile-moderate'  participant.id %}">
             <div class="row justify-content-center">
 
                     {% csrf_token %}

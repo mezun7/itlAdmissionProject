@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block right-navbar %}
-        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
+        <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -21,7 +21,7 @@
 {% block left-navbar %}
     {% for tour in tours %}
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="{% url 'final-table' tour.tour_order tour.pk %}" class="nav-link">{{ tour.grade }}  {% if tour.profile %}
+          <a href="{% url 'first_tour:final-table' tour.tour_order tour.pk %}" class="nav-link">{{ tour.grade }}  {% if tour.profile %}
                 класс, {{ tour.profile.name }}
               {% else %}
                 класс

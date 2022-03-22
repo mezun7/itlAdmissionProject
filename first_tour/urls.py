@@ -14,6 +14,8 @@ from admission import first_tour
 from .final_results.main_raiting import main_table, journal_with_photos, edit_mark
 from .views import get_registered
 
+app_name = 'first_tour'
+
 urlpatterns = [
     path('main/', views.main, name='test-email'),
     path('appeal/', appeals_list, name='appeal-list'),

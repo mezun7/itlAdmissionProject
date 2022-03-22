@@ -2,7 +2,9 @@ from django.conf.urls import url
 from django.urls import path
 
 from . import views
+
 app_name = 'upload_test_app'
+
 urlpatterns = [
     path('clear/', views.clear_database, name='clear_database'),
     path('basic-upload/', views.BasicUploadView.as_view(), name='basic_upload'),

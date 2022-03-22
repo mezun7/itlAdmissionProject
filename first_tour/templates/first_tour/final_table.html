@@ -67,7 +67,7 @@ td {
                                 {{ res.score }}
                             {% endifequal %}
                             {% if request.GET.edit %}
-                                (<a href="{% url 'mark_edit' res.pk %}?from={{ request.path }}?edit=true">E</a>)
+                                (<a href="{% url 'first_tour:mark_edit' res.pk %}?from={{ request.path }}?edit=true">E</a>)
                             {% endif %} 
 
                         {% else %}

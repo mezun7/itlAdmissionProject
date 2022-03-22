@@ -32,18 +32,19 @@ def get_value_str(obj):
 
 
 def get_part_info(participant: Participant):
-    return [str(participant.id),
-            ' '.join([participant.last_name, participant.first_name, participant.fathers_name]),
-            get_value_str(participant.phone_party),
-            str(participant.grade.number),
-            get_value(participant.profile),
-            participant.school,
-            get_party_register(participant),
-            get_value_str(participant.fio_mother),
-            get_value_str(participant.phone_mother),
-            get_value_str(participant.fio_father),
-            get_value_str(participant.phone_father)
-            ]
+    return [
+        str(participant.id),
+        ' '.join([participant.last_name, participant.first_name, participant.fathers_name]),
+        get_value_str(participant.phone_party),
+        str(participant.grade.number),
+        get_value(participant.profile),
+        participant.school,
+        get_party_register(participant),
+        get_value_str(participant.fio_mother),
+        get_value_str(participant.phone_mother),
+        get_value_str(participant.fio_father),
+        get_value_str(participant.phone_father)
+    ]
 
 
 def main(request):
@@ -73,11 +74,13 @@ def main(request):
 
 @staff_member_required
 def get_registered(request):
-    nxt = NextTourPass.objects.filter(tour__tour_order=2).order_by('type_of_pass',
-                                                                   'tour__grade__number',
-                                                                   'tour__profile__name',
-                                                                   'participant__last_name',
-                                                                   'participant__first_name')
+    nxt = NextTourPass.objects.filter(tour__tour_order=2).order_by(
+        'type_of_pass',
+        'tour__grade__number',
+        'tour__profile__name',
+        'participant__last_name',
+        'participant__first_name'
+    )
     s = 'id;fio;phone;grade;profile;school;registration;parent1;phone1;parent2;phone2\n'
     for u in nxt:
         tmp = ';'.join(get_part_info(u.participant) + [u.type_of_pass])

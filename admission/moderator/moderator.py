@@ -28,10 +28,12 @@ button_type = {
 @staff_member_required
 def moderator(request):
     context = {}
-    participants = Participant.objects.filter(out_of_competition=True, privilege_status=None,
-                                              is_dublicate=False).order_by('grade__number',
-                                                                           'first_name',
-                                                                           'last_name')
+    participants = Participant.objects.filter(
+        out_of_competition=True,
+        privilege_status=None,
+        is_dublicate=False
+    ).order_by('grade__number', 'first_name', 'last_name')
+
     context['participants'] = participants
 
     return render(request, 'moderator/index.html', context)
@@ -48,7 +50,7 @@ def moderate(request, profile_id):
             if button_type[request.POST['status']] == 'D':
                 participant.is_dublicate = True
                 participant.save()
-                return redirect('moderator')
+                return redirect('admission:moderator')
             message = form.save(commit=False)
             message.moderator = moder_user
             message.participant = participant
@@ -63,7 +65,7 @@ def moderate(request, profile_id):
                                  from_email=SERVER_EMAIL,
                                  to=[participant.user.email])
             email.send()
-            return redirect('moderator')
+            return redirect('admission:moderator')
 
         # print()
 
@@ -79,25 +81,29 @@ def moderate(request, profile_id):
 
 @staff_member_required
 def dublicate_check(request):
-    participants = Participant.objects.filter(Q(out_of_competition=False) | Q(out_of_competition__isnull=True),
-                                              is_dublicate=False,
-                                              first_name__isnull=False,
-                                              is_checked=False).order_by('last_name',
-                                                                         'first_name')
+    participants = Participant.objects.filter(
+        Q(out_of_competition=False) | Q(out_of_competition__isnull=True),
+        is_dublicate=False,
+        first_name__isnull=False,
+        is_checked=False
+    ).order_by('last_name', 'first_name')
+
     context = {
         'participants': participants,
         'accept': 'Дубликат',
         'reject': 'Пропустить',
-        'action': reverse('dublicate')
+        'action': reverse('admission:dublicate')
     }
+
     action_list = {
         'Дубликат': set_duplicate_status,
         'Пропустить': set_skip_status
     }
+
     if request.POST:
         key = list(request.POST.keys())[-1]
         action_list[request.POST[key]](key)
-        return redirect('dublicate')
+        return redirect('admission:dublicate')
 
     return render(request, 'moderator/dublicate_check.html', context)
 

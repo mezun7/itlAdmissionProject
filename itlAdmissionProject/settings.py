@@ -39,10 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'admission.apps.AdmissionConfig',
     'crispy_forms',
-    'api.apps.ApiConfig',
+    'bootstrap4',
     'upload_test_app.apps.UploadTestAppConfig',
     'first_tour.apps.FirstTourConfig',
-    'admin_profile.apps.AdminProfileConfig'
+    'admin_profile.apps.AdminProfileConfig',
+    'api.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
@@ -96,6 +97,19 @@ if platform.system() in ['Darwin', 'win32']:
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.sqlite3',
+#         # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'localhost',
+#         'NAME': 'admis',
+#         'PORT': '3306',
+#         'USER': 'user',
+#         'PASSWORD': '^@@AdiParola01'
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
@@ -135,18 +149,23 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/proxy/'
 LOGIN_URL = '/login/'
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.office365.com'
 # EMAIL_PORT = 587
 # EMAIL_HOST_USER = 'apply-itl@itl4u.ru'
 # EMAIL_HOST_PASSWORD = 'UUxlh284'
+
 EMAIL_USE_TLS = False
 EMAIL_HOST = 'ex.kpfu.ru'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = r'int\apply-itl'
 EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
 SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 MAIN_HOST = "http://127.0.0.1/"
 DOMAIN = 'apply.kpfu.ru'
 PROTOCOL = 'https'
@@ -155,9 +174,9 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'med
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-REGISTER_END_DATE = datetime.date(2021, 5, 13)
-APPEAL_START_TIME = datetime.datetime(2021, 5, 22, 13, 0, 0)
-APPEAL_ANNOUNCE_TIME = datetime.datetime(2021, 5, 22, 12, 30, 0)
+REGISTER_END_DATE = datetime.date(2022, 5, 13)
+APPEAL_START_TIME = datetime.datetime(2022, 5, 22, 13, 0, 0)
+APPEAL_ANNOUNCE_TIME = datetime.datetime(2022, 5, 22, 12, 30, 0)
 APPEAL_PERIOD_MINUTES = 5
 # REDIS related settings
 REDIS_HOST = 'localhost'

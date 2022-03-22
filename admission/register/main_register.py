@@ -21,18 +21,18 @@ today = datetime.date.today()
 
 def register(request):
     if today > REGISTER_END_DATE:
-        return redirect('login')
+        return redirect('admission:login')
     if request.user.is_authenticated:
-        return redirect('proxy')
+        return redirect('admission:proxy')
     return render(request, 'registration/register.html')
 
 
 def register_2(request):
     context = {}
     if today > REGISTER_END_DATE:
-        return redirect('login')
+        return redirect('admission:login')
     if request.user.is_authenticated:
-        return redirect('proxy')
+        return redirect('admission:proxy')
 
     form = RegisterForm()
     if request.POST:
@@ -53,7 +53,7 @@ def register_2(request):
             participant.grade = form.cleaned_data['grade_to_enter']
             participant.save()
 
-            return HttpResponseRedirect(reverse('register3'))
+            return HttpResponseRedirect(reverse('admission:register3'))
 
     context['form'] = form
 
@@ -64,16 +64,18 @@ def register_2(request):
 def register_3(request):
     context = {}
     participant = Participant.objects.get(user=request.user)
+    # form = ChildInfo(instance=participant)
     form = ChildInfo(instance=participant, **{'participant': participant})
     context['olympiads'] = [olympiad.text for olympiad in Olympiad.objects.all()]
     if request.POST:
+        # form = ChildInfo(request.POST, instance=participant)
         form = ChildInfo(request.POST, instance=participant, **{'participant': participant})
         if form.is_valid():
             form.save()
             participant = Participant.objects.get(user=request.user)
             participant.reg_status = 4
             participant.save()
-            return redirect('register4')
+            return redirect('admission:register4')
         else:
             pass
             # print(form.cleaned_data['birthday'])
@@ -100,7 +102,7 @@ def confirm(request, activation_key):
             'message': "Вы успешно подтвердили свой email. Мы вас перенаправим на другую страницу."
         }
         login(request, user)
-        return render(request, 'registration/error.html', context)
+        return render(request, 'registration/../../templates/registration/error.html', context)
     except (User.DoesNotExist, Participant.DoesNotExist):
         error = ''
         context = {
@@ -108,7 +110,7 @@ def confirm(request, activation_key):
             'title': "Ошибка",
             'message': "Неверный ключ активации."
         }
-        return render(request, 'registration/error.html', context)
+        return render(request, 'registration/../../templates/registration/error.html', context)
 
 
 @login_required()

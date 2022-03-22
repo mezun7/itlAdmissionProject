@@ -23,13 +23,16 @@ def get_results():
 def get_result_user(pk, exclude_date=False):
     participant = Participant.objects.get(pk=pk)
     if exclude_date:
-        tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
-                                    grade=participant.grade,
-                                    ).order_by('tour_order')
+        tours = Tour.objects.filter(
+            Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
+            grade=participant.grade,
+        ).order_by('tour_order')
     else:
-        tours = Tour.objects.filter(Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
-                                    grade=participant.grade,
-                                    results_release_date__lte=datetime.datetime.now()).order_by('tour_order')
+        tours = Tour.objects.filter(
+            Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
+            grade=participant.grade,
+            results_release_date__lte=datetime.datetime.now(),
+        ).order_by('tour_order')
     print(tours)
     results = []
 
@@ -43,11 +46,14 @@ def get_result_user(pk, exclude_date=False):
         except NextTourPass.DoesNotExist:
             passing_type = None
         final_release_date = tour.results_release_date
-        results.append(ResultParticipant(party_results,
-                                         result_release_date=final_release_date,
-                                         final_result_release_date=tour.final_result_release_date,
-                                         passing_type=passing_type,
-                                         tour=tour,
-                                         portfolio_score=participant.extra_score, participant=participant)
-                       )
+        results.append(
+            ResultParticipant(
+                party_results,
+                result_release_date=final_release_date,
+                final_result_release_date=tour.final_result_release_date,
+                passing_type=passing_type,
+                tour=tour,
+                portfolio_score=participant.extra_score, participant=participant
+            )
+        )
     return results

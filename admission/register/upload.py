@@ -14,7 +14,7 @@ class UploadView(View):
     def get(self, request):
         form = PortfolioForm(instance=Participant.objects.get(user=request.user))
         files_list = Participant.objects.get(user=request.user).portfolio.all()
-        return render(self.request, 'registration/register4.html', {'files': files_list,
+        return render(self.request, 'registration/../../templates/registration/register4.html', {'files': files_list,
                                                                     'form': form})
 
     def post(self, request):
@@ -35,16 +35,16 @@ class UploadView(View):
 
 class PortfolioUploadView(View):
     def get(self, request):
-        return HttpResponseRedirect(redirect('register4'))
+        return HttpResponseRedirect(redirect('admission:register4'))
 
     def post(self, request):
         form = PortfolioForm(self.request.POST, instance=Participant.objects.get(user=request.user))
-        base_url = reverse('register4')
+        base_url = reverse('admission:register4')
         url = f'{base_url}'
         if form.is_valid():
             # print(form.fields())
             form.save()
-            return redirect('register-done')
+            return redirect('admission:register-done')
         else:
             query_string = urlencode({'error': True})
             url = f'{base_url}?{query_string}'

@@ -1,19 +1,18 @@
+{% extends "layout/base.html" %}
 
-{% extends 'profile/base.html' %}
- {% load static %}
+{% load static %}
 {% block content %}
 
-    <form method="post" action="{% url "test-email" %}">
+    <form method="post" action="{% url "first_tour:test-email" %}">
         {% csrf_token %}
-    {{ formset.management_form }}
+        {{ formset.management_form }}
         {% for form in formset %}
-
             {{ form.as_p }}
 {#            {{ form.appeal_score }}#}
 {##}
 {#            {{ form.exam_subject }}#}
             {{ form.subject_name }}
         {% endfor %}
-
-    <input type="submit"></form>
+    <input type="submit">
+    </form>
 {% endblock %}

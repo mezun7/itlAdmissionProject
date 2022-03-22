@@ -39,7 +39,7 @@ def set_extra_score(request):
     context = {
         'participants': page_obj,
         'left': len(participants),
-        'action': "%s?page=%d" % (reverse('set_extra_score'), page_number),
+        'action': "%s?page=%d" % (reverse('admission:set_extra_score'), page_number),
         'accept': '+10',
         'reject': '+5',
         'skip': '0',

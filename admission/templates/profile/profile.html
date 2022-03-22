@@ -1,111 +1,146 @@
-{% extends 'profile/base.html' %}
+{#{% extends 'profile/base.html' %}#}
+{% extends "layout/base.html" %}
+
 {% load static %}
+
 {% block title %}
     Личный кабинет
 {% endblock %}
+
+{% block head %}
+<!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'admission/plugins/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admission/css/adminlte.min.css' %}">
+{% endblock %}
+
 {% block profile %}
-    Личный кабинет абитуриента
+    Личный кабинет поступающего
 {% endblock %}
 
-{% block right-navbar %}
-    <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
-{% endblock %}
-
-{% block breadcrumb %}
-
-{% endblock %}
+{#{% block right-navbar %}#}
+{#    <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>#}
+{#{% endblock %}#}
 
 {% block content %}
-    <div class="card card-primary card-outline">
+    <div class="card card-primary card-outline p-3">
         <div class="card-body box-profile">
             <div class="text-center">
                 <img class="profile-user-img img-fluid img-circle"
-                     src="{% ifequal participant.gender M %}
+                     src="{% ifequal participant.gender 'M' %}
                                 {% static 'admission/img/avatar5.png' %}
                             {% else %}
                                 {% static 'admission/img/avatar2.png' %}
-                            {% endifequal %}
-                       "
-                     alt="User profile picture">
+                            {% endifequal %}"
+                     alt="User profile picture"
+                >
             </div>
 
             <h3 class="profile-username text-center">{{ participant.last_name |title }} {{ participant.first_name |title }} {{ participant.fathers_name |title }}</h3>
-            <div class="text-center">
-                <b class="">ВАШ ID:   </b><b class="text-muted text-center">{{ participant.id }}</b>
+            <div class="text-center my-2">
+                <b>ВАШ ID:   </b><b class="text-muted text-center">{{ participant.id }}</b>
             </div>
             <div class="row">
                 <div class="col">
                     <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <div class="row">
-                                <div class="col">
-                                    <b>Класс поступления</b> <a class="float-right">{{ participant.grade }}</a>
-                                </div>
-                                {% if participant.grade.number > 9 %}
-                                    <div class="col">
-                                        <b>Профиль обучения</b> <a class="float-right">{{ participant.profile }}</a>
-                                    </div>
-                                {% endif %}
+                        <div class="list-group-item px-2">
+                            <b>Класс поступления</b>
+                            <a class="float-right">{{ participant.grade }}</a>
+                        </div>
+                        {% if participant.grade.number > 9 %}
+                            <div class="list-group-item px-2">
+                                <b>Профиль обучения</b>
+                                <a class="float-right">{{ participant.profile }}</a>
                             </div>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Дата написания 1 тура</b> <a class="float-right">{{ participant.first_tour_register_date.date }}</a>
-                        </li>
-                        <li class="list-group-item">
+                        {% endif %}
+                        <div class="list-group-item px-2">
+                            <b>Дата написания 1 тура</b>
+                            <a class="float-right">{{ participant.first_tour_register_date.date }}</a>
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Дата рождения</b> <a class="float-right">{{ participant.birthday}}</a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Место рождения</b> <a class="float-right">{{ participant.place_of_birth}}</a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Пол</b> <a class="float-right">{% ifequal participant.gender 'M' %}
                             Мужской
                         {% else %}
                             Женский
                         {% endifequal %}</a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Город проживания</b> <a class="float-right">{{ participant.lives }}</a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Школа</b> <a class="float-right">{{ participant.school }}</a>
-                        </li>
+                        </div>
                     </ul>
                 </div>
 
                 <div class="col">
-                    <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>ФИО мамы</b> <a class="float-right">{{ participant.fio_mother}}</a>
-                        </li>
-                        <li class="list-group-item">
+                    <div class="list-group list-group-unbordered mb-3">
+                        <div class="list-group-item px-2">
+                            <b>Номер телефона поступающего</b> <a class="float-right">{{ participant.phone_party }}</a>
+                        </div>
+                        <div class="list-group-item px-2">
+                            <b>ФИО матери</b> <a class="float-right">{{ participant.fio_mother}}</a>
+                        </div>
+                        <div class="list-group-item px-2">
+                            <b>Номер телефона матери</b> <a class="float-right">{{ participant.phone_mother}}</a>
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>ФИО отца</b> <a class="float-right">{{ participant.fio_father}}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Контактные данные ребенка</b> <a class="float-right">{{ participant.phone_party }}</a>
-                        </li>
-                        <li class="list-group-item">
-                            <b>Контактные данные родителей</b> <a class="float-right">{{ participant.phone_mother}}; {{ participant.phone_father}}</a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
+                            <b>Номер телефона отца</b> <a class="float-right">{{ participant.phone_father}}</a>
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>email</b> <a class="float-right">{{ participant.user.email}} </a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Вне конкурса?</b> <a class="float-right">{% if participant.out_of_competition %}
                             Да
                         {% else %}
                             Нет
                         {% endif %} </a>
-                        </li>
-                        <li class="list-group-item">
+                        </div>
+                        <div class="list-group-item px-2">
                             <b>Количество загруженных дипломов</b> <a class="float-right">{{ participant.portfolio.all|length}}</a>
-                        </li>
-                    </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            {#                  <div class="text-center">#}
-            {#                <a href="#" class="btn btn-primary"><b>Изменить данные</b></a>#}
-            {#                      </div>#}
+            <div class="text-center">
+                <a href="{% url 'admission:profile_change' %} " class="btn btn-primary"><b>Изменить данные</b></a>
+            </div>
+            {% if docs %}
+                <hr>
+                <div class="container-fluid mt-3">
+                    <h5 class="text-center">Загруженные дипломы</h5>
+                    <div class="d-flex justify-content-center flex-wrap mt-3 mx-2">
+                      {% for doc in docs %}
+                          {% if doc.ext == '.pdf' %}
+                              <div class="cert-image-wrapper text-center mx-2">
+                                  <a href="/media/{{ doc.name }}">
+                                    <img src="{% static 'admission/img/PDF_file_icon.png' %}" height="105"  alt="{{ doc.name }}">
+                                  </a>
+                                  <p class="text-break text-center">{{ doc.name }}</p>
+                              </div>
+                          {% else %}
+                              <div class="cert-image-wrapper text-center mx-2">
+                                  <a href="/media/{{ doc.name }}">
+                                      <img class="cert-image" src="/media/{{ doc.name }}" alt="{{ doc.name }}">
+                                  </a>
+                                  <p class="text-break text-center">{{ doc.name }}</p>
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <!-- /.card-body -->
     </div>
@@ -140,13 +175,6 @@
                     {% for message in messages %}
                         {% include 'profile/messages/moderator_result.html' %}
                     {% endfor %}
-
-
-
-
-                    {#                        </div>#}
-
-
                     <!-- END timeline item -->
                     <div>
                         <i class="far fa-clock bg-gray"></i>

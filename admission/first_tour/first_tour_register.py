@@ -24,6 +24,7 @@ from django.core.mail import send_mail, EmailMessage
 
 @staff_member_required
 def register_coming(request, grade_id=Group.objects.first().pk):
+# def register_coming(request, grade_id=Group.objects.first()):
     context = {
         'participants': Participant.objects.filter(grade_id=grade_id, first_name__isnull=False,
                                                    is_dublicate=False, first_tour_come_date__isnull=True).order_by(
@@ -31,7 +32,7 @@ def register_coming(request, grade_id=Group.objects.first().pk):
 
         'grades': Group.objects.all(),
         'current_grade': Group.objects.get(pk=grade_id),
-        'action': reverse('first_tour_register',
+        'action': reverse('admission:first_tour_register',
                           kwargs={
                               'grade_id': grade_id
                           }),

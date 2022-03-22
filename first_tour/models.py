@@ -93,14 +93,14 @@ class ExamResult(models.Model):
     exam_subject = models.ForeignKey(ExamSubject, on_delete=models.CASCADE, verbose_name='Предмет')
     score = models.FloatField(verbose_name='Набранный балл')
     comment = models.CharField(max_length=500, blank=True, null=True, verbose_name='Комментарий')
-    appeal_application = models.CharField(max_length=10, verbose_name='Заявился на аппеляцию?', blank=True, null=True,
+    appeal_application = models.CharField(max_length=10, verbose_name='Заявился на апелляцию?', blank=True, null=True,
                                           choices=APPEAL_STATUSES)
-    appeal_reason = models.CharField(max_length=1000, verbose_name='Причина аппеляции', blank=True, null=True)
-    appeal_score = models.FloatField(verbose_name='Аппелляционный балл', blank=True, null=True)
-    is_absent_appeal = models.BooleanField(verbose_name='Отсутствовал на аппелляции', default=False)
+    appeal_reason = models.CharField(max_length=1000, verbose_name='Причина апелляции', blank=True, null=True)
+    appeal_score = models.FloatField(verbose_name='Апелляционный балл', blank=True, null=True)
+    is_absent_appeal = models.BooleanField(verbose_name='Отсутствовал на апелляции', default=False)
 
-    appeal_time = models.DateTimeField(verbose_name='Время аппелляции', blank=True, null=True)
-    appeal_user = models.ForeignKey(AppealUser, verbose_name='Учителя аппеллирующий', blank=True, null=True,
+    appeal_time = models.DateTimeField(verbose_name='Время апелляции', blank=True, null=True)
+    appeal_user = models.ForeignKey(AppealUser, verbose_name='Учителя апеллирующий', blank=True, null=True,
                                     on_delete=models.CASCADE)
 
     def __str__(self):
@@ -133,7 +133,7 @@ class UserAppeal(models.Model):
     tour = models.ForeignKey(Tour, on_delete=models.CASCADE, verbose_name=u'Тур')
     is_absent_appeal = models.BooleanField(null=True, blank=True, verbose_name='Пропустил аппелляцию')
     appeal_reason = models.CharField(max_length=2000, verbose_name=u'Причина аппелляции')
-    appeal_apply_time = models.DateTimeField(default=now(), verbose_name='Время подачи заявления')
+    appeal_apply_time = models.DateTimeField(auto_now_add=True, verbose_name='Время подачи заявления')
 
 
 class TourParticipantScan(models.Model):

@@ -1,25 +1,23 @@
-    <div class="modal fade" id="tour{{ result.tour.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Подать аппелляцию</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <form method="post" class="" action="{% url 'main' %}">
-            {% csrf_token %}
-      <div class="modal-body">
-          <h3 class="alert-danger">Укажите, пожалуйста, предмет и причину аппеллирования.</h3>
-
-            {{ result.form.as_p }}
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-        <input type="submit" class="btn btn-primary" value="Отправить заявку"/>
-      </div>
-        </form>
+<div class="modal fade" id="tour{{ result.tour.pk }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Подать апелляцию</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" class="" action="{% url 'admission:main' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <h3 class="alert-danger">Укажите, пожалуйста, предмет и причину апеллирования.</h3>
+                    {{ result.form.as_p }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    <input type="submit" class="btn btn-primary" value="Отправить заявку"/>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
 </div>

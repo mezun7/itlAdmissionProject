@@ -1,6 +1,9 @@
 {% autoescape off %}
 Здравствуйте. Вы зарегистрировались в системе регистрации на прием в IT-лицей КФУ
+
 Ваш логин: {{ user }}
-Пожалуйста, подтвердите свой email, перейдя по ссылке даллее,
-{{ protocol }}://{{ domain }}{% url 'confirm' activation_key=activation_key2 %}
+Пожалуйста, подтвердите свой email, перейдя по ссылке далее,
+{{ protocol }}://{{ domain }}{% url 'admission:confirm' activation_key=activation_key2 %}
+
+Пожалуйста, проигнорируйте данное письмо, если оно попало к Вам по ошибке.
 {% endautoescape %}

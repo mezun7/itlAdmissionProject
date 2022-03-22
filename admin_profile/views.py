@@ -44,7 +44,7 @@ def user_page(request, pk):
         form = UserAppealForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse('main'))
+            return redirect(reverse('admission:main'))
 
     return render(request, 'profile/profile.html', context=context)
 

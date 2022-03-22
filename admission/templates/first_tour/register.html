@@ -1,49 +1,62 @@
-{% extends 'profile/base.html' %}
- {% load static %}
+{#{% extends 'profile/base.html' %}#}
+{% extends "layout/base.html" %}
+{% load static %}
 {% block title %}
             Список участников
 {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'admission/css/adminlte.min.css' %}">
+{% endblock %}
+
 {% block profile %}
-         Регистрация абитуриентов на Первый тур. ({{ current_grade }} классы)
+    Регистрация абитуриентов на Первый тур в {{ current_grade }} класс
+    (<span class="text-muted">Пришли {{ processed }} из {{ overall }}</span>)
 {% endblock %}
 
-{% block right-navbar %}
-        <a class="btn btn-primary" href="{% url 'logout' %}">Выйти</a>
-{% endblock %}
-
-{% block breadcrumb %}
-
-{% endblock %}
-{% block left-navbar %}
-    {% for grade in grades %}
-        <li class="nav-item d-none d-sm-inline-block">
-          <h4>  <a href="{% url 'first_tour_register' grade.pk %}" class="nav-link">{{ grade }} класс</a></h4>
-        </li>
-    {% endfor %}
-
-                <li class="nav-item d-none d-sm-inline-block">
-                    <h4>  <span class="nav-link">Пришли {{ processed }} из {{ overall }}</span></h4>
+{% block grades_nav %}
+    <nav class="navbar navbar-expand-lg p-0">
+        <ul class="navbar-nav">
+        {#        <li class="nav-item active">#}
+        {#            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>#}
+        {#        </li>#}
+            {% for grade in grades %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:first_tour_register' grade.pk %}" class="dropdown-item">{{ grade }} класс</a>
                 </li>
-
-
+            {% endfor %}
+        </ul>
+    </nav>
 {% endblock %}
+
+{#{% block left-navbar %}#}
+{#{% block grades_nav %}#}
+{#    <li class="nav-item dropdown">#}
+{#        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#            Классы#}
+{#        </a>#}
+{#        <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                {% for grade in grades %}#}
+                {#    <li class="nav-item d-none d-sm-inline-block">#}
+                {#        <h4>#}
+{#                            <a href="{% url 'admission:first_tour_register' grade.pk %}" class="dropdown-item">{{ grade }} класс</a>#}
+                {#        </h4>#}
+                {#    </li>#}
+{#                {% endfor %}#}
+{#            <div class="dropdown-divider"></div>#}
+{#            <a class="dropdown-item" href="#"></a>#}
+{#        </div>#}
+{#    </li>#}
+{#{% endblock %}#}
+
 {% block content %}
- <div class="card card-primary card-outline">
-              <div class="card-body box-profile">
-
-
-                <div class="row justify-content-center">
-                    <div class="col-auto">
-                                      {% include 'first_tour/first_tour_register_table.html' %}
-        </div>
-                    </div>
-{#                  <div class="text-center">#}
-{#                <a href="#" class="btn btn-primary"><b>Изменить данные</b></a>#}
-{#                      </div>#}
-              </div>
-              <!-- /.card-body -->
+    <div class="card card-primary card-outline">
+        <div class="card-body box-profile">
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    {% include 'first_tour/first_tour_register_table.html' %}
+                </div>
             </div>
-            <!-- /.card -->
-
-            <!-- /.card -->
+        </div>
+    </div>
 {% endblock %}

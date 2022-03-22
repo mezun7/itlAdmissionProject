@@ -92,7 +92,7 @@ def appeal_person(request, pk):
         print(formset.errors)
         if formset2.is_valid():
             formset2.save()
-            return redirect('appeal-list')
+            return redirect('admission:appeal-list')
 
     # print(tour.id)
     context = {

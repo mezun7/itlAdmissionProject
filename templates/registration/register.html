@@ -1,12 +1,13 @@
-{% extends 'registration/base.html' %}
+{#{% extends 'registration/base.html' %}#}
+{% extends "layout/base.html" %}
 {% block title %}
 Регистрация
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
+<div class="row d-flex justify-content-center">
     <div class="col-md-6 col-md-offset-3">
-        <form id="msform" method="post" action="{% url 'register' %}">
+        <form id="msform" method="post" action="{% url 'admission:register' %}">
             <!-- progressbar -->
             <ul id="progressbar">
                 <li class="active">Общая информация</li>
@@ -17,20 +18,28 @@
             <!-- fieldsets -->
             <fieldset>
                 <h2 class="fs-title">Здравствуйте, абитуриенты и их родители!</h2>
-                <h3 class="fs-subtitle">Для того, чтобы зарегистрироваться на вступительные испытания в IT-лицей КФУ, вам понадобятся следующие данные ребенка:</h3>
-               <h4> <ol class="text-left fs-subtitle">
-                    <li>ФИО ребенка.</li>
-                    <li>Дата и место рождения ребенка.</li>
-                    <li>ФИО родителей/законных представителей.</li>
-                    <li>Контактные данные одного из родителей.</li>
-                    <li>Полное наименование образовательной организации по Уставу.</li>
-                    <li>Город/район проживания.</li>
-                    <li>Действующий электронный адрес, на который мы будем отпралять уведомления, связанные с вступительными испытаниями.</li>
-                    <li>Портфолио ребенка. </li>
-{#                    <li>Особенности поступления.</li>#}
-{#                    <li>Портфолио ребенка.</li>#}
-                </ol></h4>
-                <a class="button next action-button " href="{% url 'register2' %}">Приступить</a>
+                <div>
+                    Для того, чтобы зарегистрироваться на вступительные испытания в IT-лицей КФУ,
+                    вам понадобятся следующие данные ребенка:
+                </div>
+               <div class="m-3">
+                   <ol class="text-left">
+                        <li>ФИО ребенка.</li>
+                        <li>Дата и место рождения ребенка.</li>
+                        <li>ФИО родителей/законных представителей.</li>
+                        <li>Контактные данные одного из родителей.</li>
+                        <li>Полное наименование образовательной организации по Уставу.</li>
+                        <li>Город/район проживания.</li>
+                        <li>
+                            Действующий электронный адрес, на который мы будем отправлять уведомления,
+                            связанные с вступительными испытаниями.
+                        </li>
+                        <li>Портфолио ребенка. </li>
+    {#                    <li>Особенности поступления.</li>#}
+    {#                    <li>Портфолио ребенка.</li>#}
+                    </ol>
+               </div>
+                <a class="btn next action-button" href="{% url 'admission:register2' %}">Приступить</a>
 {#                <input type="button" name="next" class="next action-button" value="Приступить"/>#}
             </fieldset>
         </form>

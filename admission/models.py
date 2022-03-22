@@ -62,11 +62,18 @@ class FileType(models.Model):
 
 class File(models.Model):
     file_type = models.ForeignKey(FileType, verbose_name='Тип файла', on_delete=models.CASCADE, blank=True, null=True)
-    file = models.FileField(verbose_name='Файл', blank=True, null=True,
-                            validators=[FileExtensionValidator(['pdf', 'jpeg', 'jpg', 'png'],
-                                                               message='Запрещенный формат файла.'),
-                                        file_size
-                                        ])
+    file = models.FileField(
+        verbose_name='Файл',
+        blank=True,
+        null=True,
+        validators=[
+            FileExtensionValidator(
+                ['pdf', 'jpeg', 'jpg', 'png'],
+                message='Запрещенный формат файла.'
+            ),
+            file_size
+        ]
+    )
 
     def __str__(self):
         return str(self.file)
@@ -78,8 +85,8 @@ class Participant(models.Model):
     first_name = models.CharField(max_length=200, verbose_name='Имя', null=True, blank=True)
     last_name = models.CharField(max_length=200, verbose_name='Фамилия', null=True, blank=True)
     fathers_name = models.CharField(max_length=100, verbose_name='Отчество', null=True, blank=True)
-    birthday = models.DateField(verbose_name='Дата рождения абитуриента', null=True, blank=True)
-    place_of_birth = models.CharField(max_length=100, verbose_name='Место рождения абитуриента', null=True, blank=True)
+    birthday = models.DateField(verbose_name='Дата рождения', null=True, blank=True)
+    place_of_birth = models.CharField(max_length=100, verbose_name='Место рождения', null=True, blank=True)
     school = models.CharField(max_length=100, verbose_name='Школа', null=True, blank=True)
     grade = models.ForeignKey(Group, verbose_name='Класс обучения', on_delete=models.CASCADE, null=True, blank=True)
     profile = models.ForeignKey(Profile, verbose_name=u'Профиль обучения', on_delete=models.CASCADE, null=True,
@@ -91,14 +98,14 @@ class Participant(models.Model):
     phone_father = models.CharField(max_length=30, verbose_name='Номер телефона одного из родителей', null=True,
                                     blank=True)
     out_of_competition = models.BooleanField(default=False, verbose_name='Вне конкурса?', null=True, blank=True)
-    portfolio = models.ManyToManyField(File, verbose_name='Портфолио', null=True, blank=True)
+    portfolio = models.ManyToManyField(File, verbose_name='Портфолио', blank=True)
     reg_status = models.IntegerField(verbose_name='Статус регистрации', default=3)
     activation_key = models.CharField(max_length=500, verbose_name='Ключ активации', null=True, blank=True)
     key_expires = models.DateTimeField(verbose_name='Срок действие ключа истекает', null=True, blank=True)
     gender = models.CharField(verbose_name='Пол', max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     first_tour_register_date = models.ForeignKey(FirstTourDates, verbose_name='Выбранная дата 1 тура',
                                                  blank=True, null=True, on_delete=models.CASCADE)
-    phone_party = models.CharField(max_length=30, verbose_name='Номер телефона абитуриента', blank=True, null=True)
+    phone_party = models.CharField(max_length=30, verbose_name='Номер телефона участника', blank=True, null=True)
     lives = models.CharField(max_length=100, verbose_name='Город проживания', blank=True, null=True)
     portfolio_text = models.CharField(max_length=1000, verbose_name='Список дипломов?', blank=True, null=True)
     privilege_status = models.CharField(max_length=1, verbose_name="Статус проверки льготы", blank=True,

@@ -35,4 +35,4 @@ def upload_confirm(request, pk):
             form.save()
         else:
             print(form.errors)
-    return redirect('main')
+    return redirect('admission:main')
