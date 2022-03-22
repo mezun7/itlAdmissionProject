@@ -157,13 +157,13 @@ LOGIN_URL = '/login/'
 # EMAIL_HOST_USER = 'apply-itl@itl4u.ru'
 # EMAIL_HOST_PASSWORD = 'UUxlh284'
 
-EMAIL_USE_TLS = False
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'ex.kpfu.ru'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = r'int\apply-itl'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = r'apply-itl'
 EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
 SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
-
+DEFAULT_FROM_EMAIL = SERVER_EMAIL
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MAIN_HOST = "https://apply.kpfu.ru/"
