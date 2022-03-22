@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'itlAdmissionProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'admission',
+        'NAME': 'admission_2022',
         'USER': 'admission',
         'PASSWORD': '1q2w!Q@W',
         'HOST': 'localhost',
@@ -166,7 +166,7 @@ SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-MAIN_HOST = "http://127.0.0.1/"
+MAIN_HOST = "https://apply.kpfu.ru/"
 DOMAIN = 'apply.kpfu.ru'
 PROTOCOL = 'https'
 MEDIA_URL = '/media/'
@@ -174,9 +174,9 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'med
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-REGISTER_END_DATE = datetime.date(2022, 5, 13)
-APPEAL_START_TIME = datetime.datetime(2022, 5, 22, 13, 0, 0)
-APPEAL_ANNOUNCE_TIME = datetime.datetime(2022, 5, 22, 12, 30, 0)
+REGISTER_END_DATE = datetime.date(2022, 4, 13)
+APPEAL_START_TIME = datetime.datetime(2023, 5, 22, 13, 0, 0)
+APPEAL_ANNOUNCE_TIME = datetime.datetime(2023, 5, 22, 12, 30, 0)
 APPEAL_PERIOD_MINUTES = 5
 # REDIS related settings
 REDIS_HOST = 'localhost'
