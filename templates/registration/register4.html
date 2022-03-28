@@ -40,80 +40,88 @@
 
   {# PHOTOS PAGE SCRIPTS #}
 
-<div class="row justify-content-center">
-    <div class="col-md-8 col-md-offset-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-md-offset-4">
 
-        <form id="msform" method="post" action="{% url 'admission:portfolio_text' %}">
-        {% csrf_token %}
-            <fieldset>
-               <div class="modal-header">
-                   <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
-                   <p class="embed-responsive">СУНЦ IT-Лицей</p>
+            <form id="msform" method="post" action="{% url 'admission:portfolio_text' %}">
+            {% csrf_token %}
+                <fieldset>
+                   <div class="modal-header">
+                       <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
+                       <p class="embed-responsive">СУНЦ IT-Лицей</p>
+                    </div>
+                    <p></p>
+                    <h2 class="fs-title">Загрузка портфолио</h2>
+                    <h3 class="fs-subtitle alert-danger">
+                        {% if form.errors or request.GET %}
+                            Неверный логин или пароль. Попробуйте снова.
+                        {% endif %}
+                    </h3>
+                        {{ form.portfolio_text }}
+                      <div class="mb-2">
+                          <h4 class="fs-title">Ограничение на размер одного файла - 2мб</h4>
+                          <h4 class="fs-title">Ограничение на количество файлов - 10</h4>
+                        <button type="button" class="btn action-button js-upload-photos">
+                            <span class="glyphicon glyphicon-cloud-upload">Загрузить дипломы</span>
+                        </button>
+
+                        <input id="fileupload" type="file" name="file" multiple
+                               style="display: none;"
+                               data-url="{% url 'admission:register4' %}"
+                               data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'
+                               accept=".pdf,image/*"
+                        >
+                          <input type="hidden" id="files_count" value="{{ files_count }}">
+                          <input type="hidden" id="files_count_limit" value="{{ files_count_limit }}">
+                          <input type="hidden" id="reg_status" value="{{ reg_status }}">
+                      </div>
+
+                      <table id="gallery" class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>Список загруженных дипломов</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for file in files %}
+                            <tr>
+                              <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
+                            </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                        <div class="alert alert-info px-4 text-left">
+                            Загруженные дипломы можно будет удалить (добавить) в личном кабинете
+                            после завершения регистрации на первый тур
+                        </div>
+                    <input type="submit" name="Submit" class="btn btn-primary action-button text-white" value="Зарегистрироваться на 1 тур"/>
+    {#                <div class="modal-footer">#}
+    {#                    <div class=""> Вы не зарегистрированы?#}
+    {#                    <a href="{% url 'register' %}">Зарегистрируйтесь.</a>#}
+    {##}
+    {#                    </div>#}
+    {#                </div>#}
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Загрузка...</h4>
                 </div>
-                <p></p>
-                <h2 class="fs-title">Загрузка портфолио</h2>
-                <h3 class="fs-subtitle alert-danger">
-                    {% if form.errors or request.GET %}
-                        Неверный логин или пароль. Попробуйте снова.
-                    {% endif %}
-                </h3>
-                    {{ form.portfolio_text }}
-                  <div class="mb-2">
-                      <h3 class="fs-title">Ограничение на один файл - 2мб</h3>
-                    <button type="button" class="btn action-button js-upload-photos">
-                        <span class="glyphicon glyphicon-cloud-upload">Загрузить дипломы</span>
-                    </button>
-
-                    <input id="fileupload" type="file" name="file" multiple
-                           style="display: none;"
-                           data-url="{% url 'admission:register4' %}"
-                           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'
-                           accept=".pdf,image/*"
-                    >
-                  </div>
-
-                  <table id="gallery" class="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>Список загруженных дипломов</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for file in files %}
-                        <tr>
-                          <td><a href="{{ file.file.url }}">{{ file.file.name }}</a></td>
-                        </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                <input type="submit" name="Submit" class="btn btn-primary action-button text-white" value="Зарегистрироваться на 1 тур"/>
-{#                <div class="modal-footer">#}
-{#                    <div class=""> Вы не зарегистрированы?#}
-{#                    <a href="{% url 'register' %}">Зарегистрируйтесь.</a>#}
-{##}
-{#                    </div>#}
-{#                </div>#}
-
-            </fieldset>
-        </form>
-
-    </div>
-</div>
-
-<div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Загрузка...</h4>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+                    </div>
+                </div>
+                <div class="alert alert-info text-center mx-3">Если меня всё еще видно, обновите страницу!</div>
+            </div>
         </div>
-        <div class="modal-body">
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
     <script src="{% static 'upload_test_app/js/progress-bar-upload.js' %}"></script>
 {% endblock %}
 

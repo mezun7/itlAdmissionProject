@@ -251,3 +251,7 @@ body {
 .cert-image-wrapper {
     width: 130px;
 }
+
+.diploma_delete {
+    max-height: 800px;
+}

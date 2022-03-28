@@ -1,6 +1,5 @@
 import hashlib
 import datetime
-import os
 from django.utils import timezone
 
 from django.contrib.auth import authenticate, login
@@ -19,6 +18,8 @@ from first_tour.forms import UserAppealForm
 from first_tour.results.result import get_result_user
 from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_PERIOD_MINUTES, APPEAL_START_TIME
 
+from admission.utilities import file_add_extension
+
 
 @login_required()
 def main_page(request):
@@ -27,14 +28,15 @@ def main_page(request):
     results = get_result_user(participant.pk)
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
-    print(appeal_order)
-    docs = file_info(participant.portfolio.all())
+    # print(appeal_order)
+    file_list = participant.portfolio.all()
+    file_add_extension(file_list)
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
         'results': results,
         'appeal_order': appeal_order,
-        'docs': docs
+        'file_list': file_list,
     }
 
     if request.POST:
@@ -52,14 +54,5 @@ def profile_test_page(request):
     context = {
         'participant': participant
     }
-
     return render(request, 'profile/profile.html', context=context)
 
-
-def file_info(file_names):
-    f_info = []
-    for x in file_names:
-        f = list(os.path.splitext(f'{x}'))
-        f[0] = f'{x}'
-        f_info.append({'name': f[0], 'ext': f[1]})
-    return f_info

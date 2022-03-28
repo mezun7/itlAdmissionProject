@@ -70,14 +70,20 @@
                             <a class="nav-link" href="{% url 'admission:register' %}">Регистрация</a>
                         </li>
                     {% endif %}
-
+                {% if user.is_authenticated and reg_status < 100 %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admission:logout' %}">Выйти</a>
+                    </li>
+                {% else %}
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ user.username.title }}
                             </a>
                             <div class="dropdown-menu mr-5 dropdown-menu-right" aria-labelledby="navbarDropdown">
-{#                                <a class="dropdown-item" href="{_% url 'admission:user_profile' %}">Мой профиль</a>#}
+                                {% if not user.is_staff %}
+                                    <a class="dropdown-item" href="{% url 'admission:main' %}">Мой профиль</a>
+                                {% endif %}
 {#                              <a class="dropdown-item" href="{_% url 'admission:user_info_change' %}">Изменить личные данные</a>#}
                                 <a class="dropdown-item" href="{% url 'admission:reset' %}">Изменить пароль</a>
                                 <div class="dropdown-divider"></div>
@@ -85,10 +91,11 @@
                             </div>
                         </li>
                     {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admission:login' %}">Вход</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'admission:login' %}">Вход</a>
+                        </li>
                     {% endif %}
+                {% endif %}
                 </ul>
             </div>
         </nav>

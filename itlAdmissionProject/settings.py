@@ -80,35 +80,35 @@ WSGI_APPLICATION = 'itlAdmissionProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'admission_2022',
-        'USER': 'admission',
-        'PASSWORD': '1q2w!Q@W',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
-}
-if platform.system() in ['Darwin', 'win32']:
-    DEBUG = True
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-
 # DATABASES = {
 #     'default': {
-#         # 'ENGINE': 'django.db.backends.sqlite3',
-#         # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
-#         'ENGINE': 'django.db.backends.mysql',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'admission_2022',
+#         'USER': 'admission',
+#         'PASSWORD': '1q2w!Q@W',
 #         'HOST': 'localhost',
-#         'NAME': 'admis',
-#         'PORT': '3306',
-#         'USER': 'user',
-#         'PASSWORD': '^@@AdiParola01'
+#         'PORT': '',
 #     }
 # }
+# if platform.system() in ['Darwin', 'win32']:
+#     DEBUG = True
+#     DATABASES['default'] = {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+
+DATABASES = {
+    'default': {
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
+        'ENGINE': 'django.db.backends.mysql',
+        'HOST': 'localhost',
+        'NAME': 'admis',
+        'PORT': '3306',
+        'USER': 'user',
+        'PASSWORD': '^@@AdiParola01'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -190,3 +190,5 @@ CELERY_IMPORTS = [
 ]
 
 SALT = 'zxsaqwwqasxz'
+
+FILES_COUNT_LIMIT = 10

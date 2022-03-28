@@ -68,6 +68,13 @@ urlpatterns = [
     path('registration/done/', main_register.register_complete, name='register-done'),
     path('proxy/', views.proxy_func, name='proxy'),
     path('profile/change', views.profile_change, name='profile_change'),
+
+    path('profile/diploma_actions', views.diploma_actions, name='diploma_actions'),
+    path('profile/diploma_add', views.diploma_add, name='diploma_add'),
+    # path('profile/diploma_delete', views.diploma_delete, name='diploma_delete'),
+    path('profile/diploma_delete/<int:pk>', views.diploma_delete, name='diploma_delete'),
+
+
     path('profile/', views.profile, name='main'),
     path('prf/', profile.profile_test_page, name='main-profile'),
     path('moderator/', moderator.moderator, name='moderator'),

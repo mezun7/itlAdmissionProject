@@ -7,6 +7,10 @@ from django.forms import ClearableFileInput, TextInput, PasswordInput, EmailInpu
 
 from admission.models import File, Participant, GENDER_CHOICES, Group, ModeratorMessage, FirstTourDates
 
+from datetime import datetime
+
+from .utilities import is_tour_available
+
 
 class AuthForm(fr.AuthenticationForm):
     username = forms.CharField(widget=TextInput(attrs={'class': '', 'placeholder': 'Логин'}))
@@ -119,122 +123,6 @@ class PortfolioForm(forms.ModelForm):
 #         }
 
 
-class CChildInfo(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        participant = kwargs.pop('participant') # type: Participant
-        print(participant)
-        super(ChildInfo, self).__init__(*args, **kwargs)
-        print(self.fields['gender'])
-        ignored_fileds = [
-            'fio_mother', 'fio_father', 'phone_mother',
-            'phone_father', 'out_of_competition',
-            'portfolio_text', 'birthday', 'profile_photo'
-        ]
-        self.fields['gender'].empty_label = "Укажите пол"
-        if not participant.grade.have_profile:
-            self.fields.pop('profile')
-            ignored_fileds.append('profile')
-        for k, v in self.fields.items():
-            if k not in ignored_fileds:
-                v.required = True
-
-    class Meta:
-        model = Participant
-        # fileds = ['last_name', 'first_name', 'fathers_name', 'gender' ,'birthday', 'place_of_birth', 'phone_party',
-        # 'school', 'grade']
-        exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
-                   'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate',
-                   'olymp_coming_status', 'first_tour_come_date', "extra_score"]
-
-        widgets = {
-            'last_name': TextInput(attrs={
-                'placeholder': 'Фамилия абитуриента',
-                # 'required': 'True'
-            }),
-            'first_name': TextInput(attrs={
-                'placeholder': 'Имя абитуриента',
-            }),
-            'fathers_name': TextInput(attrs={
-                'placeholder': 'Отчество абитуриента',
-            }),
-            'gender': Select(attrs={
-                'placeholder': 'Пол абитуриента',
-                # 'class': 'form-control'
-            }),
-            'birthday': DateInput(format="%d.%m.%Y", attrs={
-                'placeholder': "Дата рождения: дд.мм.гггг"
-                # 'class': 'form-control'
-            }),
-            'place_of_birth': TextInput(attrs={
-                'placeholder': "Место рождения"
-                # 'class': 'form-control'
-            }),
-            'phone_party': TextInput(attrs={
-                'placeholder': "Телефон абитуриента в формате: +7 (999) 999-99-99"
-                # 'class': 'form-control'
-            }),
-            'school': TextInput(attrs={
-                'placeholder': "Полное наименование образовательного учреждения по Уставу."
-                # 'class': 'form-control'
-            }),
-            'lives': TextInput(attrs={
-                'placeholder': "Город проживания с указанием региона"
-                # 'class': 'form-control'
-            }),
-            'fio_mother': TextInput(attrs={
-                'placeholder': "ФИО мамы"
-                # 'class': 'form-control'
-            }),
-            'fio_father': TextInput(attrs={
-                'placeholder': "ФИО отца"
-                # 'class': 'form-control'
-            }),
-            'phone_mother': TextInput(attrs={
-                'placeholder': "Телефон мамы в формате: +7 (999) 999-99-99"
-                # 'class': 'form-control'
-            }),
-            'phone_father': TextInput(attrs={
-                'placeholder': "Телефон отца в формате: +7 (999) 999-99-99"
-                # 'class': 'form-control'
-            }),
-            'out_of_competition': CheckboxInput(attrs={
-                'placeholder': "Есть ли у вас "
-                # 'class': 'form-control'
-            }),
-        }
-
-    def clean_last_name(self):
-        last_name = self.cleaned_data.get("last_name", "")
-        return " ".join([el.capitalize() for el in last_name.split()])
-
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get("first_name", "")
-        return " ".join([el.capitalize() for el in first_name.split()])
-
-    def clean_fathers_name(self):
-        fathers_name = self.cleaned_data.get("fathers_name", "")
-        return " ".join([el.capitalize() for el in fathers_name.split()])
-
-    def clean_fio_mother(self):
-        fio_mother = self.cleaned_data.get("fio_mother", "")
-        fio_father = self.cleaned_data.get("fio_father", "")
-        if fio_mother is None:
-            return fio_mother
-        return " ".join([el.capitalize() for el in fio_mother.split()])
-
-    def clean_fio_father(self):
-        fio_father = self.cleaned_data.get("fio_father", "")
-        if fio_father is None:
-            return fio_father
-        return " ".join([el.capitalize() for el in fio_father.split()])
-
-    def clean_phone_mother(self):
-        phone_mother = self.cleaned_data.get('phone_mother', '')
-        phone_father = self.cleaned_data.get('phone_father', '')
-        return phone_mother
-
-
 class ChildInfo(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -246,10 +134,24 @@ class ChildInfo(forms.ModelForm):
             'portfolio_text', 'birthday', 'profile_photo'
         ]
         self.fields["gender"].choices = [("", "Укажите пол"), ] + list(self.fields["gender"].choices)[1:]
-        self.fields["first_tour_register_date"].choices = [("", "Выберите дату участия на 1 туре"), ] +\
-                                                          list(self.fields["first_tour_register_date"].choices)[1:]
+        ch = list(self.fields["first_tour_register_date"].choices)
+        self.fields["first_tour_register_date"].choices = [("", "Выберите дату участия на 1 туре"), ]
+
+        for d in ch:
+            d = list(d)
+            if '--' not in d[1]:
+                dt = datetime.strptime(d[1], '%Y-%m-%d %H:%M:%S')
+                if is_tour_available(dt):
+                    d[1] = 'Придем на 1 тур ' + str(dt.strftime('%d.%m.%Y')) + ' в ' + str(dt.strftime('%H:%M'))
+                    # print(d[1])
+                    self.fields["first_tour_register_date"].choices = self.fields["first_tour_register_date"].choices \
+                                                                      + [(d[0], d[1])]
+
+        # self.fields["first_tour_register_date"].choices = [("", "Выберите дату участия на 1 туре"), ] +\
+        #                                                   list(self.fields["first_tour_register_date"].choices)[1:]
         self.fields["profile"].choices = [("", "Выберите профиль обучения"), ] + \
                                          list(self.fields["profile"].choices)[1:]
+
         if not participant.grade.have_profile:
             self.fields.pop('profile')
             ignored_fileds.append('profile')
@@ -259,25 +161,6 @@ class ChildInfo(forms.ModelForm):
 
     class Meta:
         model = Participant
-        # fields = [
-        #     'last_name',
-        #     'first_name',
-        #     'fathers_name',
-        #     'gender',
-        #     'birthday',
-        #     'place_of_birth',
-        #     'phone_party',
-        #     'school',
-        #     'first_tour_register_date',
-        #     'profile',
-        #     'fio_mother',
-        #     'phone_mother',
-        #     'fio_father',
-        #     'phone_father',
-        #     'out_of_competition',
-        #     'lives',
-        #     # 'grade'
-        # ]
         exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
                    'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate',
                    'olymp_coming_status', 'first_tour_come_date', "extra_score",  'profile_photo']
@@ -381,7 +264,7 @@ class ModeratorMessage2(forms.ModelForm):
 
         widgets = {
             'text': Textarea(attrs={
-                'placeholder': "Сообщение абитуриенту"
+                'placeholder': "Сообщение поступающему"
                 # 'class': 'form-control'
             }),
         }

@@ -1,0 +1,27 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}Удаление диплома{% endblock %}
+
+{% block content %}
+<h3 class="text-center">Удаление диплома</h3>
+
+<div class="diploma_delete d-flex justify-content-center">
+    <div class="border text-center d-flex flex-column align-items-center m-3 p-3">
+        {% if file.file.extension == '.pdf' %}
+            <img class="my-4" src="{% static 'admission/img/PDF_file_icon.png' %}" height="105"  alt="{{ file.file.name }}">
+        {% else %}
+            <img class="my-4" src="{{ file.file.url }}" alt="{{ file.file.name }}">
+        {% endif %}
+
+        <form class="text-center" method="post">
+            {% csrf_token %}
+            {% buttons submit='Удалить' %}{% endbuttons %}
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}
