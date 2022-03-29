@@ -80,35 +80,35 @@ WSGI_APPLICATION = 'itlAdmissionProject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'admission_2022',
-#         'USER': 'admission',
-#         'PASSWORD': '1q2w!Q@W',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
-# if platform.system() in ['Darwin', 'win32']:
-#     DEBUG = True
-#     DATABASES['default'] = {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'admission_2022',
+        'USER': 'admission',
+        'PASSWORD': '1q2w!Q@W',
         'HOST': 'localhost',
-        'NAME': 'admis',
-        'PORT': '3306',
-        'USER': 'user',
-        'PASSWORD': '^@@AdiParola01'
+        'PORT': '',
     }
 }
+if platform.system() in ['Darwin', 'win32']:
+    DEBUG = True
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+
+# DATABASES = {
+#     'default': {
+#         # 'ENGINE': 'django.db.backends.sqlite3',
+#         # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'localhost',
+#         'NAME': 'admis',
+#         'PORT': '3306',
+#         'USER': 'user',
+#         'PASSWORD': '^@@AdiParola01'
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -164,6 +164,7 @@ EMAIL_HOST_USER = r'apply-itl'
 EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
 SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MAIN_HOST = "https://apply.kpfu.ru/"
