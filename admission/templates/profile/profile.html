@@ -116,29 +116,33 @@
             <div class="text-center">
                 <a href="{% url 'admission:profile_change' %} " class="btn btn-primary"><b>Изменить данные</b></a>
             </div>
-            {% if docs %}
+            {% if file_list %}
                 <hr>
                 <div class="container-fluid mt-3">
                     <h5 class="text-center">Загруженные дипломы</h5>
                     <div class="d-flex justify-content-center flex-wrap mt-3 mx-2">
-                      {% for doc in docs %}
-                          {% if doc.ext == '.pdf' %}
-                              <div class="cert-image-wrapper text-center mx-2">
-                                  <a href="/media/{{ doc.name }}">
-                                    <img src="{% static 'admission/img/PDF_file_icon.png' %}" height="105"  alt="{{ doc.name }}">
-                                  </a>
-                                  <p class="text-break text-center">{{ doc.name }}</p>
-                              </div>
-                          {% else %}
-                              <div class="cert-image-wrapper text-center mx-2">
-                                  <a href="/media/{{ doc.name }}">
-                                      <img class="cert-image" src="/media/{{ doc.name }}" alt="{{ doc.name }}">
-                                  </a>
-                                  <p class="text-break text-center">{{ doc.name }}</p>
-                              </div>
-                          {% endif %}
-                      {% endfor %}
+                        {% for f in file_list %}
+                            <div class="d-flex flex-column m-3 p-3 border">
+                                <div class="cert-image-wrapper text-center m-2">
+                                    {% if f.file.extension == '.pdf' %}
+                                        <a href="{{ f.file.url }}">
+                                            <img src="{% static 'admission/img/PDF_file_icon.png' %}" height="105"  alt="{{ f.file.name }}">
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ f.file.url }}">
+                                          <img class="cert-image" src="{{ f.file.url }}" alt="{{ f.file.name }}">
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="text-center mt-auto">
+                                    <a href="{{ f.file.url }}">{{ f.file.name }}</a>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="{% url 'admission:diploma_actions' %} " class="btn btn-primary"><b>Удалить | Добавить</b></a>
                 </div>
             {% endif %}
         </div>

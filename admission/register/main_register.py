@@ -122,7 +122,7 @@ def register_complete(request):
         participant.key_expires = datetime.datetime.today() + datetime.timedelta(2)
         participant.reg_status = 100
         participant.save()
-        print(participant.user.username)
+        # print(participant.user.username)
         user = User.objects.get(pk=request.user.pk)
         user.is_active = False
         user.save()

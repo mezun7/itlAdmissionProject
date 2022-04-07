@@ -28,7 +28,18 @@ class FirstTourDates(models.Model):
     date = models.DateTimeField(verbose_name='Дата первого тура')
 
     def __str__(self):
-        return 'Придем на 1 тур ' + str(self.date.strftime('%d.%m.%Y')) + ' в ' + str(self.date.strftime('%H:%M'))
+        # tour_date = False
+        # print(self.is_tour_available())
+        # if self.is_tour_available():
+        #     tour_date = 'Придем на 1 тур ' + str(self.date.strftime('%d.%m.%Y')) + ' в ' + str(self.date.strftime('%H:%M'))
+        #     return tour_date
+        # return 'Придем на 1 тур ' + str(self.date.strftime('%d.%m.%Y')) + ' в ' + str(self.date.strftime('%H:%M'))
+        return str(self.date)
+
+    # def is_tour_available(self):
+    #     deadline = self.date - timedelta(days=1)
+    #     # print(deadline)
+    #     return deadline >= datetime.now()
 
 
 class Profile(models.Model):

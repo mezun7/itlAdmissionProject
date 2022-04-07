@@ -1,16 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
 
 from django.contrib.admin.views.decorators import staff_member_required
 # Create your views here.
 # from admission.forms import FileUpload
+import itlAdmissionProject.settings
 from admission.models import File, Participant, Moderator, ParticipantRegistrator, Group, FirstTourDates
 from admission.personal_page.profile import main_page
 from first_tour.models import AppealUser
-from itlAdmissionProject.settings import SERVER_EMAIL
+from itlAdmissionProject.settings import SERVER_EMAIL, FILES_COUNT_LIMIT
+from .utilities import file_add_extension, file_extension
 
 from django.contrib import messages
 
@@ -97,9 +99,9 @@ def profile_change(request):
     edu_profile = participant.profile
     if request.method == 'POST':
         form = ChildInfo(request.POST, instance=participant,  **{'participant': participant})
-        print(form.is_valid())
+        # print(form.is_valid())
         if form.is_valid():
-            print(form.is_valid())
+            # print(form.is_valid())
             form.save()
             # messages.add_message(request, messages.SUCCESS, 'Объявление исправлено')
             return redirect("admission:main")
@@ -111,3 +113,46 @@ def profile_change(request):
         'edu_profile': edu_profile,
     }
     return render(request, 'profile/profile_change.html', context)
+
+
+@login_required()
+def diploma_actions(request):
+    file_list = Participant.objects.get(user=request.user).portfolio.all()
+    file_add_extension(file_list)
+
+    context = {'file_list': file_list, 'files_count_limit': itlAdmissionProject.settings.FILES_COUNT_LIMIT}
+    return render(request, 'profile/diploma_actions.html', context)
+    pass
+
+
+@login_required()
+def diploma_add(request):
+    # file_list = Participant.objects.get(user=request.user).portfolio.all()
+    # file_add_extension(file_list)
+    files_list = Participant.objects.get(user=request.user).portfolio.all()
+    files_count = len(files_list)
+
+    context = {
+        'files_count': files_count, 'files_count_limit': FILES_COUNT_LIMIT,
+        'reg_status': Participant.objects.get(user=request.user).reg_status
+    }
+    return render(request, 'profile/diploma_add.html', context)
+    pass
+
+
+@login_required()
+def diploma_delete(request, pk):
+    participant = Participant.objects.get(user=request.user)
+    file = participant.portfolio.get(id=pk)
+    file_extension(file)
+    if request.method == 'POST':
+        file.delete()
+        messages.add_message(request, messages.SUCCESS, 'Файл удалён')
+        if participant.reg_status == 100:
+            return redirect('admission:diploma_actions')
+        # elif participant.reg_status == 4:
+        #     return redirect('admission:register3')
+    else:
+        context = {'file': file}
+        return render(request, 'profile/diploma_delete.html', context)
+

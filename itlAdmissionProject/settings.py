@@ -164,6 +164,7 @@ EMAIL_HOST_USER = r'apply-itl'
 EMAIL_HOST_PASSWORD = '7gse5bEU9Y'
 SERVER_EMAIL = 'apply-itl@kpfu.ru'  # EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
+
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MAIN_HOST = "https://apply.kpfu.ru/"
@@ -190,3 +191,5 @@ CELERY_IMPORTS = [
 ]
 
 SALT = 'zxsaqwwqasxz'
+
+FILES_COUNT_LIMIT = 10

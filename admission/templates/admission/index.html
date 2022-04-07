@@ -1,0 +1,118 @@
+{% extends "layout/base.html" %}
+
+{% block content %}
+    <div class="">
+        <h3 class="text-center">Приём учащихся в СУНЦ IT-лицей</h3>
+    </div>
+{% endblock %}
+
+{% block content_ %}
+<h2>{{ data }}</h2>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between">
+        <div>
+            admin_profile<br>
+            <a href="{% url 'admin_profile:admin-profile' pk=1 %}">admin_profile</a>
+            <br>
+            <a href="{% url 'admin_profile:admin-list-profiles' %}">admin-list-profiles</a>
+            <br>
+        </div>
+
+        <div>
+            admission<br>
+            <a href="{% url 'admission:logout' %}">logout</a>
+            <br>
+            <a href="{% url 'admission:login' %}">login</a>
+            <br>
+            <a href="{% url 'admission:reset' %}">reset</a>
+            <br>
+            <a href="{% url 'admission:test-email' %}">test-email</a>
+            <br>
+            POST <a href="{% url 'admission:portfolio_text' %}">portfolio_text</a>
+            <br>
+            <a href="{% url 'admission:proxy' %}">proxy</a>
+            <br>
+            participant <a href="{% url 'admission:main' %}">profile</a>
+            <br>
+            <a href="{% url 'admission:main-profile' %}">main-profile</a>
+            <br>
+            <a href="{% url 'admission:moderator' %}">moderator</a>
+            <br>
+            <a href="{% url 'admission:dashboard' %}">dashboard</a>
+            <br>
+            <a href="{% url 'admission:profile-moderate' profile_id=1 %}">profile-moderate</a>
+            <br>
+            <a href="{% url 'admission:dublicate' %}">dublicate</a>
+            <br>
+            <a href="{% url 'admission:checker' %}">checker</a>
+            <br>
+            <a href="{% url 'admission:first_tour_register' grade_id=1 %}">first_tour_register grade_id</a>
+            <br>
+            <a href="{% url 'admission:first_tour_register' %}">first_tour_register</a>
+            <br>
+            <a href="{% url 'admission:set_extra_score' %}">set_extra_score</a>
+            <br>
+            Participant <a href="{% url 'admission:upload_confirm' pk=1 %}">upload_confirm</a>
+            <br>
+        </div>
+
+        <div>
+            adm_api<br>
+            <a href="{% url 'api:all-registrations' %}">all-registrations</a>
+            <br>
+            <a href="{% url 'api:all-gender' %}">all-gender</a>
+            <br>
+            <a href="{% url 'api:competition' %}">competition</a>
+            <br>
+            <a href="{% url 'api:profiles' %}">profiles</a>
+            <br>
+            <a href="{% url 'api:first-tour-distribution' %}">first-tour-distribution</a>
+            <br>
+            <a href="{% url 'api:olymp-coming-status-api' %}">olymp-coming-status-api</a>
+            <br>
+            <a href="{% url 'api:get_first_tour_coming_register_api' %}">get_first_tour_coming_register_api</a>
+            <br>
+        </div>
+
+        <div>
+            first-tour<br>
+            form action <a href="first_tour:test-email">test-email</a>
+            <br>
+            <a href="first_tour:appeal-list">appeal-list</a>
+            <br>
+            <a href="first_tour:appeal-person">appeal-person</a>
+            <br>
+            <a href="first_tour:send-results">send-results</a>
+            <br>
+            <a href="first_tour:get-registered">get-registered</a>
+            <br>
+            <a href="first_tour:final-table">final-table</a>
+            <br>
+            <a href="first_tour:final-table">final-table</a>
+            <br>
+            <a href="first_tour:final-table">final-table</a>
+            <br>
+            <a href="first_tour:journal">journal</a>
+            <br>
+            <a href="first_tour:journal liter_id=1">journal</a>
+            <br>
+            <a href="first_tour:mark_edit">mark_edit</a>
+            <br>
+            <a href="first_tour:mark_edit">mark_edit</a>
+            <br>
+        </div>
+        <div>
+            upload_test_app <br>
+            <a href="{% url 'upload_test_app:clear_database' %}">clear_database</a>
+            <br>
+            <a href="{% url 'upload_test_app:basic_upload' %}">basic_upload</a>
+            <br>
+            <a href="{% url 'upload_test_app:progress_bar_upload' %}">progress_bar_upload</a>
+            <br>
+            <a href="{% url 'upload_test_app:drag_and_drop_upload' %}">drag_and_drop_upload</a>
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
