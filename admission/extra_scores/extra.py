@@ -40,8 +40,8 @@ def set_extra_score(request):
         'participants': page_obj,
         'left': len(participants),
         'action': "%s?page=%d" % (reverse('admission:set_extra_score'), page_number),
-        'accept': '+10',
-        'reject': '+5',
+        'accept': '+5',
+        'reject': '+3',
         'skip': '0',
         'page_obj': page_obj
     }
