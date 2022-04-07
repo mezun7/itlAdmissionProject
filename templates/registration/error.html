@@ -1,0 +1,43 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% block title %}
+    Подтверждение регистрации
+{% endblock %}
+
+{% block meta %}
+    {% if type %}
+        <meta http-equiv="refresh" content="3; url={% url 'admission:proxy' %}" />
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-md-offset-5">
+            <form id="msform" method="post" action="{% url 'admission:login' %}">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="modal-header">
+                        <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
+                    </div>
+                    <p></p>
+                    <h2 class="fs-title">{{ title }}</h2>
+                    <h4 class="{% if type %} alert-success {% else %} alert-danger {% endif %}">
+                        {{message}}
+                    </h4>
+                    <div class="modal-footer">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <a href="{% url 'admission:login' %}">Войти</a>
+                                </div>
+                                <div class="col-sm">
+                                    <a href="{% url 'admission:register' %}">Зарегистрироваться</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

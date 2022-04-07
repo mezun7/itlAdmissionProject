@@ -45,9 +45,10 @@ def set_extra_score(request):
         'skip': '0',
         'page_obj': page_obj
     }
+
     action_list = {
-        '+10': 10,
         '+5': 5,
+        '+3': 3,
         '0': 0
     }
 
