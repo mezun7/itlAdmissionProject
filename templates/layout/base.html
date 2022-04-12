@@ -60,6 +60,9 @@
                     <a class="nav-link" href="{% url 'admission:set_extra_score' %}">Экстра балл</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{% url 'admission:participant_list' %}">Список участников</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="{% url 'admission:dashboard' %}">Dashboard</a>
                 </li>
             {% endif %}
@@ -81,6 +84,9 @@
                                 {{ user.username.title }}
                             </a>
                             <div class="dropdown-menu mr-5 dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                {% if user.is_superuser %}
+                                    <a class="dropdown-item" href="/admin">Админ</a>
+                                {% endif %}
                                 {% if not user.is_staff %}
                                     <a class="dropdown-item" href="{% url 'admission:main' %}">Мой профиль</a>
                                 {% endif %}

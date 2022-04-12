@@ -87,6 +87,9 @@ urlpatterns = [
     path('extra_score_moderator/', set_extra_score, name='set_extra_score'),
     path('upload_confirm/<int:pk>/', upload_confirm, name='upload_confirm'),
 
+    path('participant_list', views.participant_list, name='participant_list'),
+    path('export/xls', views.export_participants_xls, name='export_participants_xls'),
+
     # path('duplicate_post/', moderator.duplicate_check_post, name='duplicate_post')
     # path('testu/', UploadView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -101,12 +101,6 @@ if platform.system() in ['Darwin', 'win32']:
 #     'default': {
 #         # 'ENGINE': 'django.db.backends.sqlite3',
 #         # 'NAME': os.path.join(BASE_DIR, 'admission.data'),
-#         'ENGINE': 'django.db.backends.mysql',
-#         'HOST': 'localhost',
-#         'NAME': 'admis',
-#         'PORT': '3306',
-#         'USER': 'user',
-#         'PASSWORD': '^@@AdiParola01'
 #     }
 # }
 

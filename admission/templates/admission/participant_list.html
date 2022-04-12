@@ -1,0 +1,25 @@
+{% extends "layout/base.html" %}
+
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}
+    Список участников
+{% endblock %}
+
+{% block main_content %}
+    <div class="container-fluid mb-2">
+        <h3>Список участников</h3>
+        <a class="btn btn-primary my-3" href="{% url 'admission:export_participants_xls' %}">Скачать всех участников</a>
+        {% if participants %}
+            <ol class="list-group mx-3">
+                {% for p in participants %}
+                <li class="my-2">
+                     <div>{{ p.first_name }} {{ p.last_name }} {{ p.fathers_name }}, {{ p.grade }} класс</div>
+                </li>
+                {% endfor %}
+            </ol>
+            <div class="mt-3">{% bootstrap_pagination page url=keyword %}</div>
+        {% endif %}
+    </div>
+{% endblock %}

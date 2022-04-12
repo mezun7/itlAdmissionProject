@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail
@@ -9,6 +10,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 # from admission.forms import FileUpload
 import itlAdmissionProject.settings
 from admission.models import File, Participant, Moderator, ParticipantRegistrator, Group, FirstTourDates
+from admission.models import Profile
 from admission.personal_page.profile import main_page
 from first_tour.models import AppealUser
 from itlAdmissionProject.settings import SERVER_EMAIL, FILES_COUNT_LIMIT
@@ -17,6 +19,8 @@ from .utilities import file_add_extension, file_extension
 from django.contrib import messages
 
 from .forms import ChildInfo
+
+import xlwt
 
 
 def home(request):
@@ -155,4 +159,61 @@ def diploma_delete(request, pk):
     else:
         context = {'file': file}
         return render(request, 'profile/diploma_delete.html', context)
+
+
+@login_required()
+def participant_list(request):
+    participants = Participant.objects.all().order_by('grade', 'first_name', 'last_name', 'fathers_name')
+    paginator = Paginator(participants, 15)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    context = {'participants': page.object_list, 'page': page}
+    return render(request, 'admission/participant_list.html', context)
+
+
+def export_participants_xls(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Participants_list.xls"'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Участники')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = [
+        'ID', 'Фамилия', 'Имя', 'Отчество', 'Пол', 'Класс',
+        'Профиль обучения', 'Город проживания', 'Школа',
+        'ФИО матери', 'Телефон матери', 'ФИО отца', 'Телефон отца',
+    ]
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+    # test = Participant.objects.all()
+    rows = Participant.objects.all().values_list(
+        'pk', 'first_name', 'last_name', 'fathers_name', 'gender', 'grade',
+        'profile', 'lives', 'school',
+        'fio_mother', 'phone_mother', 'fio_father', 'phone_father',
+    )
+    for row in rows:
+
+        # change object pk to value
+        row = list(row)
+        row[5] = str(Group.objects.get(pk=row[5]))
+        if row[6]:
+            row[6] = str(Profile.objects.get(pk=row[6]))
+
+        row_num += 1
+        for col_num in range(len(row)):
+            ws.write(row_num, col_num, row[col_num], font_style)
+
+    wb.save(response)
+    return response
 
