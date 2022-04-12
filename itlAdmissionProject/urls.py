@@ -29,4 +29,3 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
 ]
 
-print(admin.site.urls)
