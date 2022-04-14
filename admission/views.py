@@ -163,7 +163,7 @@ def diploma_delete(request, pk):
 
 @login_required()
 def participant_list(request):
-    participants = Participant.objects.all().order_by('grade', 'first_name', 'last_name', 'fathers_name')
+    participants = Participant.objects.filter(is_dublicate=False, reg_status=100).order_by('grade', 'first_name', 'last_name', 'fathers_name')
     paginator = Paginator(participants, 15)
     if 'page' in request.GET:
         page_num = request.GET['page']
@@ -197,7 +197,7 @@ def export_participants_xls(request):
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
     # test = Participant.objects.all()
-    rows = Participant.objects.all().values_list(
+    rows = Participant.objects.filter(is_dublicate=False, reg_status=100).values_list(
         'pk', 'first_name', 'last_name', 'fathers_name', 'gender', 'grade',
         'profile', 'lives', 'school',
         'fio_mother', 'phone_mother', 'fio_father', 'phone_father',
