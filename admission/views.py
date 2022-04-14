@@ -189,6 +189,7 @@ def export_participants_xls(request):
         'ID', 'Фамилия', 'Имя', 'Отчество', 'Пол', 'Класс',
         'Профиль обучения', 'Город проживания', 'Школа',
         'ФИО матери', 'Телефон матери', 'ФИО отца', 'Телефон отца',
+        'Выбрал дату'
     ]
 
     for col_num in range(len(columns)):
@@ -201,12 +202,14 @@ def export_participants_xls(request):
         'pk', 'first_name', 'last_name', 'fathers_name', 'gender', 'grade',
         'profile', 'lives', 'school',
         'fio_mother', 'phone_mother', 'fio_father', 'phone_father',
+        'first_tour_register_date',
     )
     for row in rows:
 
         # change object pk to value
         row = list(row)
         row[5] = str(Group.objects.get(pk=row[5]))
+        row[13] = str(FirstTourDates.objects.get(pk=row[13]))
         if row[6]:
             row[6] = str(Profile.objects.get(pk=row[6]))
 
