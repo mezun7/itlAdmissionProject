@@ -209,7 +209,7 @@ def export_participants_xls(request):
         # change object pk to value
         row = list(row)
         row[5] = str(Group.objects.get(pk=row[5]))
-        row[13] = str(FirstTourDates.objects.get(pk=row[13]))
+        row[13] = FirstTourDates.objects.get(pk=row[13]).__str__()
         if row[6]:
             row[6] = str(Profile.objects.get(pk=row[6]))
 
