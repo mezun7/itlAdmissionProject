@@ -31,7 +31,8 @@ urlpatterns = [
           template_name='registration/login.html',
           authentication_form=AuthForm,
           extra_context={
-              'stop_register': datetime.date.today() > REGISTER_END_DATE
+              'stop_register': datetime.date.today() > REGISTER_END_DATE,
+              'year': datetime.date.today().year
           }
       ),
       name='login'

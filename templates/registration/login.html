@@ -23,13 +23,10 @@
                         <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
                     </div>
                     <h2 class="fs-title mt-4">Войти</h2>
-                    <h3 class="fs-subtitle alert-info">
-                        <ul class="text-blue">
-
+                    <h3 class="fs-subtitle alert alert-info">
                             {% if stop_register %}
-                                Регистрация абитуриентов в 2022 году завершена.
+                                Регистрация абитуриентов в {{ year }} году завершена.
                             {% endif %}
-                        </ul>
                     </h3>
                     <h3 class="fs-subtitle alert-danger">
                         <ul class="alert-danger">

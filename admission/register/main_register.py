@@ -20,6 +20,7 @@ today = datetime.date.today()
 
 
 def register(request):
+    print(today > REGISTER_END_DATE)
     if today > REGISTER_END_DATE:
         return redirect('admission:login')
     if request.user.is_authenticated:
