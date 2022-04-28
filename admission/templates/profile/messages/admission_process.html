@@ -34,6 +34,12 @@
                         <td>{{ subjres.get_final_score }}</td>
                     </tr>
                 {% endfor %}
+                <tr>
+                        <td>Дополнительный балл</td>
+                        <td>{{ participant.extra_score }}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
 {#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
                 </tbody>
             </table>
@@ -49,19 +55,19 @@
                     </button>
                 </div>
             {% else %}
-                <div class="timeline-footer">
-                    {% if result.apeal_application %}
-                        <h4>Заявление на апелляцию подано. В личном кабинете будет ваше время апелляции.</h4>
-                        <br> Апелляция будет проходить в программе Microsoft Teams. <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Скачать</a>
-                        <br>Комиссия будет ждать вас 5 минут, если вы не успеете подключиться, апелляция считается аннулированной. Имя в конференции должно быть ваше реальное. Видео доступ обязателен.
-                        {% if  result.tour.appeal_url %}
-                            <h3 class="text-info"> Апелляция будет проходить по следующей <a href="{{ result.tour.appeal_url }}">ссылке.</a></h3>
-                            <h3>Время вашей апелляции: {{ appeal_order }}</h3>
-                        {% endif %}
-                    {% else %}
-                        <br>Заявки на апелляцию больше не принимаются.
-                    {% endif %}
-                </div>
+{#                <div class="timeline-footer">#}
+{#                    {% if result.apeal_application %}#}
+{#                        <h4>Заявление на апелляцию подано. В личном кабинете будет ваше время апелляции.</h4>#}
+{#                        <br> Апелляция будет проходить в программе Microsoft Teams. <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Скачать</a>#}
+{#                        <br>Комиссия будет ждать вас 5 минут, если вы не успеете подключиться, апелляция считается аннулированной. Имя в конференции должно быть ваше реальное. Видео доступ обязателен.#}
+{#                        {% if  result.tour.appeal_url %}#}
+{#                            <h3 class="text-info"> Апелляция будет проходить по следующей <a href="{{ result.tour.appeal_url }}">ссылке.</a></h3>#}
+{#                            <h3>Время вашей апелляции: {{ appeal_order }}</h3>#}
+{#                        {% endif %}#}
+{#                    {% else %}#}
+{#                        <br>Заявки на апелляцию больше не принимаются.#}
+{#                    {% endif %}#}
+{#                </div>#}
             {% endif %}
         </div>
     </div>
