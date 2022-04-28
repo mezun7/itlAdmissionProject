@@ -9,7 +9,8 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from admission.models import Participant
 from .forms import UserAppealForm, TeacherAppealForm
 from .forms import UploadForm, ResultUploadForm
-from .models import Tour, ExamResult, UploadConfirm, NextTourPass, TourParticipantScan, ExamSheetScan, Subject
+from .models import Tour, ExamResult, UploadConfirm, NextTourPass, TourParticipantScan, ExamSheetScan, Subject, \
+    ExamSubject
 from first_tour.task import test_celery
 
 from django.views.generic.edit import FormView
@@ -189,6 +190,7 @@ def set_fieldnames():
     for s in subjects:
         # fieldnames.append(f'{s["id"]}_{s["name"]}')
         fieldnames.append(s["name"])
+    # print(fieldnames)
     return tuple(fieldnames)
 
 
@@ -198,13 +200,21 @@ def save_results(tour_order, results_from_csv):
     for s in subjects:
         for r in results_from_csv:
             try:
-                participant = Participant.objects.get(id=r['id'])
                 if r[s['name']] and r[s['name']] != '#N/A' and r[s['name']] != '':
+                    participant = Participant.objects.get(id=r['id'])
                     exam_result = ExamResult()
-                    exam_result.participant = participant
-                    exam_result.exam_subject_id = int(s['id'])
-                    exam_result.score = float(r[s['name']].replace(',', '.'))
-                    results.append(exam_result)
+                    tour = get_tour(tour_order=tour_order, participant=participant)
+                    exam_subject = ExamSubject.objects.get(subject__pk=int(s['id']), tour=tour)
+                    if tour and exam_subject:
+                        exam_result.participant = participant
+                        exam_result.exam_subject = ExamSubject.objects.get(subject__pk=int(s['id']), tour=tour)
+                        exam_result.score = float(r[s['name']].replace(',', '.'))
+                        results.append(exam_result)
             except Exception as e:
-                print('Нет id участника или ', e)
+                print('Нет id участника или ', r['id'], r, tour, e)
     ExamResult.objects.bulk_create(results)
+
+
+def get_tour(tour_order, participant):
+    tour = Tour.objects.get(tour_order=tour_order, profile=participant.profile)
+    return tour

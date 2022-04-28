@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'admission_2022',
         'USER': 'admission',
         'PASSWORD': '1q2w!Q@W',
-        'HOST': 'localhost',
+        'HOST': '10.39.30.42',
         'PORT': '',
     }
 }
