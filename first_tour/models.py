@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 from django.db import models
 
@@ -208,3 +209,10 @@ class AddLiter(models.Model):
     def save(self, *args, **kwargs):
         super(AddLiter, self).save(*args, **kwargs)
         upload_liter.delay(self.file.path, self.tour_ordering)
+
+
+class ExamSheetScan(models.Model):
+    participant = models.ForeignKey(Participant, on_delete=models.CASCADE, verbose_name='Участник')
+    tour_order = models.IntegerField(blank=True, null=True)
+    file = models.FileField(upload_to='scans', verbose_name='Сканы работ')
+

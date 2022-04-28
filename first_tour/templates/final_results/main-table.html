@@ -4,10 +4,11 @@
             Список участников
 {% endblock %}
 {% block profile %}
-         Результаты {{ cur_tour.grade }} {% if cur_tour.profile %}
-                класса, {{ cur_tour.profile.name }}
-              {% else %}
-                класса
+     Результаты {{ cur_tour.grade }}
+    {% if cur_tour.profile %}
+        класса, {{ cur_tour.profile.name }}
+    {% else %}
+        класса
     {% endif %}
 {% endblock %}
 
@@ -32,7 +33,6 @@
 {#                <li class="nav-item d-none d-sm-inline-block">#}
 {#                      <span class="nav-link">Пришли {{ processed }} из {{ overall }}</span>#}
 {#                </li>#}
-
 
 {% endblock %}
 {% block content %}

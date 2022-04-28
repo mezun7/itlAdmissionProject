@@ -1,14 +1,14 @@
 {% extends 'profile/base.html' %}
  {% load static %}
 {% block title %}
-            Журнал {{ liter}} класса
+    Журнал {{ liter}} класса
 {% endblock %}
 {% block profile %}
 {#         Журнал {{ liter}} класса#}
 {% endblock %}
 
 {% block right-navbar %}
-        <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>
+    <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -24,7 +24,6 @@
 {#                <li class="nav-item d-none d-sm-inline-block">#}
 {#                      <span class="nav-link">Пришли {{ processed }} из {{ overall }}</span>#}
 {#                </li>#}
-
 
 {% endblock %}
 {% block content %}
@@ -44,14 +43,7 @@
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
-
-
-
-
             <!-- /.card -->
-
-
-
 {% endblock %}
 
 {% block script %}

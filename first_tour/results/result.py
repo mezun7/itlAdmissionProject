@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 # Create your views here.
 # from admission.forms import FileUpload
 from admission.models import File, Participant, Moderator, ParticipantRegistrator
-from first_tour.models import Tour, ExamResult, NextTourPass, UploadConfirm
+from first_tour.models import Tour, ExamResult, NextTourPass, UploadConfirm, ExamSheetScan
 from first_tour.results.struct import ResultParticipant
 from itlAdmissionProject.settings import SERVER_EMAIL
 
@@ -33,12 +33,12 @@ def get_result_user(pk, exclude_date=False):
             grade=participant.grade,
             results_release_date__lte=datetime.datetime.now(),
         ).order_by('tour_order')
-    print(tours)
     results = []
 
     for tour in tours:
         party_results = ExamResult.objects.filter(exam_subject__tour=tour,
                                                   participant=participant).order_by('exam_subject__ordering')
+
         # for pres in party_results:
         #     print(pres.participant, pres.exam_subject.subject, pres.score)
         try:
@@ -53,7 +53,8 @@ def get_result_user(pk, exclude_date=False):
                 final_result_release_date=tour.final_result_release_date,
                 passing_type=passing_type,
                 tour=tour,
-                portfolio_score=participant.extra_score, participant=participant
+                portfolio_score=participant.extra_score,
+                participant=participant,
             )
         )
     return results

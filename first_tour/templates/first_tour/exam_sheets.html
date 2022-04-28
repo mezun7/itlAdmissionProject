@@ -1,0 +1,33 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% block title %}Exam Sheets Scans Upload{% endblock %}
+
+{% block content %}
+    <div class="mx-3">
+        <div class="mx-5 my-2">
+            <div class="col col-5 d-flex justify-content-between mb-3">
+                <h3 class="align-self-center">Exam Sheets</h3>
+                <a class="btn btn-primary align-self-center" role="button" aria-disabled="true" href="{% url 'first_tour:upload_sheets' %}">
+                    Загрузить работы
+                </a>
+            </div>
+            {% if sheets %}
+                <ol class="list-group">
+                {% for sheet in sheets %}
+                    <div class="col col-5 d-flex justify-content-between border-bottom">
+                        <li class="ml-3 align-self-center"><a href="{{ sheet.file.url }}">{{ sheet.file.name }}</a></li>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="number" hidden value="{{ sheet.pk }}">
+                            <input class="my-1 align-self-center px-1" type="submit" value="Удалить" disabled="disabled">
+                        </form>
+                    </div>
+                {% endfor %}
+                </ol>
+            {% else %}
+                <p>Сканы еще не загружены</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -23,7 +23,6 @@ from admission.utilities import file_add_extension
 
 @login_required()
 def main_page(request):
-    # user = request.user  # type: User
     participant = Participant.objects.get(user=request.user)
     results = get_result_user(participant.pk)
     a = get_appeal_order(participant)
@@ -31,6 +30,7 @@ def main_page(request):
     # print(appeal_order)
     file_list = participant.portfolio.all()
     file_add_extension(file_list)
+
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),

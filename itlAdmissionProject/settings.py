@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'admission.apps.AdmissionConfig',
     'crispy_forms',
     'bootstrap4',
+    'django_cleanup',
     'upload_test_app.apps.UploadTestAppConfig',
     'first_tour.apps.FirstTourConfig',
     'admin_profile.apps.AdminProfileConfig',
@@ -164,8 +165,11 @@ DEFAULT_FROM_EMAIL = SERVER_EMAIL
 MAIN_HOST = "https://apply.kpfu.ru/"
 DOMAIN = 'apply.kpfu.ru'
 PROTOCOL = 'https'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')

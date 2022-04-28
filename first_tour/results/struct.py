@@ -4,7 +4,7 @@ from admin_profile.helpers.user_struct import get_scans
 from admission.models import Participant
 from first_tour.forms import UserAppealForm, UserConfirmForm
 from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan, NextTourPass, UploadConfirm
-
+from first_tour.models import ExamSheetScan
 
 def get_final_result_release_date(final_result_release_date):
     return False if final_result_release_date is None else datetime.datetime.now() > final_result_release_date
@@ -73,8 +73,12 @@ class ResultParticipant:
 
     def get_scan(self):
         try:
-            return TourParticipantScan.objects.get(tour=self.tour,
-                                                   participant=self.participant).scan_file_name
+            scan = ExamSheetScan.objects.filter(
+                tour_order=self.tour.tour_order, participant=self.participant
+            ).order_by('-id')[0]
+            return scan
+            # return TourParticipantScan.objects.get(tour=self.tour,
+            #                                        participant=self.participant).scan_file_name
         except:
             return None
 
@@ -91,6 +95,7 @@ class ResultParticipant:
         self.score = self.get_final_score()
         self.tour = tour
         self.form = self.get_form()
-        self.scan = get_scans(participant, tour)
+        self.scan = self.get_scan()
         self.passing_type = self.get_passing_type()
         self.final_apply_form = self.get_final_form()
+        print('scan: ', self.scan, 'tour_order: ', self.tour.tour_order, 'participant: ', self.participant)

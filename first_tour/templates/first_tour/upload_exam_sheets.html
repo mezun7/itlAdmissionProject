@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% load bootstrap4 %}
+
+{% block title %}Exam Sheets Scans Upload{% endblock %}
+
+{% block content %}
+    <div>
+        {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
+        <div class="col-6 m-3">
+            <form  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="exam_tour">Выберите тур</label>
+                <select name="tour_order" id="exam_tour">
+                    <option value="0" selected disabled>-- Выберите тур --</option>
+                    {% for t in tour_orders %}
+                        <option value="{{ t.tour_order }}"> {{ t.name }})</option>
+                    {% endfor %}
+                </select>
+
+{#                <div class="form-group">#}
+{#                    <label for="files">Выберите файлы (*.zip)</label>#}
+{#                    <input#}
+{#                        type="file" class="form-control-file" id="files"#}
+{#                        name="files" accept=".zip" autocomplete="off" required multiple#}
+{#                    >#}
+{#                </div>#}
+                {{ form.as_p }}
+                <div class="form-group">
+                    <input type="submit" value="Загрузить" id="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script_buttom %}
+    <script>
+        file_input = document.getElementById('id_files');
+        file_input.setAttribute('accept', '.zip');
+        tour = document.getElementById('exam_tour')
+        submit_btn = document.getElementById('submit')
+        submit_btn.classList.add('btn', 'btn-secondary')
+        tour.classList.add('mb-4', 'p-2')
+        element = document.querySelector('.errorlist')
+        if (element) {
+            element.classList.add('alert', 'alert-warning');
+            setTimeout(() => {
+                element.remove()
+            }, 5000)
+        }
+    </script>
+{% endblock %}
