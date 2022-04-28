@@ -185,28 +185,20 @@ def parse_file(csv_file):
 
 def set_fieldnames():
     subjects = Subject.objects.all().values('id', 'name')
-    fieldnames = ['full_name', 'sheet_no', 'exam_date', 'id']
+    fieldnames = ['full_name', 'grade', 'sheet_no', 'exam_date', 'id']
     for s in subjects:
         # fieldnames.append(f'{s["id"]}_{s["name"]}')
         fieldnames.append(s["name"])
-    print(fieldnames)
     return tuple(fieldnames)
 
 
 def save_results(tour_order, results_from_csv):
-    # tour = Tour.objects.get(tour_order=tour_order)
-    # tour_subjects = tour.examsubject_set.all()
-    # for t_subj in tour_subjects:
-    #     print(t_subj.subject.name)
     results = []
-
     subjects = Subject.objects.all().values('id', 'name')
     for s in subjects:
         for r in results_from_csv:
             try:
                 participant = Participant.objects.get(id=r['id'])
-
-                # exam_result.participant_id = int(r['id'])
                 if r[s['name']] and r[s['name']] != '#N/A' and r[s['name']] != '':
                     exam_result = ExamResult()
                     exam_result.participant = participant
@@ -215,7 +207,4 @@ def save_results(tour_order, results_from_csv):
                     results.append(exam_result)
             except Exception as e:
                 print('Нет id участника или ', e)
-
-    for r in results:
-        print(r.participant.id, r.exam_subject.id)
     ExamResult.objects.bulk_create(results)
