@@ -65,7 +65,7 @@ def appeals_list(request):
 
     for ua in userAppeals:
         participant = ua.participant
-        tour = ua.tour.tour_order
+        tour = ua.tour
         examResults = participant.examresult_set.filter(exam_subject__in=tour.examsubject_set.all()).order_by(
             'exam_subject__type_of_scoring')
         results.append(AppealStruct(participant=participant,
