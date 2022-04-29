@@ -43,7 +43,7 @@
 {#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
                 </tbody>
             </table>
-            <br><a href="{% get_media_prefix %}ft/tasks.zip">Задания первого тура</a>
+{#            <br><a href="{% get_media_prefix %}ft/tasks.zip">Задания первого тура</a>#}
             {% if result.scan %}
                 <br>Вы также можете посмотреть скан своей работы по следующей <a href="{{ result.scan.file.url }}">ссылке</a>.
             {% endif %}
