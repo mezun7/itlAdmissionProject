@@ -45,7 +45,7 @@
                 </td>
                 <td>{{ result.appeal.appeal_reason }}</td>
                 <td>{% if result.scan %}
-                    <a href="{% get_media_prefix %}ft/{{ result.scan }}">Скан работы</a>
+                    <a href="{% get_media_prefix %}ft/{{ result.scan.file.url }}">Скан работы</a>
                 {% endif %}</td>
                 <td>
                     {% if not admin %}
