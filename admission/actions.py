@@ -22,8 +22,10 @@ def style_output_file(file):
 
     for column_cells in file.columns:
         print([cell.value for cell in column_cells])
-        length = max(len(cell.value) for cell in column_cells)
-        length += 10
+        length = 10
+        if cell.value is not None:
+            length = max(len(cell.value) for cell in column_cells)
+            length += 10
         file.column_dimensions[column_cells[0].column_letter].width = length
 
     return file
