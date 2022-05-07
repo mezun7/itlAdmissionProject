@@ -20,7 +20,7 @@ from admission.helpers.email_ops import get_register_mail, get_email_with_result
 from admission.models import Participant, Olympiad, ModeratorMessage
 from first_tour.appeal.teacher_view import AppealStruct
 from first_tour.forms import UserAppealForm
-from first_tour.models import UserAppeal
+from first_tour.models import UserAppeal, NextTourPass
 from first_tour.results.result import get_result_user
 from first_tour.task import make_mailing
 from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_START_TIME, APPEAL_PERIOD_MINUTES
@@ -33,6 +33,7 @@ def user_page(request, pk):
     results = get_result_user(participant.pk, exclude_date=True)
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
+
     context = {
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),

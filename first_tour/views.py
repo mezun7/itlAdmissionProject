@@ -1,7 +1,8 @@
+import psycopg2
 from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import formset_factory, modelformset_factory
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.mail import send_mail, EmailMessage
 # Create your views here.
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -16,6 +17,8 @@ from first_tour.task import test_celery
 from django.views.generic.edit import FormView
 from .utilities import rename_file
 import re
+import csv
+from io import StringIO
 
 
 def get_party_register(participant: Participant):
@@ -148,14 +151,17 @@ def upload_results(request):
     if request.method == 'POST':
         form = ResultUploadForm(request.POST, request.FILES)
         if form.is_valid():
+            subjects = Subject.objects.all().values('id', 'name')
+            fieldnames = ['full_name', 'grade', 'sheet_no', 'exam_date', 'id']
+            for s in subjects:
+                fieldnames.append(s["name"])
+            fieldnames = tuple(fieldnames)
+
             csv_file = request.FILES['files']
             for r in request:
                 print(r)
             tour_order = re.findall(r'\d+', str(csv_file))[0]
-            results = parse_file(csv_file)
-            # for r in results:
-            #     print(r)
-            # try:
+            results = parse_file(csv_file, fieldnames)
             save_results(tour_order, results)
             # except:
             context = {
@@ -168,15 +174,9 @@ def upload_results(request):
     return render(request, 'first_tour/upload_exam_results.html', context=context)
 
 
-import csv
-from io import StringIO
-
-
-def parse_file(csv_file):
+def parse_file(csv_file, fieldnames):
     file = csv_file.read().decode('utf-8')
     json_data = []
-    # fieldnames = ("participant_id",	"математика", "русский", "биология", "физика")
-    fieldnames = set_fieldnames()
     reader = csv.DictReader(StringIO(file), fieldnames)
     for row in reader:
         json_data.append(row)
@@ -184,7 +184,7 @@ def parse_file(csv_file):
     return json_data
 
 
-def set_fieldnames():
+def set_fieldnames(fieldnames):
     subjects = Subject.objects.all().values('id', 'name')
     fieldnames = ['full_name', 'grade', 'sheet_no', 'exam_date', 'id']
     for s in subjects:
@@ -218,3 +218,55 @@ def save_results(tour_order, results_from_csv):
 def get_tour(tour_order, participant):
     tour = Tour.objects.get(tour_order=tour_order, profile=participant.profile)
     return tour
+
+
+def get_object_or_None(Participant, pk):
+    pass
+
+
+def load_next_tour_pass(request):
+    context = {}
+    results = []
+    if request.method == 'POST':
+        fieldnames = ("participant_id", "surname", "name", "patronymic", "status")
+        form = ResultUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            csv_file = request.FILES['files']
+            rows = parse_file(csv_file, fieldnames)
+            i = 4
+            for row in rows:
+                try:
+                    participant = Participant.objects.get(id=row['participant_id'])
+                    model = NextTourPass()
+                    model.participant = participant
+                    model.tour = Tour.objects.filter(profile=participant.profile).first()
+                    row['status'] = remove_white_spaces(row['status'])
+                    if row['status'] and (row['status'].startswith('п') or row['status'].startswith('р')):
+                        if row['status'].startswith('п'):
+                            model.type_of_pass = 'P'
+                        if row['status'].startswith('р'):
+                            model.type_of_pass = 'R'
+                        results.append(model)
+                except Participant.DoesNotExist:
+                    participant = None
+            try:
+                NextTourPass.objects.bulk_create(results)
+                msg = f'<div class="alert alert-success">Файл успешно загружен.</div>'
+            except Exception or psycopg2.Error as e:
+                msg = f'<div class="alert alert-warning">Ошибка: {e}</div>'
+            context = {
+                'form': form,
+                'msg': msg
+            }
+    else:
+        form = ResultUploadForm()
+        context = {'form': form}
+    return render(request, 'first_tour/next_tour_pass.html', context=context)
+
+
+def remove_white_spaces(string=None):
+    if string and len(string) > 0:
+        # Remove all non-word characters (everything except numbers and letters)
+        return re.sub(r"[^\w\s]", '', string).lower()
+    return string
+

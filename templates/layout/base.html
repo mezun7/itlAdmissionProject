@@ -64,12 +64,14 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Загрузка
+                        Первый тур
                     </a>
                     <div class="dropdown-menu mr-5 dropdown-menu-right" aria-labelledby="navbarDropdown1">
-                        <a class="dropdown-item" href="{% url 'first_tour:upload_results' %}">Результатов</a>
+                        <a class="dropdown-item" href="{% url 'first_tour:upload_results' %}">Загрузка результатов</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'first_tour:exam_sheets' %}">Работ участников</a>
+                        <a class="dropdown-item" href="{% url 'first_tour:exam_sheets' %}">Загрузка работ участников</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'first_tour:load_next_tour_pass' %}">Загрузка списка на II тур</a>
                     </div>
                 </li>
                 <li class="nav-item">

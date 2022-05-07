@@ -7,13 +7,14 @@
 
 {% block content %}
     <div>
+        <h3 class="ml-3">Загрузка результатов участников из файла</h3>
         {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
         <div class="col-6 m-3">
             <form  method="post" enctype="multipart/form-data" id="upload_result">
                 <p class="alert alert-info">
                     Имя файла должен содержать порядковый номер тура (tour_order), других чисел не должно быть<br>
-                    Пример имени файла: tour1.scv, тур2.csv, tour_2.csv
-                    Разделитель в csv файле ","
+                    Пример имени файла: tour1.scv, тур2.csv, tour_2.csv.
+                    Разделитель в csv файле "," - запятая, кодировка utf-8.
                 </p>
                 {% csrf_token %}
                 {{ form.as_p }}

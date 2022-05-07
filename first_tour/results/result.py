@@ -36,15 +36,18 @@ def get_result_user(pk, exclude_date=False):
     results = []
 
     for tour in tours:
-        party_results = ExamResult.objects.filter(exam_subject__tour=tour,
-                                                  participant=participant).order_by('exam_subject__ordering')
+        party_results = ExamResult.objects.filter(
+            exam_subject__tour=tour, participant=participant
+        ).order_by('exam_subject__ordering')
 
         # for pres in party_results:
         #     print(pres.participant, pres.exam_subject.subject, pres.score)
         try:
             passing_type = participant.nexttourpass_set.get(tour=tour)
+            # passing_type = NextTourPass.objects.filter(participant=participant).first()
         except NextTourPass.DoesNotExist:
             passing_type = None
+
         final_release_date = tour.results_release_date
         results.append(
             ResultParticipant(
@@ -57,4 +60,5 @@ def get_result_user(pk, exclude_date=False):
                 participant=participant,
             )
         )
+    # print(passing_type)
     return results

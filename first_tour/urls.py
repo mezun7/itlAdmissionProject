@@ -12,7 +12,7 @@ from . import views
 from first_tour.appeal.teacher_view import appeals_list, appeal_person
 from admission import first_tour
 from .final_results.main_raiting import main_table, journal_with_photos, edit_mark
-from .views import get_registered, upload_sheets, exam_sheets, upload_results
+from .views import get_registered, upload_sheets, exam_sheets, upload_results, load_next_tour_pass
 
 app_name = 'first_tour'
 
@@ -32,4 +32,5 @@ urlpatterns = [
     path('exam_sheets/', exam_sheets, name='exam_sheets'),
     path('upload_sheets/', upload_sheets, name='upload_sheets'),
     path('upload_results/', upload_results, name='upload_results'),
+    path('load_next_tour_pass/', load_next_tour_pass, name='load_next_tour_pass'),
 ]

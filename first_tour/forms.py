@@ -88,5 +88,5 @@ class UploadForm(forms.Form):
 
 
 class ResultUploadForm(forms.Form):
-    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': '.csv'}), label='Результаты участников (.csv)')
+    files = forms.FileField(widget=forms.ClearableFileInput(attrs={'accept': '.csv'}), label='Загрузка из csv файла')
 
