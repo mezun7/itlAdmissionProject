@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'admission.apps.AdmissionConfig',
     'crispy_forms',
     'bootstrap4',
-    'django_cleanup',
     'upload_test_app.apps.UploadTestAppConfig',
     'first_tour.apps.FirstTourConfig',
     'admin_profile.apps.AdminProfileConfig',
