@@ -51,7 +51,7 @@
                     {% if result.final_apply_form %}
                         <br> В случае, если Вы не заполните анкету до 17.05.2022 12:00. Мы в праве пригласить следующего по списку абитуриента.
                         <div class="col">
-                            <form method="post" action="{% url 'upload_confirm' result.participant.pk %}" enctype="multipart/form-data">
+                            <form method="post" action="{% url 'admission:upload_confirm' result.participant.pk %}" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 {{ result.final_apply_form.non_field_errors }}
 
