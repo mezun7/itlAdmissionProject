@@ -1,6 +1,7 @@
 {% load static %}
 
 <!-- timeline time label -->
+{% ifnotequal result.passing_type "R" %}
 <div class="time-label">
     <span class="bg-success">
         {{ result.tour.final_result_release_date }}
@@ -88,5 +89,6 @@
         </div>
     </div>
 </div>
+{% endifnotequal %}
 
 
