@@ -108,7 +108,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
     ws.append(header)
 
     for participant in queryset.order_by('last_name', 'first_name', 'fathers_name', 'grade'):
-        if not participant.is_dublicate and participant.first_name is not None:
+        if True or not participant.is_dublicate and participant.first_name is not None:
             # came = "false"
             try:
                 lg = LiterGrade.objects.get(participants__in=[participant, ])
