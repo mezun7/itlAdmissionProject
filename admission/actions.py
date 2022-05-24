@@ -6,7 +6,7 @@ from action_export.export_excel import ExportExcelAction
 from openpyxl.styles import Font
 from unidecode import unidecode
 
-from first_tour.models import LiterGrade, NextTourPass
+from first_tour.models import LiterGrade, NextTourPass, UploadConfirm
 
 
 def get_value(obj):
@@ -98,6 +98,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'Дата первого тура',
         'Когда пришел на второй тур?',
         'Пригласили на второй тур?',
+        'Зарегистрирован на второй тур?'
         'Пришел на второй тур?',
         "Город проживания"
     ]
@@ -119,6 +120,11 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 invited = 'True'
             except:
                 invited = 'False'
+            try:
+                rg = UploadConfirm.objects.get(participant=participant)
+                registered = 'True'
+            except:
+                registered = 'False'
             ws.append([
                 str(participant.pk),
                 participant.last_name,
@@ -136,6 +142,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 str(participant.first_tour_register_date),
                 get_value(participant.first_tour_come_date),
                 invited,
+                registered,
                 came,
                 get_value(participant.lives)
             ])
