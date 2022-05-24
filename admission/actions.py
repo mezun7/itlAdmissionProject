@@ -6,7 +6,7 @@ from action_export.export_excel import ExportExcelAction
 from openpyxl.styles import Font
 from unidecode import unidecode
 
-from first_tour.models import LiterGrade
+from first_tour.models import LiterGrade, NextTourPass
 
 
 def get_value(obj):
@@ -97,7 +97,8 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'Школа',
         'Дата первого тура',
         'Когда пришел на второй тур?',
-        'Пришел на второу тур?',
+        'Пригласили на второй тур?',
+        'Пришел на второй тур?',
         "Город проживания"
     ]
 
@@ -109,10 +110,15 @@ def export_as_xls_full_participant_data(self, request, queryset):
         if not participant.is_dublicate and participant.first_name is not None:
             # came = "false"
             try:
-                lg = LiterGrade.objects.get(participants__in=[participant,])
+                lg = LiterGrade.objects.get(participants__in=[participant, ])
                 came = 'True'
             except LiterGrade.DoesNotExist:
                 came = 'False'
+            try:
+                np = NextTourPass.objects.get(participant=participant)
+                invited = 'True'
+            except:
+                invited = 'False'
             ws.append([
                 str(participant.pk),
                 participant.last_name,
@@ -129,6 +135,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 participant.school,
                 str(participant.first_tour_register_date),
                 get_value(participant.first_tour_come_date),
+                invited,
                 came,
                 get_value(participant.lives)
             ])
