@@ -5,6 +5,7 @@
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'second_tour/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
@@ -37,6 +38,7 @@
                     <th>Фамилия</th>
                     <th>Имя</th>
                     <th>Отчество</th>
+                    <th>Класс</th>
                     {% if moderator %}
                         <th>Группа</th>
                     {% endif %}
@@ -51,19 +53,26 @@
                             <td>{{ p.last_name }}</td>
                             <td>{{ p.first_name }}</td>
                             <td>{{ p.fathers_name }}</td>
+                            <td  class="text-center">{{ p.grade_num }}</td>
                             {% if moderator %}
-                                <td class="text-center">{{ p.litergarde }}</td>
+                                <td class="text-center">
+                                    <span>{% if p.litergarde %} {{ p.litergarde }} {% endif %}</span>
+                                    <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
+                                    <select name="litergrade_id" id="liter_grade_select" hidden>
+                                        <option selected disabled></option>
+                                        {% for l in litergrades %}
+                                            <option value="{{ l.pk }}">{{ l.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
                             {% endif %}
                             <td class="text-center">
-                                <form action="{% url 'second_tour:check_list' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="participant_pk" value="{{ p.pk }}">
-                                    {% if p.has_come %}
-                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come" checked="checked">
-                                    {% else %}
-                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come">
-                                    {% endif %}
-                                </form>
+                                <input type="hidden" name="participant_pk" value="{{ p.pk }}">
+                                {% if p.has_come_to %}
+                                    <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come" checked="checked">
+                                {% else %}
+                                    <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come">
+                                {% endif %}
                             </td>
                         </tr>
                     {% endif %}

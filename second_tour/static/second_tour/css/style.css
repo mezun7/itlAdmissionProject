@@ -18,3 +18,9 @@ table tr td:first-child::before {
     -webkit-box-shadow: 0 0 8px 3px orangered;;
     -moz-box-shadow: 0 0 8px 3px orangered;;
 }
+
+.hidden {
+    visibility: visible;
+}
+
+.visi
