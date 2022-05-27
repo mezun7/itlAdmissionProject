@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'upload_test_app.apps.UploadTestAppConfig',
     'first_tour.apps.FirstTourConfig',
     'admin_profile.apps.AdminProfileConfig',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'second_tour'
 ]
 
 MIDDLEWARE = [
