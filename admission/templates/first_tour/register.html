@@ -22,7 +22,7 @@
         {#        </li>#}
             {% for grade in grades %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'admission:first_tour_register' grade.pk %}" class="dropdown-item">{{ grade }} класс</a>
+                    <a class="nav-link" href="{% url 'admission:first_tour_register' grade.pk %}">{{ grade }} класс</a>
                 </li>
             {% endfor %}
         </ul>

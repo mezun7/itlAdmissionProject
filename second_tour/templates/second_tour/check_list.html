@@ -1,0 +1,82 @@
+{% extends "layout/base.html" %}
+{% block title %}
+    Контроль явки участников II тура
+{% endblock %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'second_tour/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <h3 class="text-center">Явка участников на II тур</h3>
+    {% if litergarde %}
+        <h4 class="text-center">Группа {{ litergarde }}</h4>
+    {% endif %}
+
+    {% if moderator %}
+        <div class="d-flex justify-content-center my-3">
+            <ul class="nav nav-header">
+                <li class="nav-link">Группы:</li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
+                </li>
+                {% for litergrade in litergrades %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+<div class="d-flex justify-content-center" id="app">
+    {% if participants_list %}
+        <table class="table table-striped table-bordered w-50">
+            <thead>
+                <tr class="text-center">
+                    <th>№</th>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    {% if moderator %}
+                        <th>Группа</th>
+                    {% endif %}
+                    <th>Явка на II тур</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in participants_list %}
+                    {% if p.last_name and p.first_name %}
+                        <tr>
+                            <td class="text-center"></td>
+                            <td>{{ p.last_name }}</td>
+                            <td>{{ p.first_name }}</td>
+                            <td>{{ p.fathers_name }}</td>
+                            {% if moderator %}
+                                <td class="text-center">{{ p.litergarde }}</td>
+                            {% endif %}
+                            <td class="text-center">
+                                <form action="{% url 'second_tour:check_list' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="participant_pk" value="{{ p.pk }}">
+                                    {% if p.has_come %}
+                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come" checked="checked">
+                                    {% else %}
+                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come">
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+            <div class="alert alert-info">Нет данных</div>
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block script_buttom %}
+    <script src="{% static 'second_tour/js/script.js' %}"></script>
+{% endblock %}

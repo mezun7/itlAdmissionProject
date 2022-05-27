@@ -1,0 +1,20 @@
+table {
+    counter-reset: rowNumber;
+}
+
+table tbody tr {
+    counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    /*margin-right: 0.5em;*/
+}
+
+.has_come:hover {
+    cursor: pointer;
+    box-shadow: 0 0 8px 3px orangered;
+    -webkit-box-shadow: 0 0 8px 3px orangered;;
+    -moz-box-shadow: 0 0 8px 3px orangered;;
+}

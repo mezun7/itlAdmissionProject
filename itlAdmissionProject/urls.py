@@ -24,6 +24,7 @@ urlpatterns = [
     path('utest/', include('upload_test_app.urls', namespace='upload_test_app')),
     # path('adm_api/', include('api.urls')),
     path('first_tour/', include('first_tour.urls')),
+    path('second_tour/', include('second_tour.urls')),
     path('ap/', include('admin_profile.urls')),
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),

@@ -47,6 +47,7 @@ def proxy_func(request):
             try:
                 registrator = ParticipantRegistrator.objects.get(user=request.user)
                 return redirect('admission:first_tour_register')
+                # return redirect('second_tour:check_list')
             except ParticipantRegistrator.DoesNotExist:
                 # Go to the next try clause.
                 pass

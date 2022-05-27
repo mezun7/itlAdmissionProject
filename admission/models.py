@@ -138,6 +138,13 @@ class Participant(models.Model):
     def __str__(self):
         return self.user.username
 
+    class Meta:
+        ordering = [
+            'last_name',
+            'first_name',
+            'fathers_name',
+        ]
+
 
 class Olympiad(models.Model):
     text = models.CharField(max_length=500)
