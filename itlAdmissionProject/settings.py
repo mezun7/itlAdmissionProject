@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'first_tour.apps.FirstTourConfig',
     'admin_profile.apps.AdminProfileConfig',
     'api.apps.ApiConfig',
-    'second_tour.apps.SecondTourConfig',
+    'second_tour.apps.SecondTourConfig'
 ]
 
 MIDDLEWARE = [
