@@ -15,12 +15,18 @@ table tr td:first-child::before {
 .has_come:hover {
     cursor: pointer;
     box-shadow: 0 0 8px 3px orangered;
-    -webkit-box-shadow: 0 0 8px 3px orangered;;
-    -moz-box-shadow: 0 0 8px 3px orangered;;
+    -webkit-box-shadow: 0 0 8px 3px orangered;
+    -moz-box-shadow: 0 0 8px 3px orangered;
 }
 
 .hidden {
     visibility: visible;
 }
 
-.visi
+.first_letter:hover, .litergrade:hover {
+    box-shadow: 0 0 8px 3px #bfd9e1;
+    -webkit-box-shadow: 0 0 8px 3px #bfd9e1;
+    -moz-box-shadow: 0 0 8px 3px #bfd9e1;
+    color: black;
+    font-weight: bolder;
+}

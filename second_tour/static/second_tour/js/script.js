@@ -3,6 +3,7 @@ let spanOldValue = null;
 getHasComeBoxes();
 handleEditButtonsClick();
 handleLiterGradeChanges();
+filterByFirstLetter();
 
 // get_data(1);
 
@@ -220,7 +221,16 @@ function handleLiterGradeChanges() {
             // alert(is_failed);
             event.stopImmediatePropagation();
             event.preventDefault();
+            element.addEventListener()
         })
+    );
+    selects.forEach(element => element.addEventListener("mouseout",
+        function(event) {
+            setTimeout(function() {
+                element.parentElement.children[1].hidden = false ;
+                element.hidden = true;
+            }, 500);
+        }, false)
     );
 }
 
@@ -240,6 +250,18 @@ function renderSelect(parentElement) {
     parentElement.appendChild(select);
 }
 
+function filterByFirstLetter() {
+    const letters = document.querySelectorAll('#letter_link');
+    const lastNameCells = document.querySelectorAll('.last_name');
+    letters.forEach(letter => letter.addEventListener('click', event => {
+        event.stopImmediatePropagation();
+        lastNameCells.forEach(cell => {
+            cell.parentElement.hidden = !cell.innerText.startsWith(letter.innerText)
+        });
+        alert(i);
+
+    }))
+}
 
 /*
     (function() {

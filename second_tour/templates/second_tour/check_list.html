@@ -15,19 +15,28 @@
     {% endif %}
 
     {% if moderator %}
-        <div class="d-flex justify-content-center my-3">
+        <div class="d-flex justify-content-center my-1">
             <ul class="nav nav-header">
-                <li class="nav-link">Группы:</li>
-                <li class="nav-item">
+                <li class="nav-link ">Группы:</li>
+                <li class="nav-item litergrade">
                     <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
                 </li>
                 {% for litergrade in litergrades %}
-                    <li class="nav-item">
+                    <li class="nav-item litergrade">
                         <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade.grade }}.{{ litergrade.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
         </div>
+        {% if participants_list|length > 30 %}
+            <ul class="nav nav-header d-flex justify-content-center mb-1">
+            {% for fl in first_letter %}
+                <li class="nav-item first_letter">
+                    <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
     {% endif %}
 <div class="d-flex justify-content-center" id="app">
     {% if participants_list %}
@@ -52,7 +61,7 @@
                         <tr>
                             <td class="text-center"></td>
                             <td class="text-center">{{ p.pk }}</td>
-                            <td>{{ p.last_name }}</td>
+                            <td class="last_name">{{ p.last_name }}</td>
                             <td>{{ p.first_name }}</td>
                             <td>{{ p.fathers_name }}</td>
                             <td  class="text-center">{{ p.grade_num }}</td>

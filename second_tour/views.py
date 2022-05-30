@@ -15,9 +15,6 @@ from psycopg2 import Error
 @login_required
 @staff_member_required
 def check_list(request, pk=None):
-    lg = LiterGrade.objects.all()
-    for l in lg:
-        print(l)
     context = {}
     if request.POST:
         has_come = False
@@ -39,7 +36,6 @@ def check_list(request, pk=None):
         try:
             Moderator.objects.get(user=request.user)
             litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
-            # litergrades = LiterGrade.objects.all()
             if pk:
                 litergarde = LiterGrade.objects.get(pk=pk)
                 participants_list = litergarde.participants.values(
@@ -75,6 +71,13 @@ def check_list(request, pk=None):
                     pk=F('participant__pk'),
                     has_come_to=F('has_come')
                 )
+
+                first_letter = list()
+                for l in participants_list:
+                    fl = str(l['last_name'])[0]
+                    if fl not in first_letter:
+                        first_letter.append(fl)
+                first_letter = sorted(first_letter)
                 context = {
                     'participants_list': sorted(
                         participants_list,
@@ -86,6 +89,7 @@ def check_list(request, pk=None):
                         )
                     ),
                     'litergrades': litergrades,
+                    'first_letter': first_letter,
                     'moderator': True
                 }
         except Moderator.DoesNotExist:
