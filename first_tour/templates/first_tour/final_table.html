@@ -42,8 +42,8 @@ td {
             <tr class="text-center justify-content-center">
                 <td>
                     <div class="text-center">
-                        <a href="{% get_media_prefix %}avatars/{{ result.participant.profile_photo }}.jpg" data-toggle="lightbox" data-title="{{  result.participant.last_name }} {{  result.participant.first_name }} {{  result.participant.fathers_name }}" data-gallery="gallery">
-                            <img class="profile-user-img img-fluid" src="{% get_media_prefix %}avatars/{{ result.participant.profile_photo }}.jpg" alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
+                        <a href="{% get_media_prefix %}avatars/{{ result.participant.profile_photo }}" data-toggle="lightbox" data-title="{{  result.participant.last_name }} {{  result.participant.first_name }} {{  result.participant.fathers_name }}" data-gallery="gallery">
+                            <img class="profile-user-img img-fluid" src="{% get_media_prefix %}avatars/{{ result.participant.profile_photo }}" alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
                         </a>
                     </div></td>
                 <td>{{ forloop.counter }}</td>
