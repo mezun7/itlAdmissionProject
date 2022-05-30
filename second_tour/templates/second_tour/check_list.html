@@ -10,6 +10,9 @@
 
 {% block content %}
     <h3 class="text-center">Явка участников на II тур</h3>
+
+    {% include 'second_tour/new_participant_modal.html' %}
+
     {% if litergarde %}
         <h4 class="text-center">Группа {{ litergarde }}</h4>
     {% endif %}
@@ -29,13 +32,15 @@
             </ul>
         </div>
         {% if participants_list|length > 30 %}
-            <ul class="nav nav-header d-flex justify-content-center mb-1">
-            {% for fl in first_letter %}
-                <li class="nav-item first_letter">
-                    <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
-                </li>
-            {% endfor %}
-            </ul>
+            <div class="nav nav-header d-flex justify-content-center mb-1">
+                <ul class="nav nav-header">
+                    {% for fl in first_letter %}
+                        <li class="nav-item first_letter">
+                            <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
         {% endif %}
     {% endif %}
 <div class="d-flex justify-content-center" id="app">
@@ -101,4 +106,5 @@
 
 {% block script_buttom %}
     <script src="{% static 'second_tour/js/script.js' %}"></script>
+    <script src="{% static 'second_tour/js/modal.js' %}"></script>
 {% endblock %}
