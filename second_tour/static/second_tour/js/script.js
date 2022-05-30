@@ -34,7 +34,6 @@ function get_data(id) {
 }
 
 function render_table(data) {
-    console.log(data.table_head);
     const app = document.getElementById('app');
     const table = document.createElement('table');
     table.className = 'table table-striped table-bordered w-50';
