@@ -60,11 +60,11 @@
                                 <td class="text-center">
                                     <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
                                     <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
-                                    <select name="litergrade_id" id="liter_grade_select" hidden>
+                                    <select id="liter_grade_select" hidden>
                                         <option selected disabled></option>
                                         {% for l in litergrades %}
                                             {% if l.grade == p.grade_num%}
-                                            <option value="{{ l.pk }}">{{ l.grade }}.{{ l.name }}</option>
+                                                <option value="{{ l.pk }}">{{ l.grade }}.{{ l.name }}</option>
                                             {% endif %}
                                         {% endfor %}
                                     </select>

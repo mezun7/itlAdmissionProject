@@ -186,7 +186,6 @@ function showAlert(data) {
 function handleEditButtonsClick() {
     let edit_btn = document.querySelectorAll('#edit_btn');
     let allSelects = document.querySelectorAll('#liter_grade_select');
-    console.log(allSelects);
     edit_btn.forEach(
         element => element.addEventListener('click', event => {
             // let s = allSelects.filter(item => item.hidden === false);
