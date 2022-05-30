@@ -10,6 +10,9 @@
 
 {% block content %}
     <h3 class="text-center">Явка участников на II тур</h3>
+
+    {% include 'second_tour/new_participant_modal.html' %}
+
     {% if litergarde %}
         <h4 class="text-center">Группа {{ litergarde }}</h4>
     {% endif %}
@@ -101,4 +104,5 @@
 
 {% block script_buttom %}
     <script src="{% static 'second_tour/js/script.js' %}"></script>
+    <script src="{% static 'second_tour/js/modal.js' %}"></script>
 {% endblock %}
