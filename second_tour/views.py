@@ -95,10 +95,10 @@ def set_participant_litergrade(request):
         import json
         post_data = json.loads(request.body.decode("utf-8"))
         try:
-            for lg in LiterGrade.objects.filter(participants__in=[post_data['participant_pk'], ]):
-                lg.participants.filter(pk=post_data['participant_pk']).delete()
-            lg = LiterGrade.objects.get(pk=post_data['litergrade_pk'])
-            lg.participants.add(post_data['participant_pk'])
+            # for lg in LiterGrade.objects.filter(participants__in=[post_data['participant_pk'], ]):
+            #     lg.participants.filter(pk=post_data['participant_pk']).delete()
+            # lg = LiterGrade.objects.get(pk=post_data['litergrade_pk'])
+            # lg.participants.add(post_data['participant_pk'])
 
             return HttpResponse(0)
         except (Error, Exception) as e:
