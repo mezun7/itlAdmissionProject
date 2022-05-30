@@ -15,6 +15,9 @@ from psycopg2 import Error
 @login_required
 @staff_member_required
 def check_list(request, pk=None):
+    lg = LiterGrade.objects.all()
+    for l in lg:
+        print(l)
     context = {}
     if request.POST:
         has_come = False
@@ -35,7 +38,8 @@ def check_list(request, pk=None):
     except LiterGradeTutor.DoesNotExist:
         try:
             Moderator.objects.get(user=request.user)
-            litergrades = LiterGrade.objects.all()
+            litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
+            # litergrades = LiterGrade.objects.all()
             if pk:
                 litergarde = LiterGrade.objects.get(pk=pk)
                 participants_list = litergarde.participants.values(
@@ -45,7 +49,19 @@ def check_list(request, pk=None):
                     litergarde=F('litergrade__name'),
                     has_come_to=F('nexttourpass__has_come')
                 )
-                context = {'participants_list': participants_list, 'litergrades': litergrades, 'moderator': True}
+                context = {
+                    'participants_list': sorted(
+                        participants_list,
+                        key=lambda d: (
+                            d['grade_num'],
+                            d['last_name'],
+                            d['first_name'],
+                            d['fathers_name'],
+                        )
+                    ),
+                    'litergrades': litergrades,
+                    'moderator': True
+                }
                 return render(request, template_name='second_tour/check_list.html', context=context)
             else:
                 participants_list = NextTourPass.objects.values(
@@ -59,7 +75,19 @@ def check_list(request, pk=None):
                     pk=F('participant__pk'),
                     has_come_to=F('has_come')
                 )
-                context = {'participants_list': participants_list, 'litergrades': litergrades, 'moderator': True}
+                context = {
+                    'participants_list': sorted(
+                        participants_list,
+                        key=lambda d: (
+                            d['grade_num'],
+                            d['last_name'],
+                            d['first_name'],
+                            d['fathers_name'],
+                        )
+                    ),
+                    'litergrades': litergrades,
+                    'moderator': True
+                }
         except Moderator.DoesNotExist:
             context = {}
     return render(request, template_name='second_tour/check_list.html', context=context)
@@ -95,11 +123,16 @@ def set_participant_litergrade(request):
         import json
         post_data = json.loads(request.body.decode("utf-8"))
         try:
-            # for lg in LiterGrade.objects.filter(participants__in=[post_data['participant_pk'], ]):
-            #     lg.participants.filter(pk=post_data['participant_pk']).delete()
-            # lg = LiterGrade.objects.get(pk=post_data['litergrade_pk'])
-            # lg.participants.add(post_data['participant_pk'])
-
+            sql = '''UPDATE first_tour_litergrade_participants
+            SET litergrade_id = %s WHERE participant_id=%s'''
+            if post_data['old_litergrade']:
+                from django.db import connection
+                cursor = connection.cursor()
+                cursor.execute(sql, [post_data['litergrade_pk'], post_data['participant_pk']])
+                connection.commit()
+            else:
+                lg = LiterGrade.objects.get(pk=post_data['litergrade_pk']);
+                lg.participants.add(post_data['participant_pk'])
             return HttpResponse(0)
         except (Error, Exception) as e:
             print(e)

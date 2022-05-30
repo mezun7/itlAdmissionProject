@@ -1,4 +1,5 @@
 let is_failed = true;
+let spanOldValue = null;
 getHasComeBoxes();
 handleEditButtonsClick();
 handleLiterGradeChanges();
@@ -141,8 +142,8 @@ function postHasComeState(participant_pk, has_come) {
     .then(data => showAlert(data) )
 }
 
-function postParticipantLiterGrade(participant_pk, litergrade_pk) {
-    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk};
+function postParticipantLiterGrade(participant_pk, litergrade_pk, old_litergrade=false) {
+    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, old_litergrade};
     const url = '/second_tour/check_list/set_participant_litergrade';
     fetch(url, {
         method: 'POST',
@@ -184,10 +185,19 @@ function showAlert(data) {
 
 function handleEditButtonsClick() {
     let edit_btn = document.querySelectorAll('#edit_btn');
+    let allSelects = document.querySelectorAll('#liter_grade_select');
+    console.log(allSelects);
     edit_btn.forEach(
         element => element.addEventListener('click', event => {
+            // let s = allSelects.filter(item => item.hidden === false);
+            allSelects.forEach(item => {
+                if (!item.hidden) {
+                    item.hidden = true;
+                }
+            } )
             const btn = event.currentTarget;
             const span = btn.parentElement.firstElementChild;
+            spanOldValue = span.innerHTML;
             btn.hidden = true;
             const  select = btn.parentElement.children[2].hidden = false;
             event.stopImmediatePropagation();
@@ -208,7 +218,7 @@ function handleLiterGradeChanges() {
             const oldValue = span.innerHTML;
             const participant_pk = select.parentElement.parentElement.lastElementChild.firstElementChild.value.toString();
             span.innerHTML = select.options[select.selectedIndex].text;
-            postParticipantLiterGrade(participant_pk, litergrade_pk);
+            postParticipantLiterGrade(participant_pk, litergrade_pk, !!spanOldValue);
             // alert(is_failed);
             event.stopImmediatePropagation();
             event.preventDefault();
