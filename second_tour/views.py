@@ -35,46 +35,80 @@ def check_list(request, pk=None):
     except LiterGradeTutor.DoesNotExist:
         try:
             Moderator.objects.get(user=request.user)
-            litergrades = LiterGrade.objects.all()
+            litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
             if pk:
                 litergarde = LiterGrade.objects.get(pk=pk)
                 participants_list = litergarde.participants.values(
                     'last_name', 'first_name', 'fathers_name',
-                    'grade', 'grade_id', 'pk',
+                    'grade_id', 'pk',
+                    grade_num=F('grade__number'),
                     litergarde=F('litergrade__name'),
-                    has_come=F('nexttourpass__has_come')
+                    has_come_to=F('nexttourpass__has_come')
                 )
-                context = {'participants_list': participants_list, 'litergrades': litergrades, 'moderator': True}
+                context = {
+                    'participants_list': sorted(
+                        participants_list,
+                        key=lambda d: (
+                            d['grade_num'],
+                            d['last_name'],
+                            d['first_name'],
+                            d['fathers_name'],
+                        )
+                    ),
+                    'litergrades': litergrades,
+                    'moderator': True
+                }
                 return render(request, template_name='second_tour/check_list.html', context=context)
             else:
-                participants_list = LiterGrade.objects.values(
-                    last_name=F('participants__last_name'),
-                    first_name=F('participants__first_name'),
-                    fathers_name=F('participants__fathers_name'),
-                    litergarde=F('participants__litergrade__name'),
-                    grade=F('participants__grade'),
-                    grade_id=F('participants__grade_id'),
-                    pk=F('participants__pk'),
-                    has_come=F('participants__nexttourpass__has_come')
+                participants_list = NextTourPass.objects.values(
+                    last_name=F('participant__last_name'),
+                    first_name=F('participant__first_name'),
+                    fathers_name=F('participant__fathers_name'),
+                    litergarde=F('participant__litergrade__name'),
+                    litergarde_id=F('participant__litergrade__pk'),
+                    grade_num=F('participant__grade__number'),
+                    grade_id=F('participant__grade_id'),
+                    pk=F('participant__pk'),
+                    has_come_to=F('has_come')
                 )
-                context = {'participants_list': participants_list, 'litergrades': litergrades, 'moderator': True}
+
+                first_letter = list()
+                for l in participants_list:
+                    fl = str(l['last_name'])[0]
+                    if fl not in first_letter:
+                        first_letter.append(fl)
+                first_letter = sorted(first_letter)
+                context = {
+                    'participants_list': sorted(
+                        participants_list,
+                        key=lambda d: (
+                            d['grade_num'],
+                            d['last_name'],
+                            d['first_name'],
+                            d['fathers_name'],
+                        )
+                    ),
+                    'litergrades': litergrades,
+                    'first_letter': first_letter,
+                    'moderator': True
+                }
         except Moderator.DoesNotExist:
             context = {}
     return render(request, template_name='second_tour/check_list.html', context=context)
 
 
-def get_litergrade_list(request, pk=None):
-    litergarde = LiterGrade.objects.get(pk=pk)
-    data = litergarde.participants.values(
-        'last_name', 'first_name', 'fathers_name',
-        'grade', 'grade_id', 'pk',
-        litergarde=F('litergrade__name'),
-        has_come=F('nexttourpass__has_come')
-    )
-    return JsonResponse({
-        'data': list(data),
-        'table_head': ['№', 'Фамилия', 'Имя', 'Отчество', 'Группа', 'Явка на II тур']
-    })
+# def get_litergrade_list(request, pk=None):
+#     litergarde = LiterGrade.objects.get(pk=pk)
+#     data = litergarde.participants.values(
+#         'last_name', 'first_name', 'fathers_name',
+#         'grade', 'grade_id', 'pk',
+#         litergarde=F('litergrade__name'),
+#         has_come=F('nexttourpass__has_come')
+#     )
+#     return JsonResponse({
+#         'data': list(data),
+#         'table_head': ['№', 'Фамилия', 'Имя', 'Отчество', 'Группа', 'Явка на II тур']
+#     })
 
 
 def set_has_come(request):
@@ -85,4 +119,25 @@ def set_has_come(request):
             NextTourPass.objects.filter(participant_id=post_data['participant_pk']).update(has_come=post_data['has_come'])
             return HttpResponse(0)
         except (Error, Exception) as e:
+            return HttpResponse(e)
+
+
+def set_participant_litergrade(request):
+    if request.method == "POST":
+        import json
+        post_data = json.loads(request.body.decode("utf-8"))
+        try:
+            sql = '''UPDATE first_tour_litergrade_participants
+            SET litergrade_id = %s WHERE participant_id=%s'''
+            if post_data['old_litergrade']:
+                from django.db import connection
+                cursor = connection.cursor()
+                cursor.execute(sql, [post_data['litergrade_pk'], post_data['participant_pk']])
+                connection.commit()
+            else:
+                lg = LiterGrade.objects.get(pk=post_data['litergrade_pk']);
+                lg.participants.add(post_data['participant_pk'])
+            return HttpResponse(0)
+        except (Error, Exception) as e:
+            print(e)
             return HttpResponse(e)

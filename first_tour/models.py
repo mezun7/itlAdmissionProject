@@ -201,13 +201,6 @@ class LiterGrade(models.Model):
     def __str__(self):
         return str(self.tour.grade.number) + "." + self.name
 
-    # class Meta:
-    #     ordering = [
-    #         'participants__last_name',
-    #         'participants__first_name',
-    #         'participants__fathers_name',
-    #     ]
-
 
 class AddLiter(models.Model):
     file = models.FileField(verbose_name='Файл')

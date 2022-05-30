@@ -5,28 +5,43 @@
 {% load static %}
 {% block head %}
     <link rel="stylesheet" href="{% static 'second_tour/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock %}
 
 {% block content %}
     <h3 class="text-center">Явка участников на II тур</h3>
+
+    {% include 'second_tour/new_participant_modal.html' %}
+
     {% if litergarde %}
         <h4 class="text-center">Группа {{ litergarde }}</h4>
     {% endif %}
 
     {% if moderator %}
-        <div class="d-flex justify-content-center my-3">
+        <div class="d-flex justify-content-center my-1">
             <ul class="nav nav-header">
-                <li class="nav-link">Группы:</li>
-                <li class="nav-item">
+                <li class="nav-link ">Группы:</li>
+                <li class="nav-item litergrade">
                     <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
                 </li>
                 {% for litergrade in litergrades %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade }}</a>
+                    <li class="nav-item litergrade">
+                        <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade.grade }}.{{ litergrade.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
         </div>
+        {% if participants_list|length > 30 %}
+            <div class="nav nav-header d-flex justify-content-center mb-1">
+                <ul class="nav nav-header">
+                    {% for fl in first_letter %}
+                        <li class="nav-item first_letter">
+                            <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     {% endif %}
 <div class="d-flex justify-content-center" id="app">
     {% if participants_list %}
@@ -34,9 +49,11 @@
             <thead>
                 <tr class="text-center">
                     <th>№</th>
+                    <th>ID</th>
                     <th>Фамилия</th>
                     <th>Имя</th>
                     <th>Отчество</th>
+                    <th>Класс</th>
                     {% if moderator %}
                         <th>Группа</th>
                     {% endif %}
@@ -48,22 +65,32 @@
                     {% if p.last_name and p.first_name %}
                         <tr>
                             <td class="text-center"></td>
-                            <td>{{ p.last_name }}</td>
+                            <td class="text-center">{{ p.pk }}</td>
+                            <td class="last_name">{{ p.last_name }}</td>
                             <td>{{ p.first_name }}</td>
                             <td>{{ p.fathers_name }}</td>
+                            <td  class="text-center">{{ p.grade_num }}</td>
                             {% if moderator %}
-                                <td class="text-center">{{ p.litergarde }}</td>
+                                <td class="text-center">
+                                    <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
+                                    <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
+                                    <select id="liter_grade_select" hidden>
+                                        <option selected disabled></option>
+                                        {% for l in litergrades %}
+                                            {% if l.grade == p.grade_num%}
+                                                <option value="{{ l.pk }}">{{ l.grade }}.{{ l.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </td>
                             {% endif %}
                             <td class="text-center">
-                                <form action="{% url 'second_tour:check_list' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="participant_pk" value="{{ p.pk }}">
-                                    {% if p.has_come %}
-                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come" checked="checked">
-                                    {% else %}
-                                        <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come">
-                                    {% endif %}
-                                </form>
+                                <input type="hidden" name="participant_pk" value="{{ p.pk }}">
+                                {% if p.has_come_to %}
+                                    <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come" checked="checked">
+                                {% else %}
+                                    <input type="checkbox" id="{{ p.pk }}" name="has_come" class="has_come">
+                                {% endif %}
                             </td>
                         </tr>
                     {% endif %}
@@ -79,4 +106,5 @@
 
 {% block script_buttom %}
     <script src="{% static 'second_tour/js/script.js' %}"></script>
+    <script src="{% static 'second_tour/js/modal.js' %}"></script>
 {% endblock %}

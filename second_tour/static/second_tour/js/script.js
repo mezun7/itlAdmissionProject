@@ -1,4 +1,9 @@
-getHasComeBoxes()
+let is_failed = true;
+let spanOldValue = null;
+getHasComeBoxes();
+handleEditButtonsClick();
+handleLiterGradeChanges();
+filterByFirstLetter();
 
 // get_data(1);
 
@@ -30,7 +35,6 @@ function get_data(id) {
 }
 
 function render_table(data) {
-    console.log(data.table_head);
     const app = document.getElementById('app');
     const table = document.createElement('table');
     table.className = 'table table-striped table-bordered w-50';
@@ -111,12 +115,154 @@ function getHasComeBoxes() {
         element => element.addEventListener('change', event => {
             let pk = element.id;
             let has_come = element.checked;
-            post_data(pk, has_come);
+            postHasComeState(pk, has_come);
             event.stopImmediatePropagation();
             event.preventDefault();
         })
     );
 }
+
+function postHasComeState(participant_pk, has_come) {
+    let data = {participant_pk: participant_pk, has_come: has_come};
+    const url = '/second_tour/check_list/set_has_come';
+    fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+            'X-CSRFToken': getCookie('csrftoken'),
+    },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        return response.text();
+        //return response.json()
+    })
+    .then(data => showAlert(data) )
+}
+
+function postParticipantLiterGrade(participant_pk, litergrade_pk, old_litergrade=false) {
+    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, old_litergrade};
+    const url = '/second_tour/check_list/set_participant_litergrade';
+    fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+            'X-CSRFToken': getCookie('csrftoken'),
+    },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        return is_failed = response.text() ; //.toString() !== '0';
+    })
+    .then(data => showAlert(data) )
+}
+
+function showAlert(data) {
+    const parent_div = document.getElementById('app');
+        const status_alert = document.createElement('div');
+        if (data.toString() === '0') {
+            status_alert.className = 'alert alert-success';
+            status_alert.innerHTML = 'Действие выполнено успешно';
+        } else {
+            status_alert.className = 'alert alert-danger';
+            status_alert.innerHTML = `Ошибка: ${data}`;
+        }
+        status_alert.style.maxWidth = '400px'
+        status_alert.style.opacity = '0.92';
+        status_alert.tabIndex = 1000;
+        status_alert.style.position = 'fixed';
+        status_alert.style.left = `calc(50%-${status_alert.style.width / 2}`;
+        status_alert.style.top =  '65px';// `calc(50%-${status_alert.style.height / 2}`;
+        parent_div.appendChild(status_alert)
+        setTimeout(function() {
+            status_alert.remove();
+        }, 2500);
+}
+
+function handleEditButtonsClick() {
+    let edit_btn = document.querySelectorAll('#edit_btn');
+    let allSelects = document.querySelectorAll('#liter_grade_select');
+    edit_btn.forEach(
+        element => element.addEventListener('click', event => {
+            // let s = allSelects.filter(item => item.hidden === false);
+            allSelects.forEach(item => {
+                if (!item.hidden) {
+                    item.hidden = true;
+                }
+            } )
+            const btn = event.currentTarget;
+            const span = btn.parentElement.firstElementChild;
+            spanOldValue = span.innerHTML;
+            btn.hidden = true;
+            const  select = btn.parentElement.children[2].hidden = false;
+            event.stopImmediatePropagation();
+            event.preventDefault();
+        })
+    );
+}
+
+function handleLiterGradeChanges() {
+    let selects = document.querySelectorAll('#liter_grade_select');
+    selects.forEach(
+        element => element.addEventListener('change', event => {
+            const select = event.currentTarget;
+            const span = select.parentElement.firstElementChild;
+            const btn = select.parentElement.children[1].hidden = false ;
+            select.hidden = true;
+            const litergrade_pk = select.options[select.selectedIndex].value;
+            const oldValue = span.innerHTML;
+            const participant_pk = select.parentElement.parentElement.lastElementChild.firstElementChild.value.toString();
+            span.innerHTML = select.options[select.selectedIndex].text;
+            postParticipantLiterGrade(participant_pk, litergrade_pk, !!spanOldValue);
+            // alert(is_failed);
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            element.addEventListener()
+        })
+    );
+    selects.forEach(element => element.addEventListener("mouseout",
+        function(event) {
+            setTimeout(function() {
+                element.parentElement.children[1].hidden = false ;
+                element.hidden = true;
+            }, 500);
+        }, false)
+    );
+}
+
+function renderSelect(parentElement) {
+    const select = document.createElement('select');
+    const option = document.createElement('option');
+    option.selected = true;
+    option.value = '';
+    select.appendChild(option);
+    const literGrades = [71, 72, 73, 74, 75, 76];
+    literGrades.forEach(element => {
+        const option = document.createElement('option');
+        option.value = element.toString();
+        option.text = element.toString();
+        select.appendChild(option);
+    })
+    parentElement.appendChild(select);
+}
+
+function filterByFirstLetter() {
+    const letters = document.querySelectorAll('#letter_link');
+    const lastNameCells = document.querySelectorAll('.last_name');
+    letters.forEach(letter => letter.addEventListener('click', event => {
+        event.stopImmediatePropagation();
+        lastNameCells.forEach(cell => {
+            cell.parentElement.hidden = !cell.innerText.startsWith(letter.innerText)
+        });
+        alert(i);
+
+    }))
+}
+
 /*
     (function() {
         let selector = '.has_come';
@@ -138,43 +284,3 @@ function getHasComeBoxes() {
         });
     })();
 */
-function post_data(participant_pk, has_come) {
-    let data = {participant_pk: participant_pk, has_come: has_come};
-    const url = '/second_tour/check_list/set_has_come';
-    fetch(url, {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers:{
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
-            'X-CSRFToken': getCookie('csrftoken'),
-    },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        return response.text();
-        //return response.json()
-    })
-    .then(data => {
-        console.log(data)
-        const parent_div = document.getElementById('app');
-        const status_alert = document.createElement('div');
-        if (data.toString() === '0') {
-            status_alert.className = 'alert alert-success';
-            status_alert.innerHTML = 'Действие выполнено успешно';
-        } else {
-            status_alert.className = 'alert alert-danger';
-            status_alert.innerHTML = `Ошибка: ${data}`;
-        }
-        status_alert.style.maxWidth = '400px'
-        status_alert.style.opacity = '0.92';
-        status_alert.tabIndex = 1000;
-        status_alert.style.position = 'fixed';
-        status_alert.style.left = `calc(50%-${status_alert.style.width / 2}`;
-        status_alert.style.top =  '65px';// `calc(50%-${status_alert.style.height / 2}`;
-        parent_div.appendChild(status_alert)
-        setTimeout(function() {
-            status_alert.remove();
-        }, 2500);
-    })
-}
