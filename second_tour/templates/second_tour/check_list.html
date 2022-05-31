@@ -10,39 +10,39 @@
 
 {% block content %}
     <h3 class="text-center">Явка участников на II тур</h3>
-
+{% if moderator %}
     {% include 'second_tour/new_participant_modal.html' %}
-
+{% endif %}
     {% if litergarde %}
         <h4 class="text-center">Группа {{ litergarde }}</h4>
     {% endif %}
 
-    {% if moderator %}
-        <div class="d-flex justify-content-center my-1">
-            <ul class="nav nav-header">
-                <li class="nav-link ">Группы:</li>
+    <div class="d-flex justify-content-center my-1">
+        <ul class="nav nav-header">
+            <li class="nav-link ">Группы:</li>
+            <li class="nav-item litergrade">
+                <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
+            </li>
+            {% for litergrade in litergrades %}
                 <li class="nav-item litergrade">
-                    <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
+                    <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade.grade }}.{{ litergrade.name }}</a>
                 </li>
-                {% for litergrade in litergrades %}
-                    <li class="nav-item litergrade">
-                        <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade.grade }}.{{ litergrade.name }}</a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if participants_list|length > 25 %}
+        <div class="nav nav-header d-flex justify-content-center mb-1">
+            <ul class="nav nav-header">
+                {% for fl in first_letter %}
+                    <li class="nav-item first_letter">
+                        <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
                     </li>
                 {% endfor %}
             </ul>
         </div>
-        {% if participants_list|length > 30 %}
-            <div class="nav nav-header d-flex justify-content-center mb-1">
-                <ul class="nav nav-header">
-                    {% for fl in first_letter %}
-                        <li class="nav-item first_letter">
-                            <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
     {% endif %}
+
 <div class="d-flex justify-content-center" id="app">
     {% if participants_list %}
         <table class="table table-striped table-bordered w-50">
@@ -54,9 +54,7 @@
                     <th>Имя</th>
                     <th>Отчество</th>
                     <th>Класс</th>
-                    {% if moderator %}
-                        <th>Группа</th>
-                    {% endif %}
+                    <th>Группа</th>
                     <th>Явка на II тур</th>
                 </tr>
             </thead>
@@ -70,9 +68,9 @@
                             <td>{{ p.first_name }}</td>
                             <td>{{ p.fathers_name }}</td>
                             <td  class="text-center">{{ p.grade_num }}</td>
-                            {% if moderator %}
-                                <td class="text-center">
-                                    <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
+                            <td class="text-center">
+                                <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
+                                {% if moderator %}
                                     <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
                                     <select id="liter_grade_select" hidden>
                                         <option selected disabled></option>
@@ -82,8 +80,8 @@
                                             {% endif %}
                                         {% endfor %}
                                     </select>
-                                </td>
-                            {% endif %}
+                                {% endif %}
+                            </td>
                             <td class="text-center">
                                 <input type="hidden" name="participant_pk" value="{{ p.pk }}">
                                 {% if p.has_come_to %}

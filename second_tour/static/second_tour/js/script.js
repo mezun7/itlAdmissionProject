@@ -229,7 +229,7 @@ function handleLiterGradeChanges() {
             setTimeout(function() {
                 element.parentElement.children[1].hidden = false ;
                 element.hidden = true;
-            }, 500);
+            }, 1000);
         }, false)
     );
 }
