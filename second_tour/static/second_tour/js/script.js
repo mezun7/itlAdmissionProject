@@ -258,8 +258,6 @@ function filterByFirstLetter() {
         lastNameCells.forEach(cell => {
             cell.parentElement.hidden = !cell.innerText.startsWith(letter.innerText)
         });
-        alert(i);
-
     }))
 }
 
