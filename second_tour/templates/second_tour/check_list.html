@@ -72,7 +72,7 @@
                                 <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
                                 {% if moderator %}
                                     <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
-                                    <select id="liter_grade_select" hidden>
+                                    <select id="liter_grade_select p-2" hidden style="height: 28px;with:60px">
                                         <option selected disabled></option>
                                         {% for l in litergrades %}
                                             {% if l.grade == p.grade_num%}
