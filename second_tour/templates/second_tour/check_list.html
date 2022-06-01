@@ -70,17 +70,20 @@
                             <td  class="text-center">{{ p.grade_num }}</td>
                             <td class="text-center">
                                 <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
-                                {% if moderator %}
                                     <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
-                                    <select id="liter_grade_select p-2" hidden style="height: 28px;with:60px">
-                                        <option selected disabled></option>
+                                    <select id="liter_grade_select" hidden style="height: 28px;width:70px">
+                                        {% if p.litergarde %}
+                                            <option class="text-center" selected>{{ p.grade_num }}.{{ p.litergarde }}</option>
+                                        {% else %}
+                                            <option class="text-center" selected value="exclude">Исключить</option>
+                                        {% endif %}
                                         {% for l in litergrades %}
                                             {% if l.grade == p.grade_num%}
-                                                <option value="{{ l.pk }}">{{ l.grade }}.{{ l.name }}</option>
+                                                <option class="text-center" value="{{ l.pk }}">{{ l.grade }}.{{ l.name }}</option>
                                             {% endif %}
                                         {% endfor %}
+                                        <option class="text-center" value="exclude" style="color: #e88181">Исключить</option>
                                     </select>
-                                {% endif %}
                             </td>
                             <td class="text-center">
                                 <input type="hidden" name="participant_pk" value="{{ p.pk }}">

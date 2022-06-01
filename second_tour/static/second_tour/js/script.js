@@ -142,6 +142,25 @@ function postHasComeState(participant_pk, has_come) {
     .then(data => showAlert(data) )
 }
 
+function postExcludeParticipant(participant_pk, litergrade_pk) {
+    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, exclude: true};
+    const url = '/second_tour/check_list/exclude_participant';
+    fetch(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers:{
+            'Accept': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest', //Necessary to work with request.is_ajax()
+            'X-CSRFToken': getCookie('csrftoken'),
+    },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        return is_failed = response.text() ; //.toString() !== '0';
+    })
+    .then(data => showAlert(data))
+}
+
 function postParticipantLiterGrade(participant_pk, litergrade_pk, old_litergrade=false) {
     let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, old_litergrade};
     const url = '/second_tour/check_list/set_participant_litergrade';
@@ -207,6 +226,7 @@ function handleEditButtonsClick() {
 
 function handleLiterGradeChanges() {
     let selects = document.querySelectorAll('#liter_grade_select');
+    console.log(selects);
     selects.forEach(
         element => element.addEventListener('change', event => {
             const select = event.currentTarget;
@@ -216,12 +236,14 @@ function handleLiterGradeChanges() {
             const litergrade_pk = select.options[select.selectedIndex].value;
             const oldValue = span.innerHTML;
             const participant_pk = select.parentElement.parentElement.lastElementChild.firstElementChild.value.toString();
-            span.innerHTML = select.options[select.selectedIndex].text;
-            postParticipantLiterGrade(participant_pk, litergrade_pk, !!spanOldValue);
-            // alert(is_failed);
+            if (litergrade_pk !== 'exclude' && litergrade_pk !== oldValue) {
+                postParticipantLiterGrade(participant_pk, litergrade_pk, !!oldValue);
+                span.innerHTML = select.options[select.selectedIndex].text;
+            } else {
+                postExcludeParticipant(participant_pk, litergrade_pk) // exclude from group
+            }
             event.stopImmediatePropagation();
             event.preventDefault();
-            element.addEventListener()
         })
     );
     selects.forEach(element => element.addEventListener("mouseout",
@@ -229,8 +251,8 @@ function handleLiterGradeChanges() {
             setTimeout(function() {
                 element.parentElement.children[1].hidden = false ;
                 element.hidden = true;
-            }, 1000);
-        }, false)
+            }, 2000);
+        })
     );
 }
 
