@@ -164,8 +164,8 @@ def set_participant_litergrade(request):
         import json
         post_data = json.loads(request.body.decode("utf-8"))
         try:
-            sql = '''UPDATE first_tour_litergrade_participants
-            SET litergrade_id = %s WHERE participant_id=%s'''
+            sql = """UPDATE first_tour_litergrade_participants
+            SET litergrade_id = %s WHERE participant_id=%s"""
             if post_data['old_litergrade']:
                 from django.db import connection
                 cursor = connection.cursor()
@@ -179,6 +179,22 @@ def set_participant_litergrade(request):
             print(e)
             return HttpResponse(e)
 
+
+def exclude_participant(request):
+    if request.method == "POST":
+        import json
+        post_data = json.loads(request.body.decode("utf-8"))
+        if post_data['exclude']:
+            try:
+                sql = 'DELETE FROM first_tour_litergrade_participants WHERE participant_id =%s'
+                from django.db import connection
+                cursor = connection.cursor()
+                cursor.execute(sql, (post_data['participant_pk'],))
+                connection.commit()
+                return HttpResponse(0)
+            except (Error, Exception) as e:
+                print(e)
+                return HttpResponse(e)
 
 def add_participant(request):
     import json
