@@ -36,8 +36,22 @@
                             <input type="text" name="patronymic" class="form-control" id="patronymic">
                         </div>
                         <div class="form-group">
+                            <label for="gender">Пол</label>
+                            <select class="form-control" id="gender">
+                                <option selected disabled hidden></option>
+                                <option value="M">Мужской</option>
+                                <option value="F">Женский</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Номер телефона одного из родителей</label>
+                            <input type="tel" name="phone" class="form-control phone_no" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                        </div>
+                        <div class="form-group">
                             <label for="litergrade">Группа</label>
-                            <select class="form-control" id="litergrade"></select>
+                            <select class="form-control" id="litergrade">
+                                <option selected disabled hidden></option>
+                            </select>
                         </div>
                     </fieldset>
                 </form>

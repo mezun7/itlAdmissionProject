@@ -174,7 +174,7 @@ function postExcludeParticipant(participant_pk) {
 }
 
 function postParticipantLiterGrade(participant_pk, litergrade_pk, old_litergrade=false) {
-    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, old_litergrade};
+    let data = {participant_pk: participant_pk, litergrade_pk: litergrade_pk, old_litergrade: old_litergrade};
     const url = '/second_tour/check_list/set_participant_litergrade';
     fetch(url, {
         method: 'POST',
@@ -194,24 +194,24 @@ function postParticipantLiterGrade(participant_pk, litergrade_pk, old_litergrade
 
 function showAlert(data) {
     const parent_div = document.getElementById('app');
-        const status_alert = document.createElement('div');
-        if (data.toString() === '0') {
-            status_alert.className = 'alert alert-success';
-            status_alert.innerHTML = 'Действие выполнено успешно';
-        } else {
-            status_alert.className = 'alert alert-danger';
-            status_alert.innerHTML = `Ошибка: ${data}`;
-        }
-        status_alert.style.maxWidth = '400px'
-        status_alert.style.opacity = '0.92';
-        status_alert.tabIndex = 1000;
-        status_alert.style.position = 'fixed';
-        status_alert.style.left = `calc(50%-${status_alert.style.width / 2}`;
-        status_alert.style.top =  '65px';// `calc(50%-${status_alert.style.height / 2}`;
-        parent_div.appendChild(status_alert)
-        setTimeout(function() {
-            status_alert.remove();
-        }, 4000);
+    const status_alert = document.createElement('div');
+    if (data.toString() === '0') {
+        status_alert.className = 'alert alert-success';
+        status_alert.innerHTML = 'Действие выполнено успешно';
+    } else {
+        status_alert.className = 'alert alert-danger';
+        status_alert.innerHTML = `Ошибка: ${data}`;
+    }
+    status_alert.style.maxWidth = '400px'
+    status_alert.style.opacity = '0.92';
+    status_alert.tabIndex = 1000;
+    status_alert.style.position = 'fixed';
+    status_alert.style.left = `calc(50%-${status_alert.style.width / 2}`;
+    status_alert.style.top =  '65px';// `calc(50%-${status_alert.style.height / 2}`;
+    parent_div.appendChild(status_alert)
+    setTimeout(function() {
+        status_alert.remove();
+    }, 4000);
 }
 
 function handleEditButtonsClick() {

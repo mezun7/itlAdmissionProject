@@ -196,16 +196,43 @@ def exclude_participant(request):
                 print(e)
                 return HttpResponse(e)
 
+
 def add_participant(request):
     import json
     if request.method == "POST":
+        from django.contrib.auth.models import User
         post_data = json.loads(request.body.decode("utf-8"))
         try:
-            NextTourPass.objects.filter(participant_id=post_data['participant_pk']).update(
-                has_come=post_data['has_come'])
-            return HttpResponse(0)
-        except (Error, Exception) as e:
-            return HttpResponse(e)
+            password = User.objects.make_random_password();
+            user = User(
+                username=post_data['email'],
+                email=post_data['email'],
+                is_active=True
+            )
+            user.set_password(password)
+            user.save()
+            from admission.models import Group
+            grade = Group.objects.get(number=post_data['grade'])
+            participant = Participant(
+                last_name=post_data['surname'],
+                first_name=post_data['name'],
+                fathers_name=post_data['patronymic'],
+                fio_mother=post_data['parent_name'],
+                phone_mother=post_data['phone'],
+                reg_status=100,
+                is_checked=True,
+                gender=post_data['gender'],
+                grade=grade,
+                user_id=user.pk,
+            )
+            participant.save()
+            # participant.save()
+            data = {'login': post_data['email'], 'password': password}
+            return HttpResponse(json.dumps(data))
+        except Error as e:
+            print(e.pgcode)
+            data = {'error': e, 'code': password}
+            return HttpResponse(json.dumps(e))
     litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
     data = list()
     for item in litergrades:
