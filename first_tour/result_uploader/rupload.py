@@ -21,6 +21,7 @@ def upload(path, tour):
             except:
                 print('help')
             for esubj in exam_subjects:
+                print('score', row[esubj.subject.name])
                 exam_result = ExamResult()
                 print(participant)
                 exam_result.participant = participant

@@ -9,6 +9,9 @@ from second_tour.models import LiterGradeTutor
 from . models import LiterGrade
 from django.db.models import F
 
+from django.contrib.auth.models import User
+import cyrtranslit
+
 from psycopg2 import Error
 
 
@@ -21,10 +24,11 @@ def check_list(request, pk=None):
         if request.POST.get('has_come', False) == 'on':
             has_come = True
         NextTourPass.objects.filter(participant_id=participant_id).update(has_come=has_come)
-
     try:
         Moderator.objects.get(user=request.user)
-        litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
+        litergrades = LiterGrade.objects.values(
+            'pk', 'name', grade=F('tour__grade__number')
+        ).order_by('tour__grade__number', 'name')
         if pk:
             litergarde = LiterGrade.objects.get(pk=pk)
             participants_list = litergarde.participants.values(
@@ -87,7 +91,9 @@ def check_list(request, pk=None):
                 .filter(participantregistrator__user=request.user) \
                 .values('participantregistrator_id')[0]['participantregistrator_id']
             litergrades = LiterGrade.objects.filter(litergradetutor__participantregistrator=tutor_id)
-            litergrades = litergrades.values('pk', 'name', grade=F('tour__grade__number'))
+            litergrades = litergrades.values(
+                'pk', 'name', grade=F('tour__grade__number')
+            ).order_by('tour__grade__number', 'name')
             if pk:
                 litergarde = LiterGrade.objects.get(pk=pk)
                 participants_list = litergarde.participants.values(
@@ -108,13 +114,9 @@ def check_list(request, pk=None):
                         )
                     ),
                     'litergrades': litergrades,
-                    'moderator': True
                 }
                 return render(request, template_name='second_tour/check_list.html', context=context)
             else:
-                # tutor_id = LiterGradeTutor.objects \
-                #     .filter(participantregistrator__user=request.user) \
-                #     .values('participantregistrator_id')[0]['participantregistrator_id']
                 litergrades = LiterGrade.objects.filter(litergradetutor__participantregistrator=tutor_id)
                 participants_list = NextTourPass.objects.filter(participant__litergrade__in=litergrades).values(
                     last_name=F('participant__last_name'),
@@ -127,7 +129,9 @@ def check_list(request, pk=None):
                     pk=F('participant__pk'),
                     has_come_to=F('has_come')
                 )
-                litergrades = litergrades.values('pk', 'name', grade=F('tour__grade__number'))
+                litergrades = litergrades.values(
+                    'pk', 'name', grade=F('tour__grade__number')
+                ).order_by('tour__grade__number', 'name')
                 context = {'participants_list': participants_list, 'litergrades': litergrades}
         except LiterGradeTutor.DoesNotExist:
             context = {}
@@ -200,16 +204,16 @@ def exclude_participant(request):
 def add_participant(request):
     import json
     if request.method == "POST":
-        from django.contrib.auth.models import User
         post_data = json.loads(request.body.decode("utf-8"))
         try:
             password = User.objects.make_random_password();
             user = User(
-                username=post_data['email'],
+                username=None,
                 email=post_data['email'],
                 is_active=True
             )
             user.set_password(password)
+            set_username(user, post_data['name'])
             user.save()
             from admission.models import Group
             grade = Group.objects.get(number=post_data['grade'])
@@ -226,15 +230,27 @@ def add_participant(request):
                 user_id=user.pk,
             )
             participant.save()
-            # participant.save()
-            data = {'login': post_data['email'], 'password': password}
-            return HttpResponse(json.dumps(data))
+            data = {'login': user.username, 'password': password}
+            return JsonResponse(data)
+            # return HttpResponse(data)
         except Error as e:
             print(e.pgcode)
-            data = {'error': e, 'code': password}
-            return HttpResponse(json.dumps(e))
+            # data = {'error': e}
+            return HttpResponse(e)
     litergrades = LiterGrade.objects.values('pk', 'name', grade=F('tour__grade__number'))
     data = list()
     for item in litergrades:
         data.append(item)
     return HttpResponse(json.dumps(data))
+
+
+def set_username(user, first_name):
+    first_name = cyrtranslit.to_latin(first_name.lower().replace('ь', '').replace('Ъ', ''), 'ru')
+    username = None
+    if not user.username:
+        username = first_name
+        counter = 1
+        while User.objects.filter(username=username):
+            username = first_name + str(counter)
+            counter += 1
+        user.username = username

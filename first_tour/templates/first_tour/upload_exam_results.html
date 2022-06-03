@@ -11,32 +11,38 @@
         {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
         <div class="col-6 m-3">
             <form  method="post" enctype="multipart/form-data" id="upload_result">
+
                 <p class="alert alert-info">
-                    Имя файла должен содержать порядковый номер тура (tour_order), других чисел не должно быть<br>
-                    Пример имени файла: tour1.scv, тур2.csv, tour_2.csv.
-                    Разделитель в csv файле "," - запятая, кодировка utf-8.
+                    Обратите внимание, чтобы в CSV файле не было дублей ID участников. Названия предметов должны совпадать
+                    с их названиями в базе данных.<br>
+                    Кодировка utf-8, разделитель "," - запятая.
                 </p>
+
                 {% csrf_token %}
+
+                <div class="form-group row col-3">
+                    <label class="tour_order" for="tour_order"></label>
+                    <select name="tour_order" id="tour_order" class="form-select form-control" required>
+                        <option selected disabled hidden value="">Выберите тур</option>
+                        {% for t in tour_orders %}
+                            <option value="{{ t.tour_order }}">Тур {{ t.tour_order }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 {{ form.as_p }}
+
                 <div class="form-group">
                     <input type="submit" value="Загрузить" id="submit">
                 </div>
+
             </form>
         </div>
     </div>
 {% endblock %}
 {% block script_buttom %}
     <script>
-        {#file_input = document.getElementById('id_files');#}
-        {#file_input.setAttribute('accept', '.scv');#}
         submit_btn = document.getElementById('submit')
-        submit_btn.classList.add('btn', 'btn-secondary')
-        element = document.querySelector('.errorlist')
-        if (element) {
-            element.classList.add('alert', 'alert-warning');
-            setTimeout(() => {
-                element.remove()
-            }, 5000)
-        }
+        submit_btn.classList.add('btn', 'btn-primary')
     </script>
 {% endblock %}

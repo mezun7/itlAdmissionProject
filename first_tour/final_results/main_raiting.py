@@ -31,6 +31,7 @@ def main_table(request, tour_ordering=None, tour_id=None):
     if tour_id is None:
         try:
             tour = Tour.objects.filter(tour_order=tour_ordering).first()
+            print(tour)
         except:
             return HttpResponse('No active tours')
     else:
@@ -39,6 +40,7 @@ def main_table(request, tour_ordering=None, tour_id=None):
     exam_subj = ExamSubject.objects.filter(tour=tour).order_by(*SUBJECTS_ORDERING)
     results = []
     for lg in LiterGrade.objects.filter(tour=tour):
+        print(lg)
         participants = lg.participants.all()
         for participant in participants:
             results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))

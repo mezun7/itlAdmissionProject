@@ -202,7 +202,7 @@ function showAlert(data) {
         status_alert.className = 'alert alert-danger';
         status_alert.innerHTML = `Ошибка: ${data}`;
     }
-    status_alert.style.maxWidth = '400px'
+    status_alert.style.maxWidth = '1000px';
     status_alert.style.opacity = '0.92';
     status_alert.tabIndex = 1000;
     status_alert.style.position = 'fixed';

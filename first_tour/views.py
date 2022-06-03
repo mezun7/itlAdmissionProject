@@ -146,57 +146,41 @@ def exam_sheets(request):
 
 @staff_member_required
 def upload_results(request):
-
+    tour_orders = Tour.objects.values('tour_order').distinct()
     context = None
     if request.method == 'POST':
         form = ResultUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            subjects = Subject.objects.all().values('id', 'name')
-            fieldnames = ['full_name', 'grade', 'sheet_no', 'exam_date', 'id']
-            for s in subjects:
-                fieldnames.append(s["name"])
-            fieldnames = tuple(fieldnames)
-
+        if form.is_valid() and request.POST['tour_order']:
+            tour_order = request.POST['tour_order']
             csv_file = request.FILES['files']
-            for r in request:
-                print(r)
-            tour_order = re.findall(r'\d+', str(csv_file))[0]
-            results = parse_file(csv_file, fieldnames)
-            save_results(tour_order, results)
-            # except:
+            results = parse_file(csv_file)
+            rows_count = save_results(tour_order, results)
             context = {
                 'form': form,
-                'msg': f'<div class="alert alert-success">Файл успешно загружен. Тур - {tour_order}</div>'
+                'msg': f'<div class="alert alert-success">Данные из файла успешно загружены. Тур - {tour_order}. '
+                       f'В таблицу БД записано {rows_count} строк</div>',
+                'tour_orders': tour_orders,
             }
     else:
         form = ResultUploadForm()
-        context = {'form': form}
+        context = {'form': form, 'tour_orders': tour_orders}
     return render(request, 'first_tour/upload_exam_results.html', context=context)
 
 
-def parse_file(csv_file, fieldnames):
+def parse_file(csv_file):
     file = csv_file.read().decode('utf-8')
-    json_data = []
-    reader = csv.DictReader(StringIO(file), fieldnames)
+    data = []
+    reader = csv.DictReader(StringIO(file))
     for row in reader:
-        json_data.append(row)
-    json_data.pop(0)
-    return json_data
-
-
-def set_fieldnames(fieldnames):
-    subjects = Subject.objects.all().values('id', 'name')
-    fieldnames = ['full_name', 'grade', 'sheet_no', 'exam_date', 'id']
-    for s in subjects:
-        # fieldnames.append(f'{s["id"]}_{s["name"]}')
-        fieldnames.append(s["name"])
-    # print(fieldnames)
-    return tuple(fieldnames)
+        data.append(row)
+    return data
 
 
 def save_results(tour_order, results_from_csv):
+    tour = None
     results = []
     subjects = Subject.objects.all().values('id', 'name')
+    rows_count = 0
     for s in subjects:
         for r in results_from_csv:
             try:
@@ -206,13 +190,15 @@ def save_results(tour_order, results_from_csv):
                     tour = get_tour(tour_order=tour_order, participant=participant)
                     exam_subject = ExamSubject.objects.get(subject__pk=int(s['id']), tour=tour)
                     if tour and exam_subject:
+                        rows_count += 1
                         exam_result.participant = participant
                         exam_result.exam_subject = ExamSubject.objects.get(subject__pk=int(s['id']), tour=tour)
                         exam_result.score = float(r[s['name']].replace(',', '.'))
                         results.append(exam_result)
             except Exception as e:
-                print('Нет id участника или ', r['id'], r, tour, e)
+                print('Не могу найти ID участника', r['id'], r, tour, e)
     ExamResult.objects.bulk_create(results)
+    return rows_count
 
 
 def get_tour(tour_order, participant):
@@ -220,34 +206,29 @@ def get_tour(tour_order, participant):
     return tour
 
 
-def get_object_or_None(Participant, pk):
-    pass
-
-
 def load_next_tour_pass(request):
     context = {}
     results = []
     if request.method == 'POST':
-        fieldnames = ("participant_id", "surname", "name", "patronymic", "status")
         form = ResultUploadForm(request.POST, request.FILES)
         if form.is_valid():
             csv_file = request.FILES['files']
-            rows = parse_file(csv_file, fieldnames)
-            i = 4
+            rows = parse_file(csv_file)
             for row in rows:
                 try:
-                    participant = Participant.objects.get(id=row['participant_id'])
+                    participant = Participant.objects.get(id=row['id'])
                     model = NextTourPass()
                     model.participant = participant
                     model.tour = Tour.objects.filter(profile=participant.profile).first()
-                    row['status'] = remove_white_spaces(row['status'])
-                    if row['status'] and (row['status'].startswith('п') or row['status'].startswith('р')):
-                        if row['status'].startswith('п'):
+                    row['Статус'] = remove_white_spaces(row['Статус'])
+                    if row['Статус'] and (row['Статус'].startswith('п') or row['Статус'].startswith('р')):
+                        if row['Статус'].startswith('п'):
                             model.type_of_pass = 'P'
-                        if row['status'].startswith('р'):
+                        if row['Статус'].startswith('р'):
                             model.type_of_pass = 'R'
                         results.append(model)
                 except Participant.DoesNotExist:
+                    print(f"{row['id']} DoesNotExist")
                     participant = None
             try:
                 NextTourPass.objects.bulk_create(results)
