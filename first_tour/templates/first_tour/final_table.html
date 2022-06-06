@@ -58,10 +58,10 @@ td {
                             {% ifequal res.exam_subject.type_of_scoring "R" %}
                                 {% if res.score < 1 %}
                                     class="alert-danger">
-                                    Нерекомендован
+                                    0
                                     {% else %}
                                     >
-                                    Рекомендован
+                                    1
                                 {% endif %}
                             {% else %}
                                 >
