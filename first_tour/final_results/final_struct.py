@@ -37,8 +37,8 @@ class FinalResult:
             else:
                 self.overall += ex.score
         # print(results)
-        if self.participant.extra_score:
-            self.overall += self.participant.extra_score
+        # if self.participant.extra_score:
+        #     self.overall += self.participant.extra_score
         return results
 
     def __init__(self, participant, tour, exam_subjects, liter_grade):

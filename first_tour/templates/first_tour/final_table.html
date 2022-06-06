@@ -33,7 +33,7 @@ td {
             {% endfor %}
 
 
-            <th>Доп. Баллы</th>
+{#            <th>Доп. Баллы</th>#}
             <th>Итого</th>
         </tr>
         </thead>
@@ -76,12 +76,12 @@ td {
                         {% endif %}
                     </td>
                 {% endfor %}
-                <td>{% if result.participant.extra_score %}
-                    {{ result.participant.extra_score }}
-                {% else %}
-                    0
-                {% endif %}
-                </td>
+{#                <td>{% if result.participant.extra_score %}#}
+{#                    {{ result.participant.extra_score }}#}
+{#                {% else %}#}
+{#                    0#}
+{#                {% endif %}#}
+{#                </td>#}
                 <td>{{ result.overall }}</td>
             </tr>
         {% endfor %}
