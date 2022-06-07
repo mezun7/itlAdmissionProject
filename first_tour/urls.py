@@ -30,6 +30,7 @@ urlpatterns = [
     path('edit_mark/<int:mark_id>', edit_mark, name='mark_edit'),
     # path('start-test/', send_results, name='send-test'),
     path('exam_sheets/', exam_sheets, name='exam_sheets'),
+    path('exam_sheets/<int:tour_order>/', exam_sheets, name='exam_sheets'),
     path('upload_sheets/', upload_sheets, name='upload_sheets'),
     path('upload_results/', upload_results, name='upload_results'),
     path('load_next_tour_pass/', load_next_tour_pass, name='load_next_tour_pass'),

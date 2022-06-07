@@ -12,11 +12,11 @@
         <div class="col-6 m-3">
             <form  method="post" enctype="multipart/form-data" id="upload_result">
 
-                <p class="alert alert-info">
-                    Обратите внимание, чтобы в CSV файле не было дублей ID участников. Названия предметов должны совпадать
-                    с их названиями в базе данных.<br>
-                    Кодировка utf-8, разделитель "," - запятая.
-                </p>
+                <div class="alert alert-info">
+                    Обратите внимание, чтобы в CSV файле не было дублей в столбце "id". Названия предметов должны совпадать
+                    с их полным названиями в базе данных. Кодировка файла utf-8, разделитель "," - запятая.<br>
+                    <a href="{% static 'admission/file-templates/upload_results.csv' %}">Скачать пример файла для загрузки</a>
+                </div>
 
                 {% csrf_token %}
 

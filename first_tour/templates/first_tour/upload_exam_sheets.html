@@ -8,24 +8,21 @@
 {% block content %}
     <div>
         {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
+        <div class="alert alert-info col-4 m-3">
+            Имя файла для участника с ID 123: <b>123.zip</b>
+        </div>
         <div class="col-6 m-3">
             <form  method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <label for="exam_tour">Выберите тур</label>
-                <select name="tour_order" id="exam_tour">
-                    <option value="0" selected disabled>-- Выберите тур --</option>
-                    {% for t in tour_orders %}
-                        <option value="{{ t.tour_order }}"> {{ t.name }})</option>
-                    {% endfor %}
-                </select>
-
-{#                <div class="form-group">#}
-{#                    <label for="files">Выберите файлы (*.zip)</label>#}
-{#                    <input#}
-{#                        type="file" class="form-control-file" id="files"#}
-{#                        name="files" accept=".zip" autocomplete="off" required multiple#}
-{#                    >#}
-{#                </div>#}
+                <div class="form-group row col-3">
+                    <label for="tour_order"></label>
+                    <select class="form-control form-select" name="tour_order" id="tour_order" required>
+                        <option value="" selected disabled>-- Выберите тур --</option>
+                        {% for t in tours %}
+                            <option value="{{ t.tour_order }}"> Тур {{ t.tour_order }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 {{ form.as_p }}
                 <div class="form-group">
                     <input type="submit" value="Загрузить" id="submit">
