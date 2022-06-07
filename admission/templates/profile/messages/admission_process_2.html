@@ -52,10 +52,10 @@
 
 
                         {% ifequal subjres.exam_subject.type_of_scoring 'Z' %}
-                            <td>{% if subjres.score > 0 %}Зачет{% else %}Незачет{% endif %}</td>
+                            <td>{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
 
                             <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
-                            <td>{% if subjres.score > 0 %}Зачет{% else %}Незачет{% endif %}</td>
+                            <td>{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
                         {% endifequal %}
 
 
@@ -77,42 +77,10 @@
                 </tbody>
 
             </table>
-{#            <br><a href="{% get_media_prefix %}ft/tasks.zip">Задания первого тура</a>#}
                 <br>С заданиями вы можете ознакомиться по следующей <a href="{% get_media_prefix %}st/tasks2.zip"> ссылке</a>.
-{#                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}st/{{ participant.pk }}.zip">ссылке</a>.#}
                 <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}{{ result.scan.file.name }}">ссылке</a>.
-            <br>Если вы несогласны с результатами,то можете подать апелляцию по следующей <a href="https://forms.gle/TgotokqrVECSrKty5">ссылке</a> до 12.00 10.06.2021
-            <h4>Апелляция будет проходить ОЧНО в IT-лицее по адресу: территория Деревня Универсиады 32; 10.06.2021 с 13.00(по живой очереди). Вход строго по документам, удостоверяющим личность. Апелляция будет проходить только с абитуриентом.</h4>
-            {#            {% if result.form %}#}
-            {##}
-            {##}
-            {#                <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до {{ result.tour.appeal_application_end_date }}.#}
-            {#                </div>#}
-            {#                <div class="timeline-footer">#}
-            {##}
-            {#                            <a href="#" class="btn btn-danger btn-sm">Подать аппелляцию</a>#}
-            {#                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#tour{{ result.tour.pk }}">#}
-            {#                        Подать апелляцию#}
-            {#                    </button>#}
-            {#                </div>#}
-            {#            {% else %}#}
-            {#                <div class="timeline-footer">#}
-            {#                    {% if result.apeal_application %}#}
-            {##}
-            {##}
-            {#                        <h4>Заявление на апелляцию подано. В личном кабинете будет ваше время апелляции.</h4>#}
-            {#                        <br> Апелляция будет проходить в программе Microsoft Teams. <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Скачать</a>#}
-            {#                        <br>Комиссия будет ждать вас 5 минут, если вы не успеете подключиться, апелляция считается аннулированной. Имя в конференции должно быть ваше реальное. Видео доступ обязателен.#}
-            {#                        {% if  result.tour.appeal_url %}#}
-            {#                            <h3 class="text-info"> Апелляция будет проходить по следующей <a href="{{ result.tour.appeal_url }}">ссылке.</a></h3>#}
-            {#                            <h3>Время вашей апелляции: {{ appeal_order }}</h3>#}
-            {#                        {% endif %}#}
-            {#                    {% else %}#}
-            {#                        <br>Заявки на апелляцию больше не принимаются.#}
-            {#                    {% endif %}#}
-            {#                </div>#}
-
-            {#            {% endif %}#}
+            <br>Если вы несогласны с результатами,то можете подать апелляцию по следующей <a href="https://forms.gle/TgotokqrVECSrKty5">ссылке</a> до 23.00 12.06.2022
+            <h4>Апелляция будет проходить ОЧНО в IT-лицее по адресу: территория Деревня Универсиады 32; 13.06.2022 с 13.00(по живой очереди). Вход строго по документам, удостоверяющим личность. </h4>
         </div>
     </div>
 </div>
