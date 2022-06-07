@@ -84,7 +84,7 @@ class MarkEditForm(forms.ModelForm):
 
 class UploadForm(forms.Form):
     # files = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    files = MultiFileField(min_num=1, max_num=1000, max_file_size=1024*1024*60, label='Сканы работ (.zip)')
+    files = MultiFileField(min_num=1, max_num=500, max_file_size=1024*1024*50, label='Сканы работ (.zip)')
 
 
 class ResultUploadForm(forms.Form):

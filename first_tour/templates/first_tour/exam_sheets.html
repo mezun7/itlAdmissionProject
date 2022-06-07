@@ -16,7 +16,7 @@
                 <ol class="list-group">
                 {% for sheet in sheets %}
                     <div class="col col-5 d-flex justify-content-between border-bottom">
-                        <li class="ml-3 align-self-center"><a href="{{ sheet.file.url }}">{{ sheet.file.name }}</a></li>
+                        <li class="ml-3 align-self-center"><a href="{{ sheet.file.url }}">ID {{ sheet.participant_id }}: {{ sheet.file.name }}, тур: {{ sheet.tour_order }}</a></li>
                         <form method="post">
                             {% csrf_token %}
                             <input type="number" hidden value="{{ sheet.pk }}">

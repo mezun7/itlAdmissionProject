@@ -26,13 +26,13 @@ def get_result_user(pk, exclude_date=False):
         tours = Tour.objects.filter(
             Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
             grade=participant.grade,
-        ).order_by('tour_order')
+        ).order_by('tour_order').distinct('tour_order')
     else:
         tours = Tour.objects.filter(
             Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
             grade=participant.grade,
             results_release_date__lte=datetime.datetime.now(),
-        ).order_by('tour_order')
+        ).order_by('tour_order').distinct('tour_order')
     results = []
 
     for tour in tours:
@@ -60,5 +60,4 @@ def get_result_user(pk, exclude_date=False):
                 participant=participant,
             )
         )
-    # print(passing_type)
     return results

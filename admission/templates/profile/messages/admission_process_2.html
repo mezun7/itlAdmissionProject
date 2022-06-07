@@ -1,14 +1,10 @@
 {% load static %}
 
-
-
-
-
 <!-- timeline time label -->
 <div class="time-label">
-                        <span class="bg-success">
-                            {{ result.tour.results_release_date }}
-                        </span>
+    <span class="bg-success">
+        {{ result.tour.results_release_date }}
+    </span>
 </div>
 <!-- /.timeline-label -->
 <!-- timeline item -->
@@ -50,17 +46,12 @@
                             <td>{% if subjres.score > 0 %}Рекомендован{% else %}Нерекомендован{% endif %}</td>
                         {% endifequal %}
 
-
                         {% ifequal subjres.exam_subject.type_of_scoring 'Z' %}
                             <td>{% if subjres.score > 0 %}Зачет{% else %}Незачет{% endif %}</td>
 
                             <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                             <td>{% if subjres.score > 0 %}Зачет{% else %}Незачет{% endif %}</td>
                         {% endifequal %}
-
-
-
-
                     </tr>
                 {% endfor %}
                 {% if participant.extra_score %}
@@ -79,7 +70,8 @@
             </table>
 {#            <br><a href="{% get_media_prefix %}ft/tasks.zip">Задания первого тура</a>#}
                 <br>С заданиями вы можете ознакомиться по следующей <a href="{% get_media_prefix %}st/tasks2.zip"> ссылке</a>.
-                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}st/{{ participant.pk }}.zip">ссылке</a>.
+{#                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}st/{{ participant.pk }}.zip">ссылке</a>.#}
+                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}{{ result.scan.file.name }}">ссылке</a>.
             <br>Если вы несогласны с результатами,то можете подать апелляцию по следующей <a href="https://forms.gle/TgotokqrVECSrKty5">ссылке</a> до 12.00 10.06.2021
             <h4>Апелляция будет проходить ОЧНО в IT-лицее по адресу: территория Деревня Универсиады 32; 10.06.2021 с 13.00(по живой очереди). Вход строго по документам, удостоверяющим личность. Апелляция будет проходить только с абитуриентом.</h4>
             {#            {% if result.form %}#}

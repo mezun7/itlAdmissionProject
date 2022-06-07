@@ -116,30 +116,27 @@ def get_registered(request):
 @staff_member_required
 @ensure_csrf_cookie
 def upload_sheets(request):
-    # tour_orders = Tour.objects.values('tour_order', 'name').distinct()
+    tours = Tour.objects.values('tour_order').distinct()
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
-        # tour_order = request.POST['tour_order']
         files = request.FILES.getlist('files')
-        if form.is_valid():
+        if form.is_valid() and request.POST['tour_order']:
+            tour_order = request.POST['tour_order']
             for f in files:
                 file_name_parts = f.name[:f.name.rfind('.')].split('_')
-                # print(file_name_parts)
-                tour_order = file_name_parts[0]
-                pk = file_name_parts[1]
+                pk = file_name_parts[0]
                 f.name = rename_file(f, f.name)
                 ExamSheetScan.objects.create(tour_order=tour_order, participant_id=pk, file=f)
-            # sheets = ExamSheetScan.objects.all()
-            # context = {'msg': '<div class="alert alert-success">Файлы успешно загружены</div>', 'sheets': sheets}
-            # return render(request, "first_tour/upload_exam_sheets.html", context)
             return redirect('first_tour:exam_sheets')
+        context = {'form': form, 'tours': tours}
     else:
         form = UploadForm()
-    return render(request, 'first_tour/upload_exam_sheets.html', {'form': form})  # , 'tour_orders': tour_orders})
+        context = {'form': form, 'tours': tours}
+    return render(request, 'first_tour/upload_exam_sheets.html', context=context)
 
 
 def exam_sheets(request):
-    sheets = ExamSheetScan.objects.all()
+    sheets = ExamSheetScan.objects.all().order_by('-tour_order')
     context = {'sheets': sheets}
     return render(request, 'first_tour/exam_sheets.html', context=context)
 
