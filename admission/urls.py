@@ -86,7 +86,7 @@ urlpatterns = [
     path('first_tour_register/<int:grade_id>/', register_coming, name='first_tour_register'),
     path('first_tour_register/', register_coming, name='first_tour_register'),
     path('extra_score_moderator/', set_extra_score, name='set_extra_score'),
-    path('upload_confirm/<int:pk>/', upload_confirm, name='upload_confirm'),
+    path('гздщфв_confirm/<int:pk>/', upload_confirm, name='upload_confirm'),
 
     path('participant_list', views.participant_list, name='participant_list'),
     path('export/xls', views.export_participants_xls, name='export_participants_xls'),

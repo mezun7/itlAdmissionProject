@@ -7,6 +7,8 @@
             <tr>
                 <th>ID</th>
                 <th>ФИО</th>
+                <th>Класс</th>
+                <th>Профиль</th>
                 <th>email</th>
                 <th>Номер телефона ребенка</th>
                 <th>ФИО мамы</th>
@@ -22,6 +24,8 @@
                 <tr>
                     <td>{{ participant.pk }}</td>
                     <td>{{ participant.last_name }} {{ participant.first_name }} {{ participant.fathers_name }}</td>
+                    <td>{{ participant.grade }}</td>
+                    <td>{{ participant.profile }}</td>
                     <td>{{ participant.user.email }}</td>
                     <td>{{ participant.phone_party }}</td>
                     <td>{{ participant.fio_mother }}</td>
