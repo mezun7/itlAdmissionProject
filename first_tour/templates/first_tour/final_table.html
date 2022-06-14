@@ -50,7 +50,7 @@ td {
                 <td>{{ forloop.counter }}</td>
                 <td {% if result.olymp_status %}
                     class="alert-info"
-                {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }} <br> {{ result.participant.school }}</td>
+                {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }} <br>  <small class="text-muted">{{ result.participant.school }}</small></td>
                 <td>{{ result.liter }}</td>
                 {% for res in result.results %}
                     <td
