@@ -183,6 +183,7 @@ def save_results(tour_order, results_from_csv):
             try:
                 if r[s['name']] and r[s['name']] != '#N/A' and r[s['name']] != '':
                     participant = Participant.objects.get(id=r['id'])
+                    print('Found', participant)
                     exam_result = ExamResult()
                     tour = get_tour(tour_order=tour_order, participant=participant)
                     exam_subject = ExamSubject.objects.get(subject__pk=int(s['id']), tour=tour)
