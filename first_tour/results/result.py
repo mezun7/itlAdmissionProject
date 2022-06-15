@@ -34,7 +34,7 @@ def get_result_user(pk, exclude_date=False):
             results_release_date__lte=datetime.datetime.now(),
         ).order_by('tour_order').distinct('tour_order')
     results = []
-
+    print(len(tours))
     for tour in tours:
         party_results = ExamResult.objects.filter(
             exam_subject__tour=tour, participant=participant
