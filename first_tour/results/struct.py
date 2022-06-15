@@ -96,6 +96,6 @@ class ResultParticipant:
         self.tour = tour
         self.form = self.get_form()
         self.scan = self.get_scan()
-        self.passing_type = self.get_passing_type()
+        self.passing_type = passing_type
         self.final_apply_form = self.get_final_form()
         # print('scan: ', self.scan, 'tour_order: ', self.tour.tour_order, 'participant: ', self.participant)
