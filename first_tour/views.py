@@ -217,7 +217,7 @@ def load_next_tour_pass(request):
                     participant = Participant.objects.get(id=row['id'])
                     model = NextTourPass()
                     model.participant = participant
-                    model.tour = Tour.objects.filter(profile=participant.profile, tour_order=2)
+                    model.tour = Tour.objects.filter(profile=participant.profile, tour_order=2).first()
                     row['Статус'] = remove_white_spaces(row['Статус'])
                     if row['Статус'] and (row['Статус'].startswith('п') or row['Статус'].startswith('р')):
                         if row['Статус'].startswith('п'):
