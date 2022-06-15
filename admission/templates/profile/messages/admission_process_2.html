@@ -52,7 +52,7 @@
 
 
                         {% ifequal subjres.exam_subject.type_of_scoring 'Z' %}
-                            <td>{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
+                            <td>{{ subjres.score }}{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
 
                             <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                             <td>{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
@@ -63,16 +63,16 @@
 
                     </tr>
                 {% endfor %}
-                {% if participant.extra_score %}
-
-
-                    <tr>
-                        <td>Дополнительные баллы</td>
-                        <td>{{ participant.extra_score }}</td>
-                        <td></td>
-                        <td>{{ participant.extra_score }}</td>
-                    </tr>
-                {% endif %}
+{#                {% if participant.extra_score %}#}
+{##}
+{##}
+{#                    <tr>#}
+{#                        <td>Дополнительные баллы</td>#}
+{#                        <td>{{ participant.extra_score }}</td>#}
+{#                        <td></td>#}
+{#                        <td>{{ participant.extra_score }}</td>#}
+{#                    </tr>#}
+{#                {% endif %}#}
                 {#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
                 </tbody>
 
