@@ -207,7 +207,10 @@ def get_tour(tour_order, participant):
 def load_next_tour_pass(request):
     context = {}
     results = []
+    tour_orders = Tour.objects.values('tour_order').distinct()
     if request.method == 'POST':
+        tour_order = request.POST['tour_order']
+        print(tour_order)
         form = ResultUploadForm(request.POST, request.FILES)
         if form.is_valid():
             csv_file = request.FILES['files']
@@ -217,7 +220,7 @@ def load_next_tour_pass(request):
                     participant = Participant.objects.get(id=row['id'])
                     model = NextTourPass()
                     model.participant = participant
-                    model.tour = Tour.objects.filter(profile=participant.profile, tour_order=2).first()
+                    model.tour = Tour.objects.filter(profile=participant.profile, tour_order=tour_order).first()
                     row['Статус'] = remove_white_spaces(row['Статус'])
                     if row['Статус'] and (row['Статус'].startswith('п') or row['Статус'].startswith('р')):
                         if row['Статус'].startswith('п'):
@@ -233,13 +236,10 @@ def load_next_tour_pass(request):
                 msg = f'<div class="alert alert-success">Файл успешно загружен.</div>'
             except Exception or psycopg2.Error as e:
                 msg = f'<div class="alert alert-warning">Ошибка: {e}</div>'
-            context = {
-                'form': form,
-                'msg': msg
-            }
+            context = {'form': form, 'msg': msg, 'tour_orders': tour_orders}
     else:
         form = ResultUploadForm()
-        context = {'form': form}
+        context = {'form': form, 'tour_orders': tour_orders}
     return render(request, 'first_tour/next_tour_pass.html', context=context)
 
 

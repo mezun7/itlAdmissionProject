@@ -7,7 +7,7 @@
 
 {% block content %}
     <div>
-    <h3 class="ml-3">Установка прохождения на второй загрузкой файла (.csv) с данными</h3>
+    <h3 class="ml-3">Установка прохождения на следующий тур загрузкой данных из файла</h3>
         {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
         <div class="col-6 m-3">
             <form  method="post" enctype="multipart/form-data" id="upload_result">
@@ -21,8 +21,20 @@
                         <li>"резерв" или "р" - в резерве на второй тур;</li>
                         <li>пустая ячейка - не прошёл, участник будет игнорирован</li>
                     </dl>
+                    <a href="{% static 'admission/file-templates/next_tour_pass.csv' %}">Скачать пример файла для загрузки</a>
                 </div>
                 {% csrf_token %}
+
+                <div class="form-group row col-4">
+                    <label class="tour_order" for="tour_order"></label>
+                    <select name="tour_order" id="tour_order" class="form-select form-control" required>
+                        <option selected disabled hidden value="">Выберите тур</option>
+                        {% for t in tour_orders %}
+                            <option value="{{ t.tour_order }}">Тур {{ t.tour_order }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
                 {{ form.as_p }}
                 <div class="form-group">
                     <input type="submit" value="Загрузить" id="submit">
