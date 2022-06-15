@@ -48,6 +48,7 @@ def get_result_user(pk, exclude_date=False):
             passing_type = NextTourPass.objects.filter(participant=participant, tour=tour).first()
         except NextTourPass.DoesNotExist:
             passing_type = None
+            print(passing_type)
 
         final_release_date = tour.results_release_date
         results.append(
