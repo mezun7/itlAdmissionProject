@@ -53,7 +53,7 @@ def get_result_user(pk, exclude_date=False):
             ResultParticipant(
                 party_results,
                 result_release_date=final_release_date,
-                final_result_release_date=tour.final_result_release_date,
+                final_result_release_date=True if exclude_date else tour.final_result_release_date,
                 passing_type=passing_type,
                 tour=tour,
                 portfolio_score=participant.extra_score,
