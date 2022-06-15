@@ -164,7 +164,9 @@
                         {% ifequal result.tour.tour_order 2 %}
 
                             {% if result.final_result_release_date %}
-                                {% include 'profile/messages/final_result_2.html' %}
+                                {% if result.passing_type == 'P' or result.passing_type == 'R' %}
+                                    {% include 'profile/messages/final_result_2.html' %}
+                                {% endif %}
                             {% endif %}
                             {% include 'profile/messages/admission_process_2.html' %}
                         {% endifequal %}
