@@ -23,6 +23,7 @@
         <div class="timeline-body">
 {#        type {{ result.passing_type }}#}
                 Список рекомендованных к зачислению <a href="{% get_media_prefix %}res/recom.pdf">здесь</a>.
+        <p></p>
 
             {% if result.passing_type %}
                 {% ifequal result.passing_type "P" %}
