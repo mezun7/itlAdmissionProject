@@ -163,7 +163,10 @@
                     {% for result in results reversed %}
                         {% ifequal result.tour.tour_order 2 %}
                             {% if result.final_result_release_date %}
-                                {% include 'profile/messages/final_result_2.html' %}
+                                {% ifequal result.passing_type "P" %}
+                                    {% include 'profile/messages/final_result_2.html' %}
+                                {% else %}
+                                {% endifequal %}
                             {% endif %}
                             {% include 'profile/messages/admission_process_2.html' %}
                         {% endifequal %}
