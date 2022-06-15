@@ -44,8 +44,8 @@ def get_result_user(pk, exclude_date=False):
         # for pres in party_results:
         #     print(pres.participant, pres.exam_subject.subject, pres.score)
         try:
-            passing_type = participant.nexttourpass_set.get(tour=tour)
-            # passing_type = NextTourPass.objects.filter(participant=participant).first()
+            # passing_type = participant.nexttourpass_set.get(tour=tour)
+            passing_type = NextTourPass.objects.filter(participant=participant, tour=tour).first()
         except NextTourPass.DoesNotExist:
             passing_type = None
 
