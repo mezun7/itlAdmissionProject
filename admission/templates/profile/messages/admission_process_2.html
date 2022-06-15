@@ -57,7 +57,9 @@
                             </td>
 
                             <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
-                            <td>{% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}</td>
+                                                        <td>{{ subjres.score }}
+{#                                {% if subjres.score > 15 %}Зачет{% else %}Незачет{% endif %}#}
+                            </td>
                         {% endifequal %}
 
 
