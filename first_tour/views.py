@@ -216,6 +216,7 @@ def load_next_tour_pass(request):
             csv_file = request.FILES['files']
             rows = parse_file(csv_file)
             for row in rows:
+                print(row)
                 try:
                     participant = Participant.objects.get(id=row['id'])
                     model = NextTourPass()
