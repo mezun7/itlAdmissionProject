@@ -22,8 +22,14 @@
 
         <div class="timeline-body">
 {#        type {{ result.passing_type }}#}
+        {% if participant.grade.number == 7 %}
+
                 Список рекомендованных к зачислению <a href="{% get_media_prefix %}res/recom.pdf">здесь</a>.
                 Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.
+        {% else %}
+                Список рекомендованных к зачислению <a href="{% get_media_prefix %}res/recom10.pdf">здесь</a>.
+{#                Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.#}
+        {% endif %}
         <p></p>
 
             {% if result.passing_type %}

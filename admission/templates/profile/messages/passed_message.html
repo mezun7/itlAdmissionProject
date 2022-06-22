@@ -1,6 +1,9 @@
 {% load static %}
 Добрый день!<br>Поздравляем Вас! Вы успешно прошли испытания в СУНЦ IT-лицей КФУ. Мы Вас приглашаем стать частью нашего лицея. Для того, чтобы стать лицеистом, осталось лишь пару формальностей.
-<br> Родительское собрание пройдет <u>17.06.2022 в 17.00</u> (Не 18.06 как планировалось ранее).
+{% if participant.grade.number == 10 %}
+
+<br> Родительское собрание пройдет <u>24.06.2022 в 17.00</u>
+{% endif %}
 <p>В приемную лицея необходимо принести следующие документы (Приемная работает с 9.00 до 16.00. Обед: 12.00-13.00):</p>
 <ul>
     <li>Личная дело (личная карта) обучающегося. Количество печатей должно соответствовать количеству оконченных классов, запись о выбытии из школы обязательна.</li>
@@ -23,10 +26,12 @@
 <p>Также на лето есть <a href="{% get_media_prefix %}trd/{% if participant.grade.number == 10 %}10.jpg{% else %}7.jpg{% endif %}">
     следующий</a> список литературы для прочтения</p>
 
-
-<h4>Для тех, кто не сможет присутствовать очно на родительском собрании, можно подключиться <a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NzVmZjU5YjAtMmE2OC00NTAyLTk2NDktYTkzNWFmOGE2YmYw%40thread.v2/0?context=%7b%22Tid%22%3a%22c161f04f-76b8-48c8-b919-2bc7ebd32e96%22%2c%22Oid%22%3a%22bf5292ea-fdc0-4a55-957c-decc49f49eff%22%7d">онлайн</a>
-    <br>Совещание онлайн будет проходить на платформе <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Microsoft Teams</a>.
+{##}
+{#<h4>Для тех, кто не сможет присутствовать очно на родительском собрании, можно подключиться <a href="https://teams.microsoft.com/l/meetup-join/19%3ameeting_NzVmZjU5YjAtMmE2OC00NTAyLTk2NDktYTkzNWFmOGE2YmYw%40thread.v2/0?context=%7b%22Tid%22%3a%22c161f04f-76b8-48c8-b919-2bc7ebd32e96%22%2c%22Oid%22%3a%22bf5292ea-fdc0-4a55-957c-decc49f49eff%22%7d">онлайн</a>#}
+{#    <br>Совещание онлайн будет проходить на платформе <a href="https://www.microsoft.com/ru-ru/microsoft-teams/download-app">Microsoft Teams</a>.#}
 
 </h4>
+{% if participant.grade.number == 7 %}
 <h4>Презентация с родительского собрания <a href="{% get_media_prefix %}res/meeting.pdf">здесь.</a></h4>
+{% endif %}
 <h4><a href="https://t.me/+RMGY2BZOrMBeJduG">Телеграмм канал лицея</a></h4>
