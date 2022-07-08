@@ -136,7 +136,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 get_value(participant.phone_mother),
                 get_value(participant.fio_father),
                 get_value(participant.phone_father),
-                get_value(participant.grade.number),
+                get_value(participant.grade.number if participant.grade is not None else None),
                 'Нет' if participant.profile is None else participant.profile.name,
                 participant.school,
                 str(participant.first_tour_register_date),
