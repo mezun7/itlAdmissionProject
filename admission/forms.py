@@ -52,9 +52,18 @@ class SetPasswordForm(fr.SetPasswordForm):
 
 class RegisterForm(forms.ModelForm):
     repassword = forms.CharField(max_length=200, widget=PasswordInput(attrs={'placeholder': 'Повторно введите пароль'}))
-    # grade_to_enter = forms.ChoiceField(required=True, choices=((group.number, group.number) for group in Group.objects.all().order_by('number')), widget=Select())
-    grade_to_enter = forms.ModelChoiceField(required=True, queryset=Group.objects.all().order_by('number'),
-                                            widget=Select())
+    # grade_to_enter = forms.ChoiceField(required=True, choices=((group.number, group.number) for group in
+    # Group.objects.all().order_by('number')), widget=Select())
+    grade_to_enter = None
+
+    def __init__(self, *args, **kwargs):
+        olymp = kwargs.pop('olymp')
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        group_set = Group.objects.filter(only_olymp=False).order_by('number')
+        if olymp:
+            group_set = Group.objects.all().order_by('number')
+        self.grade_to_enter = forms.ModelChoiceField(required=True, queryset=group_set,
+                                                     widget=Select())
 
     class Meta:
         model = User
@@ -131,7 +140,7 @@ class ChildInfo(forms.ModelForm):
         ignored_fileds = [
             'fio_mother', 'fio_father', 'phone_mother',
             'phone_father', 'out_of_competition',
-            'portfolio_text', 'birthday', 'profile_photo'
+            'portfolio_text', 'birthday', 'profile_photo', 'came_from_olymp_link'
         ]
         self.fields["gender"].choices = [("", "Укажите пол"), ] + list(self.fields["gender"].choices)[1:]
         ch = list(self.fields["first_tour_register_date"].choices)
@@ -163,7 +172,7 @@ class ChildInfo(forms.ModelForm):
         model = Participant
         exclude = ['reg_status', 'activation_key', 'key_expires', 'portfolio', 'grade', 'user', 'portfolio_text',
                    'moderator', 'date_privilege_check', 'privilege_status', 'is_checked', 'is_dublicate',
-                   'olymp_coming_status', 'first_tour_come_date', "extra_score",  'profile_photo']
+                   'olymp_coming_status', 'first_tour_come_date', "extra_score", 'profile_photo']
 
         widgets = {
             'last_name': TextInput(attrs={

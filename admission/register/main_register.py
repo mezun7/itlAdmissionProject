@@ -12,6 +12,7 @@ from django.urls import reverse
 
 from admission.forms import RegisterForm, ChildInfo
 from admission.helpers.email_ops import get_register_mail
+from admission.helpers.user_creator import create_user
 from admission.models import Participant, Olympiad
 from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 
@@ -28,31 +29,33 @@ def register(request):
     return render(request, 'registration/register.html')
 
 
-def register_2(request):
+def register_2(request, olymp=False):
     context = {}
-    if today > REGISTER_END_DATE:
-        return redirect('admission:login')
-    if request.user.is_authenticated:
-        return redirect('admission:proxy')
+    if not olymp:
+        if today > REGISTER_END_DATE:
+            return redirect('admission:login')
+        if request.user.is_authenticated:
+            return redirect('admission:proxy')
 
-    form = RegisterForm()
+    form = RegisterForm(**{'olymp': olymp})
     if request.POST:
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, **{'olymp': olymp})
         if form.is_valid():
-            u = User()
-            u.username = form.cleaned_data['username']
-            u.set_password(form.cleaned_data['password'])
-            u.email = form.cleaned_data['email']
-            u.is_active = True
-            u.save()
-            user = u
-            # user = authenticate(request, username=u.username, password=form.cleaned_data['password'])
-            # print(User)
-            login(request, u)
-            participant = Participant()
-            participant.user = user
-            participant.grade = form.cleaned_data['grade_to_enter']
-            participant.save()
+            create_user(form, request, olymp)
+            # u = User()
+            # u.username = form.cleaned_data['username']
+            # u.set_password(form.cleaned_data['password'])
+            # u.email = form.cleaned_data['email']
+            # u.is_active = True
+            # u.save()
+            # user = u
+            # # user = authenticate(request, username=u.username, password=form.cleaned_data['password'])
+            # # print(User)
+            # login(request, u)
+            # participant = Participant()
+            # participant.user = user
+            # participant.grade = form.cleaned_data['grade_to_enter']
+            # participant.save()
 
             return HttpResponseRedirect(reverse('admission:register3'))
 
@@ -141,3 +144,7 @@ def register_complete(request):
 
 def activate_email(request):
     return render(request, 'registration/register_done.html')
+
+
+def olymp_register(request):
+    return register_2(request, olymp=True)
