@@ -52,6 +52,7 @@ class Profile(models.Model):
 class Group(models.Model):
     number = models.IntegerField(verbose_name=u'Класс')
     have_profile = models.BooleanField(verbose_name=u'Есть профиль?', default=False)
+    only_olymp = models.BooleanField(verbose_name=u'Поступление только для олимпиадников?', default=False)
 
     def __str__(self):
         return str(self.number)
@@ -129,6 +130,7 @@ class Participant(models.Model):
     olymp_coming_status = models.CharField(default='N', verbose_name='Статус прихода', max_length=2)
     first_tour_come_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Пришел')
     extra_score = models.IntegerField(null=True, verbose_name=u'Дополнительные баллы', blank=True)
+    came_from_olymp_link = models.BooleanField(default=False, verbose_name=u'По олимпиадной ссылке пришел?')
 
     # def save(self, *args, **kwargs):
     #     if not self.extra_score:
