@@ -40,10 +40,19 @@
                 {{ form.email }}
                 {{ form.password}}
                 {{ form.repassword }}
+{#                {{ form.test_f }}#}
                 {{ form.grade_to_enter }}
+{#            <select name="grade_to_enter" id="id_grade_to_enter">#}
+{#                {% for key, choice in form.grade_to_enter.choices %}#}
+{#                    <option value="{{ key }}">{{ choice }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+
                 <input type="submit" name="Submit" class="action-button mt-3" value="Далее"/>
             </fieldset>
         </form>
+
+{#    {{ form.as_p }}#}
 
     </div>
 </div>

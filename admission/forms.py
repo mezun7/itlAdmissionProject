@@ -54,7 +54,7 @@ class RegisterForm(forms.ModelForm):
     repassword = forms.CharField(max_length=200, widget=PasswordInput(attrs={'placeholder': 'Повторно введите пароль'}))
     # grade_to_enter = forms.ChoiceField(required=True, choices=((group.number, group.number) for group in
     # Group.objects.all().order_by('number')), widget=Select())
-    grade_to_enter = None
+    # grade_to_enter = None
 
     def __init__(self, *args, **kwargs):
         olymp = kwargs.pop('olymp')
@@ -62,8 +62,12 @@ class RegisterForm(forms.ModelForm):
         group_set = Group.objects.filter(only_olymp=False).order_by('number')
         if olymp:
             group_set = Group.objects.all().order_by('number')
-        self.grade_to_enter = forms.ModelChoiceField(required=True, queryset=group_set,
+        grade_to_enter = forms.ModelChoiceField(required=True, queryset=group_set,
                                                      widget=Select())
+        self.fields['grade_to_enter'] = grade_to_enter
+        # print(self.grade_to_enter.)
+        # for i in self.grade_to_enter.choices:
+        #     print(i)
 
     class Meta:
         model = User
@@ -102,6 +106,10 @@ class RegisterForm(forms.ModelForm):
             raise ValidationError("Пользователь с таким логином существует")
         except User.DoesNotExist:
             return username
+
+    def clean_grade_to_enter(self):
+        grade_to_enter = self.cleaned_data.get("grade_to_enter", "")
+        return grade_to_enter
 
 
 class FileUploadForm(forms.ModelForm):
@@ -149,9 +157,9 @@ class ChildInfo(forms.ModelForm):
         for d in ch:
             d = list(d)
             if '--' not in d[1]:
-                dt = datetime.strptime(d[1], '%Y-%m-%d %H:%M:%S')
+                dt = datetime.strptime(d[1], '%Y-%m-%d')
                 if is_tour_available(dt):
-                    d[1] = 'Придем на 1 тур ' + str(dt.strftime('%d.%m.%Y')) + ' в ' + str(dt.strftime('%H:%M'))
+                    d[1] = 'Придем на 1 тур ' + str(dt.strftime('%d.%m.%Y'))
                     # print(d[1])
                     self.fields["first_tour_register_date"].choices = self.fields["first_tour_register_date"].choices \
                                                                       + [(d[0], d[1])]

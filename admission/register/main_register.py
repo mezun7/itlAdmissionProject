@@ -59,7 +59,9 @@ def register_2(request, olymp=False):
             # participant.save()
 
             return HttpResponseRedirect(reverse('admission:register3'))
-
+        else:
+            for field in form:
+                print('Errors:', field.name,  field.errors)
     context['form'] = form
 
     return render(request, 'registration/register2.html', context)

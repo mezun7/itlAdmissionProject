@@ -25,7 +25,9 @@ class Moderator(models.Model):
 
 
 class FirstTourDates(models.Model):
-    date = models.DateTimeField(verbose_name='Дата первого тура')
+    date = models.DateField(verbose_name='Дата первого тура')
+    time_7 = models.TimeField(verbose_name='Время начала для 7х классов', null=True, blank=True)
+    time_10 = models.TimeField(verbose_name='Время начала для 10х классов', null=True, blank=True)
 
     def __str__(self):
         # tour_date = False
