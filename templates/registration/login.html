@@ -23,11 +23,13 @@
                         <img class="embed-responsive" src="{% static 'admission/img/logo.png' %}">
                     </div>
                     <h2 class="fs-title mt-4">Войти</h2>
-                    <h3 class="fs-subtitle alert alert-warning">
-                            {% if stop_register %}
-                                <strong>Регистрация абитуриентов в {{ year }} году завершена.</strong>
-                            {% endif %}
-                    </h3>
+                    {% if stop_register %}
+
+                        <h3 class="fs-subtitle alert alert-warning">
+                            <strong>Регистрация абитуриентов в {{ year }} году завершена.</strong>
+                        </h3>
+                    {% endif %}
+
                     <h3 class="fs-subtitle alert-danger">
                         <ul class="alert-danger">
                             {% for field in form %}
