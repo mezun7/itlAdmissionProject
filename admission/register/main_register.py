@@ -30,6 +30,7 @@ def register(request):
 
 
 def register_2(request, olymp=False):
+    olymp = bool(olymp)
     context = {}
     if not olymp:
         if today > REGISTER_END_DATE:
