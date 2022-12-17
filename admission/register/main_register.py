@@ -20,18 +20,20 @@ salt = "asdvcx"
 today = datetime.date.today()
 
 
-def register(request):
+def register(request,olymp='False'):
+    olymp = bool(olymp)
+    context = {'olymp': olymp}
     print(today > REGISTER_END_DATE)
     if today > REGISTER_END_DATE:
         return redirect('admission:login')
     if request.user.is_authenticated:
         return redirect('admission:proxy')
-    return render(request, 'registration/register.html')
+    return render(request, 'registration/register.html', context)
 
 
-def register_2(request, olymp=False):
+def register_2(request, olymp='False'):
     olymp = bool(olymp)
-    context = {}
+    context = {'olymp': olymp}
     if not olymp:
         if today > REGISTER_END_DATE:
             return redirect('admission:login')
@@ -57,26 +59,30 @@ def register_2(request, olymp=False):
             # participant.user = user
             # participant.grade = form.cleaned_data['grade_to_enter']
             # participant.save()
-
+            if olymp:
+                return HttpResponseRedirect(reverse('admission:register3_olymp'))
             return HttpResponseRedirect(reverse('admission:register3'))
         else:
             for field in form:
-                print('Errors:', field.name,  field.errors)
+                print('Errors:', field.name, field.errors)
     context['form'] = form
 
     return render(request, 'registration/register2.html', context)
 
 
 @login_required()
-def register_3(request):
-    context = {}
+def register_3(request, olymp='False'):
+    olymp = bool(olymp)
+    context = {'olymp': olymp}
     participant = Participant.objects.get(user=request.user)
     # form = ChildInfo(instance=participant)
-    form = ChildInfo(instance=participant, **{'participant': participant})
+    form = ChildInfo(instance=participant, **{'participant': participant,
+                                              'olymp': olymp})
     context['olympiads'] = [olympiad.text for olympiad in Olympiad.objects.all()]
     if request.POST:
         # form = ChildInfo(request.POST, instance=participant)
-        form = ChildInfo(request.POST, instance=participant, **{'participant': participant})
+        form = ChildInfo(request.POST, instance=participant, **{'participant': participant,
+                                                                'olymp': olymp})
         if form.is_valid():
             form.save()
             participant = Participant.objects.get(user=request.user)

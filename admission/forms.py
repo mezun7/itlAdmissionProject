@@ -144,6 +144,7 @@ class ChildInfo(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         participant = kwargs.pop('participant')
+        olymp = kwargs.pop('olymp')
         super(ChildInfo, self).__init__(*args, **kwargs)
         ignored_fileds = [
             'fio_mother', 'fio_father', 'phone_mother',
@@ -172,6 +173,9 @@ class ChildInfo(forms.ModelForm):
         if not participant.grade.have_profile:
             self.fields.pop('profile')
             ignored_fileds.append('profile')
+        if olymp:
+            self.fields.pop('first_tour_register_date')
+            ignored_fileds.append('first_tour_register_date')
         for k, v in self.fields.items():
             if k not in ignored_fileds:
                 v.required = True

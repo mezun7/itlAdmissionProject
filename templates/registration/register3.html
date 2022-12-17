@@ -2,13 +2,19 @@
 {% extends "layout/base.html" %}
 {% load static %}
 {% block title %}
-Регистрация: данные ребенка
+    Регистрация: данные ребенка
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6 col-md-offset-3">
-        <form class="mb-2" id="msform" method="post" action="{% url 'admission:register3' %}">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            {% if olymp %}
+                <form class="mb-2" id="msform" method="post" action="{% url 'admission:register3_olymp' 'True' %}">
+            {% else %}
+                <form class="mb-2" id="msform" method="post" action="{% url 'admission:register3' %}">
+
+            {% endif %}
+
             <!-- progressbar -->
             {% csrf_token %}
             <ul id="progressbar">
@@ -21,18 +27,18 @@
 
             <fieldset>
                 <h2 class="fs-title">Данные о ребенке</h2>
-                <h3 class="fs-subtitle">{% if form.errors  %}
+                <h3 class="fs-subtitle">{% if form.errors %}
                     <ul class="alert-danger">
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <li>{{field.label}}: {{ error }}</li>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ field.label }}: {{ error }}</li>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
                     </ul>
                 {% endif %} </h3>
                 {{ form.last_name }}
                 {{ form.first_name }}
-                {{ form.fathers_name}}
+                {{ form.fathers_name }}
                 {{ form.gender }}
                 <br/>
                 {{ form.birthday }}
@@ -55,51 +61,52 @@
                 <p>Есть ли у вас право на поступление без вступительных испытаний?</p>
                 {{ form.out_of_competition }}
 
-{#            <div class="form-check form-check-inline">#}
-{##}
-{#                {{ form.gender.1 }}#}
-{#            </div>#}
-{#            <div class="form-check form-check-inline">#}
-{#                {{ form.gender.2 }}#}
-{#            </div>#}
+                {#            <div class="form-check form-check-inline">#}
+                {##}
+                {#                {{ form.gender.1 }}#}
+                {#            </div>#}
+                {#            <div class="form-check form-check-inline">#}
+                {#                {{ form.gender.2 }}#}
+                {#            </div>#}
                 <input type="submit" name="Submit" class="action-button m-2" value="Далее"/>
             </fieldset>
-        </form>
+            </form>
 
+        </div>
     </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Список олимпиад, дающих льготы</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body p-3">
-      <ol class="mx-3">
-        {% for olymp in olympiads %}
-           <li class="mx-3"> {{ olymp }} </li>
-        {% endfor %}
-        </ol>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно</button>
-{#        <button type="button" class="btn btn-primary">Save changes</button>#}
-      </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Список олимпиад, дающих льготы</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-3">
+                    <ol class="mx-3">
+                        {% for olymp in olympiads %}
+                            <li class="mx-3"> {{ olymp }} </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Понятно</button>
+                    {#        <button type="button" class="btn btn-primary">Save changes</button>#}
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 {% endblock %}
 
 {% block script_buttom %}
     <script type="text/javascript">
-        jQuery(function($){
-           $("#id_phone_party").mask("+7 (999) 999-99-99");
-           $("#id_birthday").mask("99.99.9999");
+        jQuery(function ($) {
+            $("#id_phone_party").mask("+7 (999) 999-99-99");
+            $("#id_birthday").mask("99.99.9999");
             $("#id_phone_mother").mask("+7 (999) 999-99-99");
             $("#id_phone_father").mask("+7 (999) 999-99-99");
             $("#id_gender option:first").text("Укажите пол");

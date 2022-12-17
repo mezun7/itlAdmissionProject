@@ -1,20 +1,24 @@
 {#{% extends 'registration/base.html' %}#}
 {% extends "layout/base.html" %}
 {% block title %}
-Регистрация
+    Регистрация
 {% endblock %}
 
 {% block content %}
     <script type="text/javascript">
 
-        jQuery(function($){
+        jQuery(function ($) {
             $("#id_grade_to_enter option:first").text("Выберите класс, в который хотите поступить");
 
         });
     </script>
-<div class="row justify-content-center">
-    <div class="col-md-6 col-md-offset-3">
-        <form id="msform" method="post" action="{% url 'admission:register2' %}">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-md-offset-3">
+            {% if olymp %}
+                <form id="msform" method="post" action="{% url 'admission:register2_olymp' 'True' %}">
+            {% else %}
+                <form id="msform" method="post" action="{% url 'admission:register2' %}">
+            {% endif %}
             <!-- progressbar -->
             {% csrf_token %}
             <ul id="progressbar">
@@ -27,33 +31,33 @@
 
             <fieldset>
                 <h2 class="fs-title">Данные для авторизации</h2>
-                <h3 class="fs-subtitle">{% if form.errors  %}
+                <h3 class="fs-subtitle">{% if form.errors %}
                     <ul class="alert-danger">
-                    {% for filed in form %}
-                        {% for error in filed.errors %}
-                            <li>{{ error }}</li>
+                        {% for filed in form %}
+                            {% for error in filed.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
                     </ul>
                 {% endif %} </h3>
                 {{ form.username }}
                 {{ form.email }}
-                {{ form.password}}
+                {{ form.password }}
                 {{ form.repassword }}
-{#                {{ form.test_f }}#}
+                {#                {{ form.test_f }}#}
                 {{ form.grade_to_enter }}
-{#            <select name="grade_to_enter" id="id_grade_to_enter">#}
-{#                {% for key, choice in form.grade_to_enter.choices %}#}
-{#                    <option value="{{ key }}">{{ choice }}</option>#}
-{#                {% endfor %}#}
-{#            </select>#}
+                {#            <select name="grade_to_enter" id="id_grade_to_enter">#}
+                {#                {% for key, choice in form.grade_to_enter.choices %}#}
+                {#                    <option value="{{ key }}">{{ choice }}</option>#}
+                {#                {% endfor %}#}
+                {#            </select>#}
 
                 <input type="submit" name="Submit" class="action-button mt-3" value="Далее"/>
             </fieldset>
-        </form>
+            </form>
 
-{#    {{ form.as_p }}#}
+            {#    {{ form.as_p }}#}
 
+        </div>
     </div>
-</div>
 {% endblock %}
