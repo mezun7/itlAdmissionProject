@@ -21,6 +21,7 @@ today = datetime.date.today()
 
 
 def register(request, olymp='False'):
+    print(olymp)
     olymp = bool(olymp)
     context = {'olymp': olymp}
     print(today > REGISTER_END_DATE)
