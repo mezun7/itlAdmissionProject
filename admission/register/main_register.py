@@ -19,10 +19,11 @@ from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 salt = "asdvcx"
 today = datetime.date.today()
 
+def get_str_from_bool(olymp):
+    return olymp == 'True'
 
 def register(request, olymp='False'):
-    print(olymp)
-    olymp = bool(olymp)
+    olymp = get_str_from_bool(olymp)
     context = {'olymp': olymp}
     print(today > REGISTER_END_DATE)
     if today > REGISTER_END_DATE:
@@ -33,7 +34,7 @@ def register(request, olymp='False'):
 
 
 def register_2(request, olymp='False'):
-    olymp = bool(olymp)
+    olymp = get_str_from_bool(olymp)
     context = {'olymp': olymp}
     if not olymp:
         if today > REGISTER_END_DATE:
@@ -73,7 +74,7 @@ def register_2(request, olymp='False'):
 
 @login_required()
 def register_3(request, olymp='False'):
-    olymp = bool(olymp)
+    olymp = get_str_from_bool(olymp)
     context = {'olymp': olymp}
     participant = Participant.objects.get(user=request.user)
     # form = ChildInfo(instance=participant)
