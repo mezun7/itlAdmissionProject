@@ -20,7 +20,7 @@ salt = "asdvcx"
 today = datetime.date.today()
 
 
-def register(request,olymp='False'):
+def register(request, olymp='False'):
     olymp = bool(olymp)
     context = {'olymp': olymp}
     print(today > REGISTER_END_DATE)
