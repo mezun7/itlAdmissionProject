@@ -102,8 +102,12 @@ def profile_change(request):
     participant = Participant.objects.get(user=request.user)
     grade = participant.grade
     edu_profile = participant.profile
+    form_params = {
+        'participant': participant,
+        'olymp': participant.came_from_olymp_link
+    }
     if request.method == 'POST':
-        form = ChildInfo(request.POST, instance=participant,  **{'participant': participant})
+        form = ChildInfo(request.POST, instance=participant,  **form_params)
         # print(form.is_valid())
         if form.is_valid():
             # print(form.is_valid())
@@ -111,7 +115,7 @@ def profile_change(request):
             # messages.add_message(request, messages.SUCCESS, 'Объявление исправлено')
             return redirect("admission:main")
     else:
-        form = ChildInfo(instance=participant, initial={'user': request.user}, **{'participant': participant})
+        form = ChildInfo(instance=participant, initial={'user': request.user}, **form_params)
     context = {
         'form': form,
         'grade': grade,
