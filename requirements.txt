@@ -1,4 +1,4 @@
-amqp==5.0.6
+amqp
 asgiref==3.3.1
 beautifulsoup4==4.10.0
 billiard==3.6.4.0
@@ -15,12 +15,12 @@ gunicorn==20.0.4
 kombu==5.0.2
 lxml==4.8.0
 openpyxl==3.0.7
-Pillow==8.1.2
+Pillow
 prompt-toolkit==3.0.18
 psycopg2-binary==2.9.5
 pytz==2021.1
 redis==3.5.3
-reportlab==3.6.8
+reportlab
 six==1.16.0
 soupsieve==2.3.1
 sqlparse==0.4.1

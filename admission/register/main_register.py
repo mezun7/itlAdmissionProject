@@ -19,8 +19,10 @@ from itlAdmissionProject.settings import SERVER_EMAIL, REGISTER_END_DATE
 salt = "asdvcx"
 today = datetime.date.today()
 
+
 def get_str_from_bool(olymp):
     return olymp == 'True'
+
 
 def register(request, olymp='False'):
     olymp = get_str_from_bool(olymp)
