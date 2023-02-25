@@ -282,7 +282,7 @@ def get_first_tour_coming_register(request):
             first_tour_come_date__date=ft_date.date, grade=grade).count()
         overall += tmp
 
-        result['labels'].append(str(ft_date.date.date()) + " " + str(grade.number) + " Класс")
+        result['labels'].append(str(ft_date.date) + " " + str(grade.number) + " Класс")
         datasets['data'].append(tmp)
         datasets['backgroundColor'].append(backgroundColors[ind])
         ind += 1
