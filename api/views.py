@@ -284,7 +284,7 @@ def get_first_tour_coming_register(request):
 
         result['labels'].append(str(ft_date.date) + " " + str(grade.number) + " Класс")
         datasets['data'].append(tmp)
-        datasets['backgroundColor'].append(backgroundColors[ind])
+        datasets['backgroundColor'].append(backgroundColors[ind % len(product_dt_grades)])
         ind += 1
     # print(result['labels'], datasets['data'])
 
