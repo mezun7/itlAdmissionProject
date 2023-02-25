@@ -265,7 +265,7 @@ def get_first_tour_coming_register(request):
         'backgroundColor': []
     }
     first_tour_dates = FirstTourDates.objects.all().order_by('date')
-    grades = Group.objects.all().order_by('number')
+    grades = Group.objects.filter(only_olymp=False).order_by('number')
     product_dt_grades = itertools.product(first_tour_dates, grades)
 
     result = {
