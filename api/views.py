@@ -279,7 +279,7 @@ def get_first_tour_coming_register(request):
     datasets['backgroundColor'].append('#6c757d')
     for ft_date, grade in product_dt_grades:
         tmp = Participant.objects.filter(
-            first_tour_come_date__date=ft_date.date(), grade=grade).count()
+            first_tour_come_date__date=ft_date.date, grade=grade).count()
         overall += tmp
 
         result['labels'].append(str(ft_date.date.date()) + " " + str(grade.number) + " Класс")
