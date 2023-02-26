@@ -1,40 +1,44 @@
-
-                      <!-- timeline time label -->
-                      <div class="time-label">
+<!-- timeline time label -->
+<div class="time-label">
                         <span class="bg-blue">
                           {{ message.sent_at }}
                         </span>
-                      </div>
-                      <!-- /.timeline-label -->
-                      <!-- timeline item -->
-                      <div>
-                          {% ifequal message.verdict 'A' %}
-                        <i class="fas fa-check-circle bg-green"></i>
-                              {% else %}
-                                <i class="fas fa-check-circle bg-red"></i>
-                              {% endifequal %}
+</div>
+<!-- /.timeline-label -->
+<!-- timeline item -->
+<div>
+    {% ifequal message.verdict 'A' %}
+        <i class="fas fa-check-circle bg-green"></i>
+    {% else %}
+        <i class="fas fa-check-circle bg-red"></i>
+    {% endifequal %}
 
-                        <div class="timeline-item">
-                          <span class="time"><i class="far fa-clock"></i> </span>
+    <div class="timeline-item">
+        <span class="time"><i class="far fa-clock"></i> </span>
 
-                          <h3 class="timeline-header"><a href="#">Команда поддержки:</a> </h3>
+        <h3 class="timeline-header"><a href="#">Команда поддержки:</a></h3>
 
-                          <div class="timeline-body">
-                              {% ifequal message.verdict 'A' %}
-                                  {% ifequal paricipant.grade.number 10 %}
-                                      Здравствуйте. Мы рады сообщить, что мы подтверждаем вашу льготу на поступление вне основного конкурса. Сообщаем Вам, что согласно положению о приеме абитуриенты, поступающие в 10й класс в льготном режиме, должны написать работу по математике. Для зачисления необходимо набрать не менее 50% баллов. По дальнейшим шагам с Вами свяжутся. Спасибо, что выбрали нас!
-                                  {% else %}
-Здравствуйте. Мы рады сообщить, что мы подтверждаем вашу льготу на поступление без экзаменов. По дальнейшим шагам с вами свяжутся(какие документы и куда приносить их). Спасибо, что выбрали нас!
-                                      {% endifequal %}
-                              {% else %}
-    Здравствуйте. К сожалению, мы не можем подтвердить вашу льготу по следующим причинам: {{ message.text }}
-    Ждем вас на экзаменах {{ participant.first_tour_register_date.date }}. Спасибо!
-                              {% endifequal %}
+        <div class="timeline-body">
+            {% ifequal message.verdict 'A' %}
+                {% ifequal paricipant.grade.number 10 %}
+                    Здравствуйте. Мы рады сообщить, что мы подтверждаем вашу льготу на поступление вне основного
+                    конкурса. Сообщаем Вам, что согласно положению о приеме абитуриенты, поступающие в 10й класс в
+                    льготном режиме, должны написать работу по математике. Для зачисления необходимо набрать не менее
+                    50% баллов. По дальнейшим шагам с Вами свяжутся. Спасибо, что выбрали нас!
+                {% else %}
+                    {% include 'moderator/email_templates/accept.html' %}
+{#                    Здравствуйте. Мы рады сообщить, что мы подтверждаем вашу льготу на поступление без экзаменов. По#}
+{#                    дальнейшим шагам с вами свяжутся(какие документы и куда приносить их). Спасибо, что выбрали нас!#}
+                {% endifequal %}
+            {% else %}
+                Здравствуйте. К сожалению, мы не можем подтвердить вашу льготу по следующим причинам: {{ message.text }}
+                Ждем вас на экзаменах {{ participant.first_tour_register_date.date }}. Спасибо!
+            {% endifequal %}
 
-                          </div>
-                          <div class="timeline-footer">
-{#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
-{#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
-                          </div>
-                        </div>
-                      </div>
+        </div>
+        <div class="timeline-footer">
+            {#                            <a href="#" class="btn btn-primary btn-sm">Read more</a>#}
+            {#                            <a href="#" class="btn btn-danger btn-sm">Delete</a>#}
+        </div>
+    </div>
+</div>
