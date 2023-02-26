@@ -59,7 +59,7 @@ def moderate(request, profile_id):
             message.save()
             participant.save()
             email_subject, email_message = get_moderator_mail(message.verdict, message.text,
-                                                              participant.first_tour_register_date)
+                                                              participant)
             email = EmailMessage(email_subject,
                                  email_message,
                                  from_email=SERVER_EMAIL,

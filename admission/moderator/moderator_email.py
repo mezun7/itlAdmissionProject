@@ -4,15 +4,23 @@ from itlAdmissionProject.settings import MAIN_HOST, DOMAIN, PROTOCOL
 
 templates_statuses = {
     'A': 'moderator/email_templates/accept.html',
+    'A_10': 'moderator/email_templates/accept_10.html',
     'R': 'moderator/email_templates/reject.html'
 }
 
 
-def get_moderator_mail(status, reason, exam_date):
-    email_subject = 'Подтверждение пользователя в системе регистрации IT-лицея КФУ'
-    email_body = render_to_string(templates_statuses[status], {
+def get_template(status, participant):
+    if status == 'A' and participant.grade == 10:
+        return templates_statuses['A_10']
+    return templates_statuses[status]
+
+
+def get_moderator_mail(status, reason, participant):
+    email_subject = 'Подтверждение пользователя в системе регистрации СУНЦ IT-лицея КФУ'
+    template = get_template(status, participant)
+    email_body = render_to_string(template, {
         'reason': reason,
-        'exam_date': exam_date
+        'exam_date': participant.first_tour_register_date
     })
 
     return email_subject, email_body
