@@ -15,12 +15,17 @@ def get_template(status, participant):
     return templates_statuses[status]
 
 
-def get_moderator_mail(status, reason, participant):
-    email_subject = 'Подтверждение пользователя в системе регистрации СУНЦ IT-лицея КФУ'
+def get_email_body(status, reason, participant):
     template = get_template(status, participant)
     email_body = render_to_string(template, {
         'reason': reason,
         'exam_date': participant.first_tour_register_date
     })
+    return email_body
+
+
+def get_moderator_mail(status, reason, participant):
+    email_subject = 'Подтверждение пользователя в системе регистрации СУНЦ IT-лицея КФУ'
+    email_body = get_email_body(status, reason, participant)
 
     return email_subject, email_body
