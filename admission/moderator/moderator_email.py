@@ -10,7 +10,7 @@ templates_statuses = {
 
 
 def get_template(status, participant):
-    if status == 'A' and participant.grade == 10:
+    if status == 'A' and participant.grade.number == 10:
         return templates_statuses['A_10']
     return templates_statuses[status]
 
