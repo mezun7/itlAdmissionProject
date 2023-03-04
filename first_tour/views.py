@@ -135,6 +135,7 @@ def upload_sheets(request):
     return render(request, 'first_tour/upload_exam_sheets.html', context=context)
 
 
+@staff_member_required
 def exam_sheets(request):
     sheets = ExamSheetScan.objects.all().order_by('-tour_order')
     context = {'sheets': sheets}
@@ -204,6 +205,7 @@ def get_tour(tour_order, participant):
     return tour
 
 
+@staff_member_required
 def load_next_tour_pass(request):
     context = {}
     results = []
@@ -249,4 +251,3 @@ def remove_white_spaces(string=None):
         # Remove all non-word characters (everything except numbers and letters)
         return re.sub(r"[^\w\s]", '', string).lower()
     return string
-

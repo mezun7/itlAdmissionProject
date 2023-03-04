@@ -1,5 +1,7 @@
 import hashlib
 import datetime
+
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils import timezone
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -13,7 +15,7 @@ from admission.helpers.email_ops import get_register_mail
 from admission.models import Participant, Olympiad
 
 
-@login_required()
+@staff_member_required
 def dashboard_main(request):
     participant = Participant.objects.first()
     context = {

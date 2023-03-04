@@ -1,5 +1,7 @@
 import hashlib
 import datetime
+
+from django.contrib.admin.views.decorators import staff_member_required
 from django.utils import timezone
 
 from django.contrib.auth import authenticate, login
@@ -48,7 +50,7 @@ def main_page(request):
     return render(request, 'profile/profile.html', context=context)
 
 
-@login_required()
+@staff_member_required
 def profile_test_page(request):
     participant = Participant.objects.first()
     context = {
