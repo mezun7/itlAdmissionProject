@@ -166,7 +166,7 @@ def diploma_delete(request, pk):
         return render(request, 'profile/diploma_delete.html', context)
 
 
-@login_required()
+@staff_member_required()
 def participant_list(request):
     participants = Participant.objects.filter(is_dublicate=False, reg_status=100).order_by('grade', 'first_name',
                                                                                            'last_name', 'fathers_name')
