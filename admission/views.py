@@ -107,7 +107,7 @@ def profile_change(request):
         'olymp': participant.came_from_olymp_link
     }
     if request.method == 'POST':
-        form = ChildInfo(request.POST, instance=participant,  **form_params)
+        form = ChildInfo(request.POST, instance=participant, **form_params)
         # print(form.is_valid())
         if form.is_valid():
             # print(form.is_valid())
@@ -168,7 +168,8 @@ def diploma_delete(request, pk):
 
 @login_required()
 def participant_list(request):
-    participants = Participant.objects.filter(is_dublicate=False, reg_status=100).order_by('grade', 'first_name', 'last_name', 'fathers_name')
+    participants = Participant.objects.filter(is_dublicate=False, reg_status=100).order_by('grade', 'first_name',
+                                                                                           'last_name', 'fathers_name')
     paginator = Paginator(participants, 15)
     if 'page' in request.GET:
         page_num = request.GET['page']
@@ -179,6 +180,7 @@ def participant_list(request):
     return render(request, 'admission/participant_list.html', context)
 
 
+@staff_member_required()
 def export_participants_xls(request):
     response = HttpResponse(content_type='application/ms-excel')
     response['Content-Disposition'] = 'attachment; filename="Participants_list.xls"'
@@ -224,4 +226,3 @@ def export_participants_xls(request):
 
     wb.save(response)
     return response
-
