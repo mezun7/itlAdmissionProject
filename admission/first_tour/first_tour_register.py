@@ -23,7 +23,6 @@ from django.core.mail import send_mail, EmailMessage
 
 
 @staff_member_required
-# def register_coming(request, grade_id=Group.objects.first().pk):
 def register_coming(request, grade_id=None):
     if grade_id is None:
         grade_id = Group.objects.first()
