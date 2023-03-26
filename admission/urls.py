@@ -59,11 +59,11 @@ urlpatterns = [
     path('email/', views.test_email, name='test-email'),
     # path('accounts/', include('django.contrib.auth.urls')),
     path('register/', main_register.register, name='register'),
-    path('register/<slug:olymp>', main_register.register, name='register_olymp'),
+    # path('register/<slug:olymp>', main_register.register, name='register_olymp'),
     path('register_2/', main_register.register_2, name='register2'),
-    path('register_2/<slug:olymp>', main_register.register_2, name='register2_olymp'),
+    # path('register_2/<slug:olymp>', main_register.register_2, name='register2_olymp'),
     path('register_3/', main_register.register_3, name='register3'),
-    path('register_3/<slug:olymp>', main_register.register_3, name='register3_olymp'),
+    # path('register_3/<slug:olymp>', main_register.register_3, name='register3_olymp'),
     path('register_4/', login_required(UploadView.as_view()), name='register4'),
     path('confirm/<slug:activation_key>', main_register.confirm, name='confirm'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
@@ -72,13 +72,10 @@ urlpatterns = [
     path('registration/done/', main_register.register_complete, name='register-done'),
     path('proxy/', views.proxy_func, name='proxy'),
     path('profile/change', views.profile_change, name='profile_change'),
-
     path('profile/diploma_actions', views.diploma_actions, name='diploma_actions'),
     path('profile/diploma_add', views.diploma_add, name='diploma_add'),
     # path('profile/diploma_delete', views.diploma_delete, name='diploma_delete'),
     path('profile/diploma_delete/<int:pk>', views.diploma_delete, name='diploma_delete'),
-
-
     path('profile/', views.profile, name='main'),
     path('prf/', profile.profile_test_page, name='main-profile'),
     path('moderator/', moderator.moderator, name='moderator'),
@@ -90,10 +87,8 @@ urlpatterns = [
     path('first_tour_register/', register_coming, name='first_tour_register'),
     path('extra_score_moderator/', set_extra_score, name='set_extra_score'),
     path('upload_confirm/<int:pk>/', upload_confirm, name='upload_confirm'),
-
     path('participant_list', views.participant_list, name='participant_list'),
     path('export/xls', views.export_participants_xls, name='export_participants_xls'),
-
     # path('duplicate_post/', moderator.duplicate_check_post, name='duplicate_post')
     # path('testu/', UploadView.as_view())
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
