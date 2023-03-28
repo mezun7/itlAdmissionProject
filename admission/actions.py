@@ -86,7 +86,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'ФАМИЛИЯ',
         'ИМЯ',
         "ОТЧЕСТВО",
-        'Дата рождения'
+        'Дата рождения',
         'Номер телефона абитуриента',
         'EMAIL',
         'ФИО МАМЫ',
