@@ -104,6 +104,7 @@ def export_as_xls_full_participant_data(self, request, queryset):
         "Город проживания",
         'Олимпиадник',
         'Статус льготы',
+        'Приходит?',
         'Дополнительные баллы'
     ]
 
