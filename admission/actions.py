@@ -101,7 +101,10 @@ def export_as_xls_full_participant_data(self, request, queryset):
         'Пригласили на второй тур?',
         'Зарегистрирован на второй тур?',
         'Пришел на второй тур?',
-        "Город проживания"
+        "Город проживания",
+        'Олимпиадник',
+        'Статус льготы',
+        'Дополнительные баллы'
     ]
 
     wb = Workbook()
@@ -146,7 +149,11 @@ def export_as_xls_full_participant_data(self, request, queryset):
                 invited,
                 registered,
                 came,
-                get_value(participant.lives)
+                get_value(participant.lives),
+                get_value(participant.out_of_competition),
+                get_value(participant.privilege_status),
+                get_value(participant.olymp_coming_status),
+                get_value(participant.extra_score)
             ])
     ws = style_output_file(ws)
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
