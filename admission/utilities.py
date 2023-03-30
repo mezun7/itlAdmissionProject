@@ -3,7 +3,7 @@ import os
 
 
 def is_tour_available(tour_date):
-    n = 2
+    n = 1
     deadline = tour_date - timedelta(days=n)  # закрыть регистрацию  за n дней
     return deadline >= datetime.now()
 
