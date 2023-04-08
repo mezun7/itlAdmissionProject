@@ -11,7 +11,7 @@
     <div class="timeline-item">
         <span class="time"><i class="far fa-clock"></i> </span>
 
-        <h3 class="timeline-header"><a href="#">Результаты {{ result.tour.tour_order }} тура</a> </h3>
+        <h3 class="timeline-header"><a href="#">Результаты {{ result.tour.tour_order }} тура</a></h3>
 
         <div class="timeline-body">
             <div class="mb-2">Добрый день! Результаты первого тура:</div>
@@ -29,35 +29,43 @@
                 {% for subjres in result.result %}
                     <tr>
                         <td>{{ subjres.exam_subject.subject }}</td>
-                        <td>{{ subjres.score  }} из {{ subjres.exam_subject.max_score }}</td>
+                        <td>{{ subjres.score | floatformat:1 }} из {{ subjres.exam_subject.max_score }}</td>
                         <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                         <td>{{ subjres.get_final_score }}</td>
                     </tr>
                 {% endfor %}
                 <tr>
-                        <td>Дополнительный балл</td>
-                        <td>{{ participant.extra_score }}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-{#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
+                    <td>Дополнительный балл</td>
+                    <td>{% if participant.extra_score %}
+                        {{ participant.extra_score }}
+                    {% else %}
+                        0
+                    {% endif %} </td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
                 </tbody>
             </table>
             <br><a href="{% get_media_prefix %}ft2022/tasks.zip">Задания первого тура</a>
             {% if result.scan %}
-                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{{ result.scan.file.url }}">ссылке</a>.
+                <br>Вы также можете посмотреть скан своей работы по следующей
+                <a href="{{ result.scan.file.url }}">ссылке</a>.
             {% endif %}
             {% if result.form %}
-                <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до {{ result.tour.appeal_application_end_date }}.
+                <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до
+                {{ result.tour.appeal_application_end_date }}.
                 <div class="timeline-footer">
-                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#tour{{ result.tour.pk }}">
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            data-target="#tour{{ result.tour.pk }}">
                         Подать апелляцию
                     </button>
                 </div>
             {% else %}
                 <div class="timeline-footer alert alert-info">
                     {% if result.apeal_application %}
-                        <h4>Заявление на апелляцию подано. Апелляция состоится 12.04.2023 в 14.00 в очном формате в СУНЦ IT-лицей КФУ(Деревня Универсиады 32, КПП-7).</h4>
+                        <h4>Заявление на апелляцию подано. Апелляция состоится 12.04.2023 в 14.00 в очном формате в СУНЦ
+                            IT-лицей КФУ(Деревня Универсиады 32, КПП-7).</h4>
                     {% endif %}
                 </div>
             {% endif %}
