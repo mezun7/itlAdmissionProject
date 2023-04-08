@@ -31,7 +31,7 @@
                         <td>{{ subjres.exam_subject.subject }}</td>
                         <td>{{ subjres.score | floatformat:1 }} из {{ subjres.exam_subject.max_score }}</td>
                         <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
-                        <td>{{ subjres.get_final_score }}</td>
+                        <td>{{ subjres.get_final_score | floatformat:1 }}</td>
                     </tr>
                 {% endfor %}
                 <tr>
