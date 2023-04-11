@@ -49,14 +49,15 @@
             </table>
             {% ifequal participant.grade.number 7 %}
                 <br>
-                <a href="{% get_media_prefix %}ft2023/proto7_1.pdf">Предварительный рейтинг первого тура в 7й класс (до
+                <a href="{% get_media_prefix %}ft2023/proto7_1.pdf">Предварительный рейтинг первого тура в 7й класс (<b>до
                     апелляции</b>)</a>
+                <br><a href="{% get_media_prefix %}ft2023/tasks7.zip">Задания первого тура</a>
             {% else %}
                 <br>
                 <a href="{% get_media_prefix %}ft2023/proto10_1.zip">Предварительный рейтинг первого тура в 10й класс
                     (<b>до апелляции</b>)</a>
+                <br><a href="{% get_media_prefix %}ft2023/tasks10.zip">Задания первого тура</a>
             {% endifequal %}
-            <br><a href="{% get_media_prefix %}ft2023/tasks.zip">Задания первого тура</a>
             {% if result.scan %}
                 <br>Вы также можете посмотреть скан своей работы по следующей
                 <a href="{{ result.scan.file.url }}">ссылке</a>.
@@ -74,7 +75,8 @@
                 <div class="timeline-footer alert alert-info">
                     {% if result.apeal_application %}
                         <h4>Заявление на апелляцию подано. Апелляция состоится 12.04.2023 в 14.00 в очном формате в СУНЦ
-                            IT-лицей КФУ(Деревня Универсиады 32, КПП-7). При себе необходимо иметь документ, удостоверяющий личность.</h4>
+                            IT-лицей КФУ(Деревня Универсиады 32, КПП-7). При себе необходимо иметь документ,
+                            удостоверяющий личность.</h4>
                     {% endif %}
                 </div>
             {% endif %}
