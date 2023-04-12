@@ -7,15 +7,16 @@ from first_tour.models import ExamResult, Subject
 
 
 def get_appeal_header(subjects=[]):
-    header = [
+    header = {
                  'ID',
+                 'Тур',
                  'ФИО ученика',
                  'Класс',
                  'Профиль',
                  'ФИО родителя 1',
                  "ФИО родителя 2",
                  "Причина"
-             ] + subjects
+             } + subjects
     return header
 
 
@@ -33,6 +34,7 @@ def export_appeals_list(self, request, queryset):
     for result in queryset:
         info = [
             get_value(result.participant.pk),
+            get_value(result.tour.name),
             get_value(' '.join(
                 [result.participant.last_name, result.participant.first_name, result.participant.fathers_name])),
             get_value(result.participant.grade.number),
