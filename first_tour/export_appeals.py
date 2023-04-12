@@ -55,6 +55,6 @@ def export_appeals_list(self, request, queryset):
         ws.append(info)
 
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = f'attachment; filename=ExamResults.xlsx'
+    response['Content-Disposition'] = f'attachment; filename=AppealsList.xlsx'
     wb.save(response)
     return response

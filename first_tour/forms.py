@@ -37,7 +37,7 @@ class TeacherAppealForm(forms.ModelForm):
 
     class Meta:
         model = ExamResult
-        fields = ('exam_subject', 'appeal_score')
+        fields = ('exam_subject', 'appeal_score', 'appeal_reason')
 
         widgets = {
             'exam_subject': HiddenInput()
