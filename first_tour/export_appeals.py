@@ -7,7 +7,7 @@ from first_tour.models import ExamResult, Subject
 
 
 def get_appeal_header(subjects=[]):
-    header = {
+    header = [
                  'ID',
                  'Тур',
                  'ФИО ученика',
@@ -16,7 +16,7 @@ def get_appeal_header(subjects=[]):
                  'ФИО родителя 1',
                  "ФИО родителя 2",
                  "Причина"
-             } + subjects
+             ] + subjects
     return header
 
 
