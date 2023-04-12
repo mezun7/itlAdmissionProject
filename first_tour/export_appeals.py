@@ -28,8 +28,8 @@ def export_appeals_list(self, request, queryset):
     tmp = wb.active
     wb.remove(tmp)
     ws = wb.create_sheet('Список на апелляцию')
-    subjects = [subject.name for subject in Subject.objects.all().order_by('pk')]
-    header = get_appeal_header(subjects)
+    subjects = Subject.objects.all().order_by('pk')
+    header = get_appeal_header([subject.name for subject in subjects])
     ws.append(header)
     for result in queryset:
         info = [
