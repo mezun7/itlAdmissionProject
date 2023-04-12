@@ -33,7 +33,7 @@ class TeacherAppealForm(forms.ModelForm):
         # self.fields['exam_subject'].widget.attrs['disabled'] = 'disabled'
 
         self.subject_name = self.instance.exam_subject.subject
-        self.fields['appeal_score'].widget.attrs['required'] = 'required'
+        # self.fields['appeal_score'].widget.attrs['required'] = 'required'
 
     class Meta:
         model = ExamResult
