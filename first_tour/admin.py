@@ -75,6 +75,7 @@ class UserAppealAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'appeal_apply_time', 'appeal_reason')
     list_filter = ('tour',)
     actions = [export_appeals_list, ]
+    autocomplete_fields = ['participant']
 
 
 @admin.register(UploadConfirm)
