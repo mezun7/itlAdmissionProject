@@ -40,7 +40,10 @@ class TeacherAppealForm(forms.ModelForm):
         fields = ('exam_subject', 'appeal_score', 'appeal_reason')
 
         widgets = {
-            'exam_subject': HiddenInput()
+            'exam_subject': HiddenInput(),
+            'appeal_reason': Textarea(attrs={
+                'placeholder': 'Укажите причину (не)изменения баллов'
+            })
         }
 
 
