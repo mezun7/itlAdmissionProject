@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 
 from first_tour.action import get_value, get_result
-from first_tour.models import ExamResult, Subject
+from first_tour.models import ExamResult, Subject, ExamSubject
 
 
 def get_appeal_header(subjects=[]):
@@ -46,7 +46,8 @@ def export_appeals_list(self, request, queryset):
         exam_res = []
         for subject in subjects:
             try:
-                eresult = ExamResult.objects.get(participant=result.participant, exam_subject=subject)
+                esubject = ExamSubject.objects.get(subject=subject, tour=result.tour)
+                eresult = ExamResult.objects.get(participant=result.participant, exam_subject=esubject)
                 exam_res.append(get_result(eresult))
             except:
                 exam_res.append('N/A')
