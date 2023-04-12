@@ -36,7 +36,6 @@ def export_appeals_list(self, request, queryset):
             get_value(' '.join(
                 [result.participant.last_name, result.participant.first_name, result.participant.fathers_name])),
             get_value(result.participant.grade.number),
-            get_value(result.participant.grade),
             get_value(result.participant.profile),
             get_value(result.participant.fio_mother),
             get_value(result.participant.fio_father),
