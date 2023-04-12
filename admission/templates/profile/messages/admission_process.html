@@ -22,6 +22,7 @@
                     <th>Балл</th>
                     <th>Апелляционный балл</th>
                     <th>Итоговый балл</th>
+                    <th>Комментарий</th>
                     {#                {% if participant.extra_score %}<th>Дополнительные баллы (за портфолио)</th>{% endif %}#}
                 </tr>
                 </thead>
@@ -32,6 +33,7 @@
                         <td>{{ subjres.score | floatformat:1 }} из {{ subjres.exam_subject.max_score }}</td>
                         <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                         <td>{{ subjres.get_final_score | floatformat:1 }}</td>
+                        <td>{{ subjres.appeal_reason }}</td>
                     </tr>
                 {% endfor %}
                 <tr>
