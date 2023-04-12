@@ -48,7 +48,7 @@ def export_appeals_list(self, request, queryset):
             try:
                 esubject = ExamSubject.objects.get(subject=subject, tour=result.tour)
                 eresult = ExamResult.objects.get(participant=result.participant, exam_subject=esubject)
-                exam_res.append(get_result(eresult))
+                exam_res.append(get_value(eresult.appeal_score))
             except:
                 exam_res.append('N/A')
         info = info + exam_res
