@@ -8,6 +8,7 @@ from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage, ParticipantRegistrator
 from first_tour.action import export_results
+from first_tour.export_appeals import export_appeals_list
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
     TourParticipantScan, UploadConfirm, NextTourParticipantUpload, LiterGrade, AddLiter
 
@@ -73,6 +74,7 @@ class UserTourScanAdmin(admin.ModelAdmin):
 class UserAppealAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'appeal_apply_time', 'appeal_reason')
     list_filter = ('tour',)
+    actions = [export_appeals_list, ]
 
 
 @admin.register(UploadConfirm)
