@@ -140,7 +140,7 @@ class Participant(models.Model):
     #     super(Participant, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.pk}:{self.last_name} {self.first_name} {self.fathers_name}"
 
     class Meta:
         ordering = [
