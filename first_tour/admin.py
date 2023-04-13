@@ -62,6 +62,7 @@ class ExamResult(admin.ModelAdmin):
 @admin.register(NextTourPass)
 class NextTourPassAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'type_of_pass')
+    autocomplete_fields = ['participant']
 
 
 @admin.register(TourParticipantScan)
