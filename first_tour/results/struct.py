@@ -6,6 +6,7 @@ from first_tour.forms import UserAppealForm, UserConfirmForm
 from first_tour.models import ExamResult, Tour, UserAppeal, TourParticipantScan, NextTourPass, UploadConfirm
 from first_tour.models import ExamSheetScan
 
+
 def get_final_result_release_date(final_result_release_date):
     return False if final_result_release_date is None else datetime.datetime.now() > final_result_release_date
 
@@ -23,6 +24,8 @@ class ResultParticipant:
     apeal_application = False
     participant: Participant = None
     final_apply_form = None
+    appeal_applications = []
+    appeal_forms = []
 
     def get_passing_type(self):
         try:
@@ -48,6 +51,24 @@ class ResultParticipant:
                 'tour': self.tour,
                 'participant': self.participant
             })
+
+    def get_appeal_forms(self, tours):
+        forms = []
+
+        for tour in tours:
+            try:
+                UserAppeal.objects.get(participant=self.participant, tour=tour)
+                self.appeal_applications.append(True)
+                forms.append(None)
+            except UserAppeal.DoesNotExist:
+                if self.tour.appeal_application_end_date < datetime.datetime.now():
+                    forms.append(None)
+                else:
+                    forms.append(UserAppealForm(initial={
+                        'tour': tour,
+                        'participant': self.participant
+                    }))
+        return forms
 
     def get_final_form(self):
         if self.passing_type is None:
