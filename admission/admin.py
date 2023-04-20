@@ -14,6 +14,10 @@ class FileAdmin(TabularInline):
     model = Participant.portfolio.through
 
 
+class NextTourPassTabularAdmin(TabularInline):
+    model = NextTourPass
+
+
 #
 # @admin.register(Grade)
 # class AdminGrade(admin.ModelAdmin):
@@ -33,7 +37,7 @@ class AdminParticipant(admin.ModelAdmin):
     search_fields = ['user__username', 'first_name', 'last_name']
     exclude = ['portfolio']
     inlines = [
-        FileAdmin,
+        FileAdmin, NextTourPassTabularAdmin
     ]
     actions = [export_as_xls, export_as_xls_full_participant_data]
 
@@ -56,6 +60,7 @@ class AdminParticipant(admin.ModelAdmin):
     get_last_login_time.short_description = 'Время последнего входа'
     get_last_login_time.admin_order_field = 'book__author'
     # get_passed.short_description = 'Прошел?'
+
 
 @admin.register(ModeratorMessage)
 class AdminModeratorMessage(admin.ModelAdmin):

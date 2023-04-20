@@ -57,6 +57,8 @@ class AppealUser(admin.ModelAdmin):
 class ExamResult(admin.ModelAdmin):
     list_display = ('participant', 'exam_subject', 'score', 'appeal_score')
     list_filter = ('exam_subject__tour',)
+    autocomplete_fields = ['participant']
+
 
 
 @admin.register(NextTourPass)
@@ -69,6 +71,8 @@ class NextTourPassAdmin(admin.ModelAdmin):
 class UserTourScanAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'scan_file_name')
     list_filter = ('tour',)
+    autocomplete_fields = ['participant']
+
 
 
 @admin.register(UserAppeal)
@@ -83,11 +87,13 @@ class UserAppealAdmin(admin.ModelAdmin):
 class UploadConfirmAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'pps', 'agreement_tour')
     list_filter = ('tour',)
+    autocomplete_fields = ['participant']
 
 
 @admin.register(LiterGrade)
 class LiterGradeAdmin(admin.ModelAdmin):
     list_display = ('tour', 'name')
+    autocomplete_fields = ['participant']
 
 
 admin.site.register(Subject)
