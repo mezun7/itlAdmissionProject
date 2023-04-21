@@ -23,6 +23,9 @@
             <li class="nav-item litergrade">
                 <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
             </li>
+            <li class="nav-item litergrade">
+                <a class="nav-link" href="{% url 'second_tour:check_list' -100 %}">Без группы</a>
+            </li>
             {% for litergrade in litergrades %}
                 <li class="nav-item litergrade">
                     <a class="nav-link" href="{% url 'second_tour:check_list' litergrade.pk %}">{{ litergrade.grade }}.{{ litergrade.name }}</a>
@@ -54,6 +57,7 @@
                     <th>Имя</th>
                     <th>Отчество</th>
                     <th>Класс</th>
+                    <th>Профиль</th>
                     <th>Группа</th>
                     <th>Явка на II тур</th>
                 </tr>
@@ -68,6 +72,8 @@
                             <td>{{ p.first_name }}</td>
                             <td>{{ p.fathers_name }}</td>
                             <td  class="text-center">{{ p.grade_num }}</td>
+                            <td  class="text-center">{{ p.profile }}</td>
+
                             <td class="text-center">
                                 <span>{% if p.litergarde %} {{ p.grade_num }}.{{ p.litergarde }} {% endif %}</span>
                                     <button id="edit_btn" class="btn btn-outline-success border-0 py-0 px-1" title="Изменить" ><i class="fa fa-edit"></i></button>
