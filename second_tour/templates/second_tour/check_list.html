@@ -24,7 +24,7 @@
                 <a class="nav-link" href="{% url 'second_tour:check_list' %}">Все</a>
             </li>
             <li class="nav-item litergrade">
-                <a class="nav-link" href="{% url 'second_tour:check_list' -100 %}">Без группы</a>
+                <a class="nav-link" href="{% url 'second_tour:check_list' 100000000 %}">Без группы</a>
             </li>
             {% for litergrade in litergrades %}
                 <li class="nav-item litergrade">
