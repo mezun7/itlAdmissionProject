@@ -33,7 +33,7 @@ def check_list(request, pk=None):
             litergarde = LiterGrade.objects.get(pk=pk)
             participants_list = litergarde.participants.values(
                 'last_name', 'first_name', 'fathers_name',
-                'grade_id', 'pk',
+                'grade_id', 'pk', 'profile__name',
                 grade_num=F('grade__number'),
                 litergarde=F('litergrade__name'),
                 has_come_to=F('nexttourpass__has_come')
