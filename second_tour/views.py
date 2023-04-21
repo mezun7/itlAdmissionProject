@@ -62,7 +62,8 @@ def check_list(request, pk=None):
                 grade_num=F('participant__grade__number'),
                 grade_id=F('participant__grade_id'),
                 pk=F('participant__pk'),
-                has_come_to=F('has_come')
+                has_come_to=F('has_come'),
+                profile=F('participant__profile')
             )
 
             first_letter = list()
