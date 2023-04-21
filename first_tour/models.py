@@ -208,7 +208,7 @@ class AddLiter(models.Model):
 
     def save(self, *args, **kwargs):
         super(AddLiter, self).save(*args, **kwargs)
-        upload_liter.delay(self.file.path, self.tour_ordering)
+        upload_liter(self.file.path, self.tour_ordering)
 
 
 class ExamSheetScan(models.Model):
