@@ -70,6 +70,7 @@ class AdminModeratorMessage(admin.ModelAdmin):
 @admin.register(Moderator)
 class AdminModerator(admin.ModelAdmin):
     list_display = ('user',)
+    autocomplete_fields = ['user']
 
 
 admin.site.register(File)
