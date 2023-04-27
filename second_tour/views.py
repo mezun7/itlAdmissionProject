@@ -289,9 +289,10 @@ def get_participants(request):
     # test = Participant.objects.all()
     liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
     logging.info(str(liters))
+    print(str(liters))
     for liter in liters:
         participants = liter.participants.all()
-        print(len(participants))
+        # print(len(participants))
         # change object pk to value
         for participant in participants:
             tmp = [get_value(elem) for elem in
