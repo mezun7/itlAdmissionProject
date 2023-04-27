@@ -297,7 +297,7 @@ def get_participants(request):
         for participant in participants:
             tmp = [get_value(elem) for elem in
                    [
-                       participant.user.pk,
+                       participant.pk,
                        participant.last_name,
                        participant.first_name,
                        participant.fathers_name,
