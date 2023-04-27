@@ -286,6 +286,7 @@ def get_participants(request):
     font_style = xlwt.XFStyle()
     # test = Participant.objects.all()
     liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
+    print(liters)
     for liter in liters:
         participants = liter.participants.all()
         print(len(participants))
