@@ -12,6 +12,7 @@
     <h3 class="text-center">Явка участников на II тур</h3>
 {% if moderator %}
     {% include 'second_tour/new_participant_modal.html' %}
+    {% include 'second_tour/get_participants.html' %}
 {% endif %}
     {% if litergarde %}
         <h4 class="text-center">Группа {{ litergarde }}</h4>
