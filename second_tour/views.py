@@ -285,16 +285,9 @@ def get_participants(request):
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
     # test = Participant.objects.all()
-
-    rows = Participant.objects.filter(is_dublicate=False, reg_status=100).values_list(
-        'pk', 'first_name', 'last_name', 'fathers_name', 'gender', 'grade',
-        'profile', 'lives', 'school',
-        'fio_mother', 'phone_mother', 'fio_father', 'phone_father',
-        'first_tour_register_date',
-    )
     liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
     for liter in liters:
-        participants = liter.participants.all().order_by('last_name', 'first_name', 'fathers_name')
+        participants = liter.participants.all()
         # change object pk to value
         for participant in participants:
             tmp = [get_value(elem) for elem in
