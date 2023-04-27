@@ -288,23 +288,26 @@ def get_participants(request):
     liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
     for liter in liters:
         participants = liter.participants.all()
+        print(len(participants))
         # change object pk to value
         for participant in participants:
             tmp = [get_value(elem) for elem in
-                   [participant.user.pk,
-                    participant.last_name,
-                    participant.first_name,
-                    participant.fathers_name,
-                    participant.gender,
-                    participant.grade.number,
-                    participant.profile,
-                    participant.lives,
-                    participant.school,
-                    participant.fio_mother,
-                    participant.phone_mother,
-                    participant.fio_father,
-                    participant.phone_father,
-                    liter.name]
+                   [
+                       participant.user.pk,
+                       participant.last_name,
+                       participant.first_name,
+                       participant.fathers_name,
+                       participant.gender,
+                       participant.grade.number,
+                       participant.profile,
+                       participant.lives,
+                       participant.school,
+                       participant.fio_mother,
+                       participant.phone_mother,
+                       participant.fio_father,
+                       participant.phone_father,
+                       liter.name
+                   ]
                    ]
 
             row_num += 1
