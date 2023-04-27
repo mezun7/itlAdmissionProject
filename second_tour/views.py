@@ -287,7 +287,7 @@ def get_participants(request):
     # Sheet body, remaining rows
     font_style = xlwt.XFStyle()
     # test = Participant.objects.all()
-    liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
+    liters = LiterGrade.objects.all().order_by('tour', 'name')
     logging.info(str(liters))
     print(str(liters))
     for liter in liters:
