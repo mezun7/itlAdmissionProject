@@ -11,4 +11,5 @@ urlpatterns = [
     path('check_list/set_participant_litergrade', views.set_participant_litergrade, name='set_participant_litergrade'),
     path('check_list/exclude_participant', views.exclude_participant, name='exclude_participant'),
     path('check_list/add_participant', views.add_participant, name='add_participant'),
+    path('check_list/get_participants', views.get_participants, name='get-participants-2-tour')
 ]

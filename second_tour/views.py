@@ -1,12 +1,14 @@
+import xlwt
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 
+from admission.actions import get_value
 from admission.models import Participant, Moderator
 from first_tour.models import NextTourPass
 from second_tour.models import LiterGradeTutor
-from . models import LiterGrade
+from .models import LiterGrade
 from django.db.models import F
 
 from django.contrib.auth.models import User
@@ -153,13 +155,13 @@ def check_list(request, pk=None):
 #         'table_head': ['№', 'Фамилия', 'Имя', 'Отчество', 'Группа', 'Явка на II тур']
 #     })
 
-
 def set_has_come(request):
     if request.method == "POST":
         import json
         post_data = json.loads(request.body.decode("utf-8"))
         try:
-            NextTourPass.objects.filter(participant_id=post_data['participant_pk']).update(has_come=post_data['has_come'])
+            NextTourPass.objects.filter(participant_id=post_data['participant_pk']).update(
+                has_come=post_data['has_come'])
             return HttpResponse(0)
         except (Error, Exception) as e:
             return HttpResponse(e)
@@ -256,3 +258,65 @@ def set_username(user, first_name):
             username = first_name + str(counter)
             counter += 1
         user.username = username
+
+
+@staff_member_required()
+def get_participants(request):
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="Participants_list.xls"'
+    wb = xlwt.Workbook(encoding='utf-8')
+    ws = wb.add_sheet('Участники')
+
+    # Sheet header, first row
+    row_num = 0
+
+    font_style = xlwt.XFStyle()
+    font_style.font.bold = True
+    columns = [
+        'ID', 'Фамилия', 'Имя', 'Отчество', 'Пол', 'Класс',
+        'Профиль обучения', 'Город проживания', 'Школа',
+        'ФИО матери', 'Телефон матери', 'ФИО отца', 'Телефон отца',
+        'Литера'
+    ]
+
+    for col_num in range(len(columns)):
+        ws.write(row_num, col_num, columns[col_num], font_style)
+
+    # Sheet body, remaining rows
+    font_style = xlwt.XFStyle()
+    # test = Participant.objects.all()
+
+    rows = Participant.objects.filter(is_dublicate=False, reg_status=100).values_list(
+        'pk', 'first_name', 'last_name', 'fathers_name', 'gender', 'grade',
+        'profile', 'lives', 'school',
+        'fio_mother', 'phone_mother', 'fio_father', 'phone_father',
+        'first_tour_register_date',
+    )
+    liters = LiterGrade.objects.all().order_by('participants__grade__number', 'name')
+    for liter in liters:
+        participants = liter.participants.all().order_by('last_name', 'first_name', 'fathers_name')
+        # change object pk to value
+        for participant in participants:
+            tmp = [get_value(elem) for elem in
+                   [participant.user.pk,
+                    participant.last_name,
+                    participant.first_name,
+                    participant.fathers_name,
+                    participant.gender,
+                    participant.grade.number,
+                    participant.profile,
+                    participant.lives,
+                    participant.school,
+                    participant.fio_mother,
+                    participant.phone_mother,
+                    participant.fio_father,
+                    participant.phone_father,
+                    liter.name]
+                   ]
+
+            row_num += 1
+            for col_num in range(len(tmp)):
+                ws.write(row_num, col_num, tmp[col_num], font_style)
+
+    wb.save(response)
+    return response
