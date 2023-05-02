@@ -278,7 +278,7 @@ def get_participants(request):
         'ID', 'Фамилия', 'Имя', 'Отчество', 'Пол', 'Класс',
         'Профиль обучения', 'Город проживания', 'Школа',
         'ФИО матери', 'Телефон матери', 'ФИО отца', 'Телефон отца',
-        'Литера'
+        'Литера', 'Явка на второй тур?'
     ]
 
     for col_num in range(len(columns)):
@@ -295,6 +295,10 @@ def get_participants(request):
         # print(len(participants))
         # change object pk to value
         for participant in participants:
+            try:
+                came = NextTourPass.objects.get(participant=participant).has_come
+            except NextTourPass.DoesNotExist:
+                came = False
             tmp = [get_value(elem) for elem in
                    [
                        participant.pk,
@@ -310,7 +314,8 @@ def get_participants(request):
                        participant.phone_mother,
                        participant.fio_father,
                        participant.phone_father,
-                       liter.name
+                       liter.name,
+                       came
                    ]
                    ]
 
