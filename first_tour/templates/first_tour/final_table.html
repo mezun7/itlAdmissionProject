@@ -43,7 +43,7 @@
                 <td>
                     <div class="text-center">
                         <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}" data-toggle="lightbox"
-                           data-title="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}"
+                           data-title="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }} {{ result.participant.school }}"
                            data-gallery="gallery">
                             <img class="profile-user-img img-fluid"
                                  src="{% get_media_prefix %}{{ result.participant.profile_photo }}"
