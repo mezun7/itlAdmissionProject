@@ -1,23 +1,23 @@
 {% load static %}
 <style>
     table {
-  /* Not required only for visualizing */
-  border-collapse: collapse;
-  width: 100%;
-}
+        /* Not required only for visualizing */
+        border-collapse: collapse;
+        width: 100%;
+    }
 
-table thead tr th {
-  /* Important */
-  background-color: #dee2e6;
-  position: sticky;
-  z-index: 100;
-  top: 0;
-}
+    table thead tr th {
+        /* Important */
+        background-color: #dee2e6;
+        position: sticky;
+        z-index: 100;
+        top: 0;
+    }
 
-td {
-  /* Not required only for visualizing */
-  padding: 1em;
-}
+    td {
+        /* Not required only for visualizing */
+        padding: 1em;
+    }
 </style>
 <form method="post" action="{{ action }}" class="">
     {% csrf_token %}
@@ -33,7 +33,7 @@ td {
             {% endfor %}
 
 
-{#            <th>Доп. Баллы</th>#}
+            {#            <th>Доп. Баллы</th>#}
             <th>Итого</th>
         </tr>
         </thead>
@@ -42,8 +42,12 @@ td {
             <tr class="text-center justify-content-center">
                 <td>
                     <div class="text-center">
-                        <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}" data-toggle="lightbox" data-title="{{  result.participant.last_name }} {{  result.participant.first_name }} {{  result.participant.fathers_name }}" data-gallery="gallery">
-                            <img class="profile-user-img img-fluid" src="{% get_media_prefix %}{{ result.participant.profile_photo }}" alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
+                        <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}" data-toggle="lightbox"
+                           data-title="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}"
+                           data-gallery="gallery">
+                            <img class="profile-user-img img-fluid"
+                                 src="{% get_media_prefix %}{{ result.participant.profile_photo }}"
+                                 alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
                         </a>
                     </div>
                 </td>
@@ -51,40 +55,42 @@ td {
                 <td {% if result.olymp_status %}
                     class="alert-info"
                 {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
-{#                    <br>  <small class="text-muted">{{ result.participant.school }}</small>#}
+                    {#                    <br>  <small class="text-muted">{{ result.participant.school }}</small>#}
                 </td>
                 <td>{{ result.liter }}</td>
                 {% for res in result.results %}
                     <td
-                        {% if res %}
-                            {% ifequal res.exam_subject.type_of_scoring "R" %}
-                                {% if res.score < 1 %}
-                                    class="alert-danger">
-                                    0
+                            {% if res %}
+                                {% ifequal res.exam_subject.type_of_scoring "R" %}
+                                    {% if res.score < 1 %}
+                                        class="alert-danger">
+                                        0
                                     {% else %}
+                                        >
+                                        1
+                                    {% endif %}
+                                {% else %}
                                     >
-                                    1
+                                    {{ res.score }}
+                                {% endifequal %}
+                                {% if request.GET.edit %}
+                                    (
+                                    <a href="{% url 'first_tour:mark_edit' res.pk %}?from={{ request.path }}?edit=true">E</a>
+                                    )
                                 {% endif %}
-                            {% else %}
-                                >
-                                {{ res.score }}
-                            {% endifequal %}
-                            {% if request.GET.edit %}
-                                (<a href="{% url 'first_tour:mark_edit' res.pk %}?from={{ request.path }}?edit=true">E</a>)
-                            {% endif %} 
 
-                        {% else %}
-                            -
-                        {% endif %}
+                            {% else %}
+                                -
+                            {% endif %}
                     </td>
                 {% endfor %}
-{#                <td>{% if result.participant.extra_score %}#}
-{#                    {{ result.participant.extra_score }}#}
-{#                {% else %}#}
-{#                    0#}
-{#                {% endif %}#}
-{#                </td>#}
-                <td>{{ result.overall }}</td>
+                {#                <td>{% if result.participant.extra_score %}#}
+                {#                    {{ result.participant.extra_score }}#}
+                {#                {% else %}#}
+                {#                    0#}
+                {#                {% endif %}#}
+                {#                </td>#}
+                <td>{{ result.overall | floatformat:2 }}</td>
             </tr>
         {% endfor %}
         </tbody>
