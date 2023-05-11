@@ -86,10 +86,24 @@
             {% else %}
                 <a href="{% get_media_prefix %}res/proto10.pdf">здесь</a>
             {% endif %}
-{% if participant.grade.number == 10 %}
-            <br>Если вы несогласны с результатами,то можете подать апелляцию по следующей <a href="https://forms.gle/TgotokqrVECSrKty5">ссылке</a> до 23.00 19.06.2022
-            <h4>Апелляция будет проходить ОЧНО в IT-лицее по адресу: территория Деревня Универсиады 32; 21.06.2022 с 11.00(по живой очереди). Вход строго по документам, удостоверяющим личность. </h4>
-        {% endif %}
+             {% if result.form %}
+                <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до
+                {{ result.tour.appeal_application_end_date }}.
+                <div class="timeline-footer">
+                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                            data-target="#tour{{ result.tour.pk }}">
+                        Подать апелляцию
+                    </button>
+                </div>
+            {% else %}
+                <div class="timeline-footer alert alert-info">
+                    {% if result.apeal_application %}
+                        <h4>Заявление на апелляцию подано. Апелляция состоится 12.04.2023 в 14.00 в очном формате в СУНЦ
+                            IT-лицей КФУ(Деревня Универсиады 32, КПП-7). При себе необходимо иметь документ,
+                            удостоверяющий личность.</h4>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
 </div>
