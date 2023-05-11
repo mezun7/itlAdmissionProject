@@ -27,6 +27,8 @@
         <tr class="text-center">
             <th>ФОТО</th>
             <th>#</th>
+            <th>ID</th>
+
             <th>ФИО</th>
             <th>Класс</th>
             {% for subject in subjects %}
@@ -53,6 +55,7 @@
                     </div>
                 </td>
                 <td>{{ forloop.counter }}</td>
+                <td>{{ result.participant.pk }}</td>
                 <td {% if result.olymp_status %}
                     class="alert-info"
                 {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
