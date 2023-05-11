@@ -1,3 +1,4 @@
+{% load get_final_score %}
 {% load static %}
 <style>
     table {
@@ -71,7 +72,7 @@
                                     {% endif %}
                                 {% else %}
                                     >
-                                    {{ res.score }}
+                                    {{ res|final_score }}
                                 {% endifequal %}
                                 {% if request.GET.edit %}
                                     (
