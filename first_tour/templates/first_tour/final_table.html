@@ -27,7 +27,9 @@
         <tr class="text-center">
             <th>ФОТО</th>
             <th>#</th>
+        {% if request.GET.ID %}
             <th>ID</th>
+        {% endif %}
 
             <th>ФИО</th>
             <th>Класс</th>
@@ -55,7 +57,9 @@
                     </div>
                 </td>
                 <td>{{ forloop.counter }}</td>
+            {% if request.GET.ID %}
                 <td>{{ result.participant.pk }}</td>
+            {% endif %}
                 <td {% if result.olymp_status %}
                     class="alert-info"
                 {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
