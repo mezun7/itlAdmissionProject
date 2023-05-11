@@ -8,7 +8,7 @@ register = template.Library()
 @register.filter(name="final_score")
 def final_score(value: ExamResult):
     score = value.score
-    if value.appeal_score:
+    if value.appeal_score is not None:
         score = value.appeal_score
     return score
 
