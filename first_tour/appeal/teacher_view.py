@@ -85,7 +85,7 @@ def appeals_list(request, tour_number=None):
 
 
 @staff_member_required
-def appeal_person(request, pk_party, tour_order=None):
+def appeal_person(request, pk_party, tour_order):
     # test_celery.delay(1)
     tour = Tour.objects.first()
     participant = Participant.objects.first()

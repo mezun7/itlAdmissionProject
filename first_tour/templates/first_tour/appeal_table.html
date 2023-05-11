@@ -21,7 +21,7 @@
         {% for result in results %}
             <tr>
                 <td>{{ result.participant.pk }}</td>
-                <td><a href="{% url 'first_tour:appeal-person' result.participant.pk tour_order %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</a></td>
+                <td><a href="{% url 'first_tour:appeal-person' result.participant.pk current_tour %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}</a></td>
                 <td>{{ result.participant.grade }}</td>
                 <td>{{ result.participant.profile }}</td>
                 <td>
