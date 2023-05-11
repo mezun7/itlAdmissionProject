@@ -64,7 +64,7 @@ def appeals_list(request, tour_number=None):
         key = list(request.POST.keys())[-1]
         participant = Participant.objects.get(pk=key)
         if request.POST[key] == 'Не пришел':
-            ua = UserAppeal.objects.get(participant=participant)
+            ua = UserAppeal.objects.get(participant=participant, tour__tour_order=tour_number)
             ua.is_absent_appeal = True
             ua.save()
 

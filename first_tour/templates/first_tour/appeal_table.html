@@ -53,10 +53,10 @@
                     {% if not admin %}
 
 
-                        <a class="btn btn-info btn-sm" href="{% url 'first_tour:appeal-person' result.participant.pk %}">
+                        <a class="btn btn-info btn-sm" href="{% url 'first_tour:appeal-person' result.participant.pk current_tour%}">
                             Апеллировать
                         </a>
-                        <form action="{% url 'first_tour:appeal-list' %}" method="post">
+                        <form action="{% url 'first_tour:appeal-list' current_tour %}" method="post">
                             {% csrf_token %}
                             <input type="submit" value="Не пришел" name="{{ result.participant.pk }}" class="btn btn-danger btn-sm">
                         </form>
