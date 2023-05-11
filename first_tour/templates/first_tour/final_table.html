@@ -64,7 +64,7 @@
                             {% if res %}
                                 {% ifequal res.exam_subject.type_of_scoring "R" %}
 {#                                    {% if res.score < 1 %}#}
-                                        class="{{ res|get_class_for_score }}">
+{#                                        class="{{ res|get_class_for_score }}">#}>
                                            {{ res|final_score }}
 
                                 {% else %}
