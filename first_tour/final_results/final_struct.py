@@ -32,10 +32,13 @@ class FinalResult:
             type_of_scoring = ex.exam_subject.type_of_scoring
             pos: int = subjects.index(ex.exam_subject.subject.name)
             results[pos] = ex
+            score = ex.score
+            if ex.appeal_score:
+                score = ex.appeal_score
             if type_of_scoring in ['Z', 'R']:
-                types[type_of_scoring] = not ex.score < 1
+                types[type_of_scoring] = not score < 1
             else:
-                self.overall += ex.score
+                self.overall += score
         # print(results)
         # if self.participant.extra_score:
         #     self.overall += self.participant.extra_score
