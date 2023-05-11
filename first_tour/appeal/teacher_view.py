@@ -99,8 +99,7 @@ def appeal_person(request, pk_party, tour_order):
         print(formset.errors)
         if formset2.is_valid():
             formset2.save()
-            return redirect('first_tour:appeal-list')
-
+            return redirect(reverse('first_tour:appeal-list', kwargs={'tour_number': tour_order}))
     # print(tour.id)
     context = {
         'formset': formset,
@@ -111,5 +110,5 @@ def appeal_person(request, pk_party, tour_order):
     #     formset = FormSet(request.POST, queryset=formSetQuery)
     #     if formset.is_valid():
     #         formset.save()
-    return redirect(reverse('first_tour:appeal-list', kwargs={'tour_number': tour_order}))
-    # return render(request, 'first_tour/appeal_page.html', context=context)
+
+    return render(request, 'first_tour/appeal_page.html', context=context)
