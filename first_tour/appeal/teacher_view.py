@@ -5,6 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.forms import modelformset_factory
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 # Create your views here.
 from admin_profile.helpers.user_struct import get_scans
@@ -51,7 +52,8 @@ class AppealStruct:
 def appeals_list(request, tour_number=None):
     if tour_number is None:
         tour_number = Tour.objects.first().tour_order
-    userAppeals = UserAppeal.objects.filter(tour__tour_order=tour_number).order_by('appeal_apply_time', 'participant__last_name')
+    userAppeals = UserAppeal.objects.filter(tour__tour_order=tour_number).order_by('appeal_apply_time',
+                                                                                   'participant__last_name')
     results = []
     tours = Tour.objects.distinct('tour_order')
     context = {
@@ -109,4 +111,5 @@ def appeal_person(request, pk_party, tour_order):
     #     formset = FormSet(request.POST, queryset=formSetQuery)
     #     if formset.is_valid():
     #         formset.save()
-    return render(request, 'first_tour/appeal_page.html', context=context)
+    return redirect(reverse('first_tour:appeal-list', kwargs={'tour_number': tour_order}))
+    # return render(request, 'first_tour/appeal_page.html', context=context)
