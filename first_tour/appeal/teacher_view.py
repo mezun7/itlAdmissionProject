@@ -56,7 +56,8 @@ def appeals_list(request, tour_number=None):
     tours = Tour.objects.distinct('tour_order')
     context = {
         'results': results,
-        'tours': tours
+        'tours': tours,
+        'current_tour': tour_number
     }
 
     if request.POST:

@@ -1,10 +1,10 @@
 {% extends 'profile/base.html' %}
  {% load static %}
 {% block title %}
-            Список абитуриентов на апелляцию
+            Список абитуриентов на апелляцию {{ current_tour }} тура
 {% endblock %}
 {% block profile %}
-         Список абитуриентов на апелляцию
+         Список абитуриентов на апелляцию {{ current_tour }} тура
 {% endblock %}
 {% block left-navbar %}
     {% for tour in tours %}
