@@ -63,13 +63,13 @@
                     <td
                             {% if res %}
                                 {% ifequal res.exam_subject.type_of_scoring "R" %}
-                                    {% if res.score < 1 %}
-                                        class="alert-danger">
+{#                                    {% if res.score < 1 %}#}
+                                        class="{{ res|get_class_for_score }}">
                                         0
-                                    {% else %}
+{#                                    {% else %}#}
                                         >
                                         1
-                                    {% endif %}
+{#                                    {% endif %}#}
                                 {% else %}
                                     >
                                     {{ res|final_score }}
