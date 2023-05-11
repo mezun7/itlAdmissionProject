@@ -6,7 +6,13 @@
 {% block profile %}
          Список абитуриентов на апелляцию
 {% endblock %}
-
+{% block left-navbar %}
+    {% for tour in tours %}
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="{% url 'first_tour:appeal-list' tour.tour_order %}" class="nav-link">{{ tour.tour_order }} тур</a>
+        </li>
+    {% endfor %}
+{% endblock %}
 {% block right-navbar %}
         <a class="btn btn-primary" href="{% url 'admission:logout' %}">Выйти</a>
 {% endblock %}
