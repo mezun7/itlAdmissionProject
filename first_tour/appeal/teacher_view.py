@@ -36,7 +36,7 @@ class AppealStruct:
         self.appeal_time = self.get_time()
 
     def get_formset(self):
-        formSetQuery = ExamResult.objects.filter(participant=self.participant)
+        formSetQuery = ExamResult.objects.filter(participant=self.participant, exam_subject__tour=self.tour)
         FormSet = modelformset_factory(model=ExamResult, form=TeacherAppealForm, max_num=len(formSetQuery))
         formset = FormSet(queryset=formSetQuery)
         return formset
