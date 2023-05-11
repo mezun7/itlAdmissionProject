@@ -35,6 +35,7 @@ class FinalResult:
             score = ex.score
             if ex.appeal_score:
                 score = ex.appeal_score
+            ex.score = score
             if type_of_scoring in ['Z', 'R']:
                 types[type_of_scoring] = not score < 1
             else:
