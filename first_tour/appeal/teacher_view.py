@@ -85,11 +85,11 @@ def appeals_list(request, tour_number=None):
 
 
 @staff_member_required
-def appeal_person(request, pk):
+def appeal_person(request, pk_party, tour_order=None):
     # test_celery.delay(1)
     tour = Tour.objects.first()
     participant = Participant.objects.first()
-    formSetQuery = ExamResult.objects.filter(participant_id=pk)
+    formSetQuery = ExamResult.objects.filter(participant_id=pk_party, exam_subject__tour__tour_order=tour_order)
     FormSet = modelformset_factory(model=ExamResult, form=TeacherAppealForm, max_num=len(formSetQuery))
     formset = FormSet(queryset=formSetQuery)
     if request.POST:
@@ -102,7 +102,8 @@ def appeal_person(request, pk):
     # print(tour.id)
     context = {
         'formset': formset,
-        'pk': pk
+        'pk': pk_party,
+        'tour_order': tour_order
     }
     # if request.POST:
     #     formset = FormSet(request.POST, queryset=formSetQuery)

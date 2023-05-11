@@ -3,7 +3,7 @@
  {% load static %}
 {% block content %}
 {{ participant.first_name }} {{ participant.last_name }}
-    <form method="post" action="{% url "first_tour:appeal-person" pk %}">
+    <form method="post" action="{% url "first_tour:appeal-person" pk tour_order %}">
         {% csrf_token %}
     {{ formset.management_form }}
         {% for form in formset %}
