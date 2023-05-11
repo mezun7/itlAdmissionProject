@@ -15,10 +15,7 @@ def final_score(value: ExamResult):
 
 @register.filter(name='get_class_for_score')
 def get_class_for_score(value: ExamResult):
-    score = value.score
-    if value.appeal_score:
-        score = value.appeal_score
-
+    score = final_score(value)
     if score < 1:
         return 'alert-danger'
     else:
