@@ -75,6 +75,12 @@
             {#                <br>С заданиями вы можете ознакомиться по следующей <a href="{% get_media_prefix %}st/tasks2022.zip"> ссылке</a>.#}
             <br>Вы также можете посмотреть скан своей работы по следующей <a
                 href="{% get_media_prefix %}{{ result.scan.file.name }}">ссылке</a>.
+            {% if result.tour.tasks %}
+                <br>Задания можно скачать
+                <a href="{% get_media_prefix %}{{ result.tour.tasks.name }}">тут</a>
+            {% endif %}
+
+
             {% if result.tour.proto_appeal %}
                 <br>Протокол проверки всех работ
                 <a href="{% get_media_prefix %}{{ result.tour.proto_appeal.name }}">здесь</a>
