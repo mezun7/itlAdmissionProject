@@ -1,9 +1,6 @@
 {% load static %}
 
 
-
-
-
 <!-- timeline time label -->
 <div class="time-label">
                         <span class="bg-success">
@@ -18,7 +15,7 @@
     <div class="timeline-item">
         <span class="time"><i class="far fa-clock"></i> </span>
 
-        <h3 class="timeline-header"><a href="#">Результаты {{ result.tour.tour_order }} тура</a> </h3>
+        <h3 class="timeline-header"><a href="#">Результаты {{ result.tour.tour_order }} тура</a></h3>
 
         <div class="timeline-body">
             Добрый день! С результатами второго тура вы можете ознакомиться в таблице ниже.
@@ -37,7 +34,7 @@
                     <tr>
                         <td>{{ subjres.exam_subject.subject }}</td>
                         {% ifequal subjres.exam_subject.type_of_scoring 'S' %}
-                            <td>{{ subjres.score  }} из {{ subjres.exam_subject.max_score }}</td>
+                            <td>{{ subjres.score }} из {{ subjres.exam_subject.max_score }}</td>
 
                             <td>{% if subjres.appeal_score %}{{ subjres.appeal_score }} {% endif %}</td>
                             <td>{{ subjres.get_final_score }}</td>
@@ -59,34 +56,34 @@
                         {% endifequal %}
 
 
-
-
                     </tr>
                 {% endfor %}
-{#                {% if participant.extra_score %}#}
-{##}
-{##}
-{#                    <tr>#}
-{#                        <td>Дополнительные баллы</td>#}
-{#                        <td>{{ participant.extra_score }}</td>#}
-{#                        <td></td>#}
-{#                        <td>{{ participant.extra_score }}</td>#}
-{#                    </tr>#}
-{#                {% endif %}#}
+                {#                {% if participant.extra_score %}#}
+                {##}
+                {##}
+                {#                    <tr>#}
+                {#                        <td>Дополнительные баллы</td>#}
+                {#                        <td>{{ participant.extra_score }}</td>#}
+                {#                        <td></td>#}
+                {#                        <td>{{ participant.extra_score }}</td>#}
+                {#                    </tr>#}
+                {#                {% endif %}#}
                 {#                {% if participant.extra_score %}<tr><td>Дополнительные баллы (за портфолио)</td><td>{{ participant.extra_score }}</td><td></td><td></td></tr>{% endif %}#}
                 </tbody>
 
             </table>
-{#                <br>С заданиями вы можете ознакомиться по следующей <a href="{% get_media_prefix %}st/tasks2022.zip"> ссылке</a>.#}
-                <br>Вы также можете посмотреть скан своей работы по следующей <a href="{% get_media_prefix %}{{ result.scan.file.name }}">ссылке</a>.
-
-            <br>Протокол проверки всех работ
-            {% if participant.grade.number == 7 %}
-                <a href="{% get_media_prefix %}res/proto7.pdf">здесь</a>
-            {% else %}
-                <a href="{% get_media_prefix %}res/proto10.pdf">здесь</a>
+            {#                <br>С заданиями вы можете ознакомиться по следующей <a href="{% get_media_prefix %}st/tasks2022.zip"> ссылке</a>.#}
+            <br>Вы также можете посмотреть скан своей работы по следующей <a
+                href="{% get_media_prefix %}{{ result.scan.file.name }}">ссылке</a>.
+            {% if result.tour.proto_appeal %}
+                <br>Протокол проверки всех работ
+                <a href="{% get_media_prefix %}{{ result.tour.proto_appeal.name }}">здесь</a>
             {% endif %}
-             {% if result.form %}
+            {#            {% if participant.grade.number == 7 %}#}
+            {#            {% else %}#}
+            {#                <a href="{% get_media_prefix %}res/proto10.pdf">здесь</a>#}
+            {#            {% endif %}#}
+            {% if result.form %}
                 <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до
                 {{ result.tour.appeal_application_end_date }}.
                 <div class="timeline-footer">
