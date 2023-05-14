@@ -20,7 +20,7 @@ class SubjectExamInlineAdmin(TabularInline):
 @admin.register(Tour)
 class AdminTour(admin.ModelAdmin):
     list_display = ('name', 'grade', 'profile', 'results_release_date', 'appeal_application_end_date',
-                    'final_result_release_date', 'is_final_tour', 'tour_order')
+                    'final_result_release_date', 'is_final_tour', 'tour_order', 'proto_final', 'proto_appeal', 'tasks')
     sortable_by = ('name', 'tour_order',)
     list_filter = (
         'results_release_date',)
