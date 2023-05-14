@@ -55,9 +55,9 @@ class Tour(models.Model):
                                                        null=True)
     appeal_url = models.CharField(verbose_name='Ссылка на апелляцию', max_length=500, blank=True, null=True)
 
-    proto_final = models.FileField(upload_to='tours/protocols', verbose_name='Финальный протокол', null=True)
-    proto_appeal = models.FileField(upload_to='tours/protocols', verbose_name='Предварительынй протокол', null=True)
-    tasks = models.FileField(upload_to='tours/tasks', verbose_name='Задания', null=True)
+    proto_final = models.FileField(upload_to='tours/protocols', verbose_name='Финальный протокол', null=True, blank=True)
+    proto_appeal = models.FileField(upload_to='tours/protocols', verbose_name='Предварительынй протокол', null=True, blank=True)
+    tasks = models.FileField(upload_to='tours/tasks', verbose_name='Задания', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Тур'
