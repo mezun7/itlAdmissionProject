@@ -94,7 +94,7 @@ class UploadConfirmAdmin(admin.ModelAdmin):
 @admin.register(LiterGrade)
 class LiterGradeAdmin(admin.ModelAdmin):
     list_display = ('tour', 'name')
-    autocomplete_fields = ['participant']
+    # autocomplete_fields = ['participant']
 
 
 admin.site.register(Subject)
