@@ -51,7 +51,7 @@ class AppealStruct:
 @staff_member_required
 def appeals_list(request, tour_number=None):
     if tour_number is None:
-        tour_number = Tour.objects.first().tour_order
+        tour_number = Tour.objects.last().tour_order
     userAppeals = UserAppeal.objects.filter(tour__tour_order=tour_number).order_by('appeal_apply_time',
                                                                                    'participant__last_name')
     results = []
