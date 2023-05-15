@@ -3,7 +3,14 @@ from django.http import HttpResponse
 from openpyxl import Workbook
 
 from first_tour.action import get_value, get_result
-from first_tour.models import ExamResult, Subject, ExamSubject
+from first_tour.models import ExamResult, Subject, ExamSubject, ExamSheetScan
+
+
+def get_examsheet(tour, participant):
+    scan = ExamSheetScan.objects.filter(
+        tour_order=tour.tour_order, participant=participant
+    ).order_by('-id')[0]
+    return scan
 
 
 def get_appeal_header(subjects=[]):
@@ -15,7 +22,8 @@ def get_appeal_header(subjects=[]):
                  'Профиль',
                  'ФИО родителя 1',
                  "ФИО родителя 2",
-                 "Причина"
+                 "Причина",
+                 "Ссылка на работу"
              ] + subjects
     return header
 
@@ -42,6 +50,7 @@ def export_appeals_list(self, request, queryset):
             get_value(result.participant.fio_mother),
             get_value(result.participant.fio_father),
             get_value(result.appeal_reason),
+            get_value(get_examsheet(result.tour, result.participant))
         ]
         exam_res = []
         for subject in subjects:
