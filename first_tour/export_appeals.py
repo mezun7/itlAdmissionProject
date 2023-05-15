@@ -55,7 +55,7 @@ def export_appeals_list(self, request, queryset):
             get_value(result.participant.fio_mother),
             get_value(result.participant.fio_father),
             get_value(result.appeal_reason),
-            get_value(MAIN_HOST + get_examsheet(result.tour, result.participant))
+            get_value(MAIN_HOST[:-1] + get_examsheet(result.tour, result.participant))
         ]
         exam_res = []
         for subject in subjects:
