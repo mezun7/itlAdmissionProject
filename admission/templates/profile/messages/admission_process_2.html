@@ -76,7 +76,10 @@
 
             {% if result.form %}
                 <br>Если вы не согласны с выставленными баллами, можно подать апелляцию до
-                {{ result.tour.appeal_application_end_date }}.
+                {{ result.tour.appeal_application_end_date }}. Апелляция состоится 16.05.2023 в 14.00 в очном формате в
+                СУНЦ
+                IT-лицее КФУ(Деревня Универсиады 32, КПП-7). При себе необходимо иметь документ,
+                удостоверяющий личность. Регистрация н аапелляцию обязательная.
                 <div class="timeline-footer">
                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                             data-target="#tour{{ result.tour.pk }}">
@@ -86,9 +89,7 @@
             {% else %}
                 <div class="timeline-footer alert alert-info">
                     {% if result.apeal_application %}
-                        <h4>Заявление на апелляцию подано. Апелляция состоится 16.05.2023 в 14.00 в очном формате в СУНЦ
-                            IT-лицее КФУ(Деревня Универсиады 32, КПП-7). При себе необходимо иметь документ,
-                            удостоверяющий личность.</h4>
+                        <h4>Заявление на апелляцию подано. </h4>
                     {% endif %}
                 </div>
             {% endif %}
