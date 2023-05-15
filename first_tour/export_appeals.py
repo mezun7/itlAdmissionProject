@@ -7,13 +7,14 @@ from first_tour.models import ExamResult, Subject, ExamSubject, ExamSheetScan
 from itlAdmissionProject.settings import MAIN_HOST
 
 
-def get_examsheet(tour, participant):
+def get_examsheet_url(tour, participant):
     try:
         scan = ExamSheetScan.objects.filter(
             tour_order=tour.tour_order, participant=participant
         ).order_by('-id')[0]
-
-        return scan.file.url
+        main_url = MAIN_HOST[:-1] + scan.file.url
+        url = '=HYPERLINK("{}", "{}")'.format(main_url, main_url)
+        return url
     except:
         return ''
 
@@ -55,7 +56,7 @@ def export_appeals_list(self, request, queryset):
             get_value(result.participant.fio_mother),
             get_value(result.participant.fio_father),
             get_value(result.appeal_reason),
-            get_value(MAIN_HOST[:-1] + get_examsheet(result.tour, result.participant))
+            get_value(get_examsheet_url(result.tour, result.participant))
         ]
         exam_res = []
         for subject in subjects:
