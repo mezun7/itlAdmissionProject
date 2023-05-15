@@ -4,13 +4,18 @@ from openpyxl import Workbook
 
 from first_tour.action import get_value, get_result
 from first_tour.models import ExamResult, Subject, ExamSubject, ExamSheetScan
+from itlAdmissionProject.settings import MAIN_HOST
 
 
 def get_examsheet(tour, participant):
-    scan = ExamSheetScan.objects.filter(
-        tour_order=tour.tour_order, participant=participant
-    ).order_by('-id')[0]
-    return scan
+    try:
+        scan = ExamSheetScan.objects.filter(
+            tour_order=tour.tour_order, participant=participant
+        ).order_by('-id')[0]
+
+        return scan.file.url
+    except:
+        return ''
 
 
 def get_appeal_header(subjects=[]):
@@ -50,7 +55,7 @@ def export_appeals_list(self, request, queryset):
             get_value(result.participant.fio_mother),
             get_value(result.participant.fio_father),
             get_value(result.appeal_reason),
-            get_value(get_examsheet(result.tour, result.participant))
+            get_value(MAIN_HOST + get_examsheet(result.tour, result.participant))
         ]
         exam_res = []
         for subject in subjects:
