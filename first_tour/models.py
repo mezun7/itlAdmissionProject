@@ -57,6 +57,7 @@ class Tour(models.Model):
 
     proto_final = models.FileField(upload_to='tours/protocols', verbose_name='Финальный протокол', null=True, blank=True)
     proto_appeal = models.FileField(upload_to='tours/protocols', verbose_name='Предварительынй протокол', null=True, blank=True)
+    recommended_to_enter = models.FileField(upload_to='tours/protocols', verbose_name='Список рекомендованных', null=True, blank=True)
     tasks = models.FileField(upload_to='tours/tasks', verbose_name='Задания', null=True, blank=True)
 
     class Meta:
