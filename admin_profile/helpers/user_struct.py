@@ -15,7 +15,7 @@ class ListStruct:
         self.exam_result = ExamResult.objects.filter(participant=participant).order_by('exam_subject__ordering')
         try:
             self.appeal = UserAppeal.objects.filter(participant=participant).order_by('-id')[0]
-        except UserAppeal.DoesNotExist:
+        except:
             self.appeal = None
         if len(self.exam_result) > 0:
             self.scan = get_scans(participant, self.exam_result.first().exam_subject.tour)
