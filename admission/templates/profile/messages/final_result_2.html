@@ -23,9 +23,7 @@
         <div class="timeline-body">
             {#        type {{ result.passing_type }}#}
 
-            <br>Список рекомендованных к зачислению <a
-                href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
-            <br>Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
+
             {#                Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.#}
             <p></p>
 
@@ -48,6 +46,9 @@
                         одного 7 класса и увеличении контрольных цифр приема до 60 человек в 2023/2024 учебном году.</h6>
                 {% endif %}
             {% endif %}
+            <br>Список рекомендованных к зачислению <a
+                href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
+            <br>Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
         </div>
     </div>
 </div>
