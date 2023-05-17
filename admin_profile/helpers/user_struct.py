@@ -14,7 +14,7 @@ class ListStruct:
         self.participant = participant
         self.exam_result = ExamResult.objects.filter(participant=participant).order_by('exam_subject__ordering')
         try:
-            self.appeal = UserAppeal.objects.get(participant=participant)
+            self.appeal = UserAppeal.objects.filter(participant=participant).order_by('-id')[0]
         except UserAppeal.DoesNotExist:
             self.appeal = None
         if len(self.exam_result) > 0:
