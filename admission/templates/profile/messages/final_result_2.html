@@ -22,9 +22,11 @@
 
         <div class="timeline-body">
 {#        type {{ result.passing_type }}#}
-
-                Список рекомендованных к зачислению <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
-                Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
+        {% if result.tour.grade.number == 7 %}
+                <br>В связи с большим конкурсом, комиссией было принято решение об открытии еще одного 7 класса в 23/24 учебном году. Соответственно, принимаемое количество абитуриентов увеличилось до 60 человек.
+        {% endif %}
+                <br>Список рекомендованных к зачислению <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
+                <br>Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
 {#                Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.#}
         <p></p>
 
