@@ -14,38 +14,39 @@
     <div class="timeline-item">
         <span class="time"><i class="far fa-clock"></i> </span>
 
-        <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a> </h3>
+        <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a></h3>
         {#TYPE_OF_EXAM_PASS = (#}
         {#    ('R', 'Резерв'),#}
         {#    ('P', 'Прошел')#}
         {#)#}
 
         <div class="timeline-body">
-{#        type {{ result.passing_type }}#}
-        {% if result.tour.grade.number == 7 %}
-                <br>В связи с большим конкурсом, комиссией было принято решение об открытии еще одного 7 класса в 23/24 учебном году. Соответственно, принимаемое количество абитуриентов увеличилось до 60 человек.
-        {% endif %}
-                <br>Список рекомендованных к зачислению <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
-                <br>Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
-{#                Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.#}
-        <p></p>
+            {#        type {{ result.passing_type }}#}
+
+            <br>Список рекомендованных к зачислению <a
+                href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">здесь</a>.
+            <br>Итоговый протокол после апелляции <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">здесь</a>.
+            {#                Итоговый протокол после апелляции <a href="{% get_media_prefix %}res/final7.pdf">здесь</a>.#}
+            <p></p>
 
             {% if result.passing_type %}
                 {% ifequal result.passing_type "P" %}
-{#                    {% if participant.pk == 124 %}#}
-{#                        Здравствуйте. Мы Вас условно рекомендуем для поступления в СУНЦ IT-Лицей КФУ.#}
-{#                        <br>30.05.2023 в 16.00 будет проходить родительское собрание в Лицее. Просьба подойти после собрания(в кабинет 229) и поговорить по поводу состояния здоровья Вашего ребенка.#}
-{#                    {% else %}#}
-                        {% include 'profile/messages/passed_message.html' %}
-{#                    {% endif %}#}
+                    {#                    {% if participant.pk == 124 %}#}
+                    {#                        Здравствуйте. Мы Вас условно рекомендуем для поступления в СУНЦ IT-Лицей КФУ.#}
+                    {#                        <br>30.05.2023 в 16.00 будет проходить родительское собрание в Лицее. Просьба подойти после собрания(в кабинет 229) и поговорить по поводу состояния здоровья Вашего ребенка.#}
+                    {#                    {% else %}#}
+                    {% include 'profile/messages/passed_message.html' %}
+                    {#                    {% endif %}#}
                 {% else %}
                     {% include 'profile/messages/reserve_message.html' %}
                 {% endifequal %}
             {% else %}
                 Добрый день. По результатам вступительных испытаний, к сожалению, вынуждены Вам отказать.
+                {% if result.tour.grade.number == 7 %}
 
-                <br>По результатам вступительных испытаний приёмной комиссией было принято решение об открытии ещё одного 7 класса и увеличении контрольных цифр приема до 60 человек в 2023/2024 учебном году.
-
+                    <br>По результатам вступительных испытаний приёмной комиссией было принято решение об открытии ещё
+                    одного 7 класса и увеличении контрольных цифр приема до 60 человек в 2023/2024 учебном году.
+                {% endif %}
             {% endif %}
         </div>
     </div>
