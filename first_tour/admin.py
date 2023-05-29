@@ -10,6 +10,7 @@ from admission.models import Profile, File, Participant, FirstTourDates, Group, 
 from first_tour.action import export_results
 from first_tour.admin_filters import TourOrderAdminFilter
 from first_tour.export_appeals import export_appeals_list
+from first_tour.export_passes import export_passes
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
     TourParticipantScan, UploadConfirm, NextTourParticipantUpload, LiterGrade, AddLiter
 
@@ -67,6 +68,7 @@ class NextTourPassAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'type_of_pass')
     autocomplete_fields = ['participant']
     list_filter = [TourOrderAdminFilter, 'tour', 'type_of_pass']
+    actions = [export_passes]
 
 
 @admin.register(TourParticipantScan)
