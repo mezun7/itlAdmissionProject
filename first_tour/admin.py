@@ -62,12 +62,11 @@ class ExamResult(admin.ModelAdmin):
     autocomplete_fields = ['participant']
 
 
-
 @admin.register(NextTourPass)
 class NextTourPassAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'type_of_pass')
     autocomplete_fields = ['participant']
-    list_filter = [TourOrderAdminFilter, 'tour']
+    list_filter = [TourOrderAdminFilter, 'tour', 'type_of_pass']
 
 
 @admin.register(TourParticipantScan)
@@ -75,7 +74,6 @@ class UserTourScanAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'scan_file_name')
     list_filter = ('tour',)
     autocomplete_fields = ['participant']
-
 
 
 @admin.register(UserAppeal)
