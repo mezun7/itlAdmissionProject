@@ -3,7 +3,7 @@ from django.contrib import admin
 from first_tour.models import Tour
 
 
-class TourOrderAdminFilter(admin.FieldListFilter):
+class TourOrderAdminFilter(admin.SimpleListFilter):
     title = 'Tours'
     parameter_name = 'tour_order_admin_filter'
 
