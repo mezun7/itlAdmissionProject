@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'admin_profile.apps.AdminProfileConfig',
     'api.apps.ApiConfig',
     'second_tour.apps.SecondTourConfig',
-    'import_export'
 ]
 
 MIDDLEWARE = [
