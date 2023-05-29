@@ -5,7 +5,8 @@ from openpyxl import Workbook
 
 
 def get_nexttour_passes_headers():
-    headers = ["ID", "Тур", "ФИО ребенка", "Класс", "Профиль", "ФИО мамы", "Номер телефона мамы", "ФИО отца", "Номер телефона отца"]
+    headers = ["ID", "Тур", "ФИО ребенка", "Класс", "Профиль", "ФИО мамы", "Номер телефона мамы", "ФИО отца",
+               "Номер телефона отца"]
     return headers
 
 
@@ -19,7 +20,8 @@ def export_passes(self, request, queryset):
     ws = wb.create_sheet('Список')
     header = get_nexttour_passes_headers()
     ws.append(header)
-    for result in queryset:
+    for result in queryset.order_by("participant__grade__number", "participant__profile",
+                                    "participant__last_name", "participant__first_name"):
         info = [
             get_value(result.participant.pk),
             get_value(result.tour.name),
