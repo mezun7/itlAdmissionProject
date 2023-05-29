@@ -8,6 +8,7 @@ from admission.actions import export_as_xls, export_as_xls_full_participant_data
 from admission.models import Profile, File, Participant, FirstTourDates, Group, Olympiad, Moderator, \
     ModeratorMessage, ParticipantRegistrator
 from first_tour.action import export_results
+from first_tour.admin_filters import TourOrderAdminFilter
 from first_tour.export_appeals import export_appeals_list
 from first_tour.models import Subject, Tour, ExamSubject, AppealUser, ExamResult, NextTourPass, UserAppeal, \
     TourParticipantScan, UploadConfirm, NextTourParticipantUpload, LiterGrade, AddLiter
@@ -66,6 +67,7 @@ class ExamResult(admin.ModelAdmin):
 class NextTourPassAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'type_of_pass')
     autocomplete_fields = ['participant']
+    list_filter = [TourOrderAdminFilter, 'tour']
 
 
 @admin.register(TourParticipantScan)
