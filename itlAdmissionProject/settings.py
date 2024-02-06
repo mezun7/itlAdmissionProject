@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'itlAdmissionProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'admission_2023',
+        'NAME': 'admission_2024',
         'USER': 'admission',
         'PASSWORD': '1q2w!Q@W',
         'HOST': 'localhost',
@@ -95,7 +95,7 @@ if platform.system() in ['Darwin', 'win32']:
     DEBUG = True
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db5.sqlite3',
+        'NAME': BASE_DIR / 'db6.sqlite3',
     }
 
 # DATABASES = {
