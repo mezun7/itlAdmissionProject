@@ -173,9 +173,9 @@ MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'med
 ALLOWED_EXTENSIONS = ['pdf', 'jpeg', 'jpg', 'png']
 FILE_SIZE_LIMIT = 2 * 1024 * 1024  # 2 MB
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-REGISTER_END_DATE = datetime.date(2023, 3, 30)
-APPEAL_START_TIME = datetime.datetime(2024, 5, 22, 13, 0, 0)
-APPEAL_ANNOUNCE_TIME = datetime.datetime(2024, 5, 22, 12, 30, 0)
+REGISTER_END_DATE = datetime.date(2024, 3, 27)
+APPEAL_START_TIME = datetime.datetime(2025, 5, 22, 13, 0, 0)
+APPEAL_ANNOUNCE_TIME = datetime.datetime(2025, 5, 22, 12, 30, 0)
 APPEAL_PERIOD_MINUTES = 5
 # REDIS related settings
 REDIS_HOST = 'localhost'
