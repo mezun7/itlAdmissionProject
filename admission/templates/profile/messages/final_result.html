@@ -86,8 +86,9 @@
             {% else %}
                 К сожалению, на данный момент Вы не проходите во 2 тур вступительных испытаний. В случае, если кто-то из приглашенных абитуриентов откажется от участия во 2 туре, мы будем приглашать следующего по рейтингу.
             {% endif %}
-        <br>Вы можете скачать итоговый рейтинг <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">тут.</a>
-        <br>Список приглашенных на второй тур <a href="{% get_media_prefix %}ft2023/final_invited.zip">тут.</a>
+        <br>Вы можете скачать итоговый рейтинг <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">тут.</a>
+        <br>Список приглашенных на второй тур <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">тут.</a>
+
         </div>
     </div>
 </div>
