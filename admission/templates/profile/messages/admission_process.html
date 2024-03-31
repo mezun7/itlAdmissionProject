@@ -59,7 +59,7 @@
                 <br>
                 <a href="{% get_media_prefix %}ft2023/proto10_1.zip">Предварительный рейтинг первого тура в 10й класс
                     (<b>до апелляции</b>)</a>
-                <br><a href="{% get_media_prefix %}ft2023/tasks10.zip">Задания первого тура</a>
+                <br><a href="{% get_media_prefix %}{{ result.tour.tasks.name }}">Задания первого тура</a>
             {% endifequal %}
             {% if result.scan %}
                 <br>Вы также можете посмотреть скан своей работы по следующей
