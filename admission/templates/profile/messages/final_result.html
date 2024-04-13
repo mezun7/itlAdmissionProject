@@ -2,96 +2,126 @@
 
 <!-- timeline time label -->
 {% ifnotequal result.passing_type "R" %}
-<div class="time-label">
+    <div class="time-label">
     <span class="bg-success">
         {{ result.tour.final_result_release_date }}
     </span>
-</div>
-<!-- /.timeline-label -->
-<!-- timeline item -->
-<div>
-    <i class="fas fa-envelope bg-primary"></i>
+    </div>
+    <!-- /.timeline-label -->
+    <!-- timeline item -->
+    <div>
+        <i class="fas fa-envelope bg-primary"></i>
 
-    <div class="timeline-item">
-        <span class="time"><i class="far fa-clock"></i> </span>
+        <div class="timeline-item">
+            <span class="time"><i class="far fa-clock"></i> </span>
 
-        <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a> </h3>
-        {#TYPE_OF_EXAM_PASS = (#}
-        {#    ('R', 'Резерв'),#}
-        {#    ('P', 'Прошел')#}
-        {#)#}
+            <h3 class="timeline-header"><a href="#">Окончательные результаты {{ result.tour.tour_order }} тура</a></h3>
+            {#TYPE_OF_EXAM_PASS = (#}
+            {#    ('R', 'Резерв'),#}
+            {#    ('P', 'Прошел')#}
+            {#)#}
 
-        <div class="timeline-body">
-            Добрый день!
-            {% if result.passing_type %}
-                {% ifequal result.passing_type "P" %}
-                    Поздравляем Вас! Вы успешно прошли на 2 тур вступительных испытаний.
-{#                    {% ifequal participant.grade.number 10 %}#}
-{#                        <br> 2 тур вступительных испытаний пройдет с 09 июня по 11 июня 2022 года с обязательным проживанием в лицее.#}
-{#                        <br> 09 июня 2022 года с 08.00 до 09.00 начнется регистрация и заселение в интернат.#}
-{#                        <br>На все организационные вопросы ответим на родительском собрании <b>09 июня 2022 в 9.00</b>#}
-{##}
-{#                    {% else %}#}
-                        <br> 2 тур вступительных испытаний пройдет с 02 мая по 5 мая 2023 года с обязательным проживанием в лицее.
-                        <br> 02 мая 2023 года с 17.00 до 18.00 начнется регистрация и заселение в интернат.
-                        <br>На все организационные вопросы ответим на родительском собрании <b>02 мая 2023 в 18.15</b>
-{#                    {% endifequal %}#}
-                    Для того, чтобы подтвердить свое участие на втором туре вступительных испытаний вам необходимо прикрепить скан следующих документов в форме ниже:
-                    <ul class="list-group">
-                        <li class="list-group-item"><a href="{% get_media_prefix %}docs/soglasiye.pdf">Согласие на участие во втором туре вступительных испытаний.</a></li>
-                        <li class="list-group-item"><a href="{% get_media_prefix %}docs/pps.pdf">Согласие на психолого-педагогическое собеседование.</a></li>
-                    </ul>
-                    <br> Дополнительно сообщаем Вам, что на заселение ребенку необходимо принести:
-                    <ul class="list-group">
-                        <li class="list-group-item">Оригинал согласия на участие во втором туре вступительных испытаний.</li>
-                        <li class="list-group-item">Оригинал согласия на психолого-педагогическое собеседование.</li>
-                        <li class="list-group-item">Справку об отсутсвии контактов с инфекционными больными в т.ч. Covid-19.</li>
-                        <li class="list-group-item"> Одежда для сна.(пижама) </li>
-                        <li class="list-group-item"> Спортивную форму (спорт. обувь).</li>
-                        <li class="list-group-item"> Тетради (4 в клетку, 2 в линейку), ручки.</li>
-                        <li class="list-group-item"> В школьной форме нет никакой необходимости.</li>
-                        <li class="list-group-item"> Также необходимо подписаться на телеграмм канал приемной кампании по следующей <a href="https://t.me/apply_itl"> ссылке.</a></li>
+            <div class="timeline-body">
+                Добрый день!
+                {% if result.passing_type %}
+                    {% ifequal result.passing_type "P" %}
+                        Поздравляем Вас! Вы успешно прошли на 2 тур вступительных испытаний.
+                        {#                    {% ifequal participant.grade.number 10 %}#}
+                        {#                        <br> 2 тур вступительных испытаний пройдет с 09 июня по 11 июня 2022 года с обязательным проживанием в лицее.#}
+                        {#                        <br> 09 июня 2022 года с 08.00 до 09.00 начнется регистрация и заселение в интернат.#}
+                        {#                        <br>На все организационные вопросы ответим на родительском собрании <b>09 июня 2022 в 9.00</b>#}
+                        {##}
+                        {#                    {% else %}#}
+                        <br> 2 тур вступительных испытаний пройдет с 05 мая по 8 мая 2024 года с обязательнымпроживанием
+                        в лицее.
+                        <br> 05 мая 2024 года с 17.00 до 18.00 начнется регистрация и заселение в интернат.
+                        {#                        <br>На все организационные вопросы ответим на родительском собрании <b>02 мая 2023 в 18.15</b>#}
+                        {#                    {% endifequal %}#}
+                        Для того, чтобы подтвердить свое участие на втором туре вступительных испытаний вам необходимо
+                        прикрепить скан следующих документов в форме ниже:
+                        <ul class="list-group">
+                            <li class="list-group-item"><a href="{% get_media_prefix %}docs/soglasiye.pdf">Согласие на
+                                участие во втором туре вступительных испытаний.</a></li>
+                            <li class="list-group-item"><a href="{% get_media_prefix %}docs/pps.pdf">Согласие на
+                                психолого-педагогическое собеседование.</a></li>
+                        </ul>
+                        <br> Дополнительно сообщаем Вам, что на заселение ребенку необходимо принести:
+                        <ul class="list-group">
+                            <li class="list-group-item">Оригинал согласия на участие во втором туре вступительных
+                                испытаний.
+                            </li>
+                            <li class="list-group-item">Оригинал согласия на психолого-педагогическое собеседование.
+                            </li>
+                            <li class="list-group-item">Справку об отсутсвии контактов с инфекционными больными в т.ч.
+                                Covid-19.
+                            </li>
+                            <li class="list-group-item"> Одежда для сна.(пижама)</li>
+                            <li class="list-group-item"> Спортивную форму (спорт. обувь).</li>
+                            <li class="list-group-item"> Тетради (4 в клетку, 2 в линейку), ручки.</li>
+                            <li class="list-group-item"> В школьной форме нет никакой необходимости.</li>
+                            <li class="list-group-item"> Также необходимо подписаться на телеграмм канал приемной
+                                кампании по следующей <a href="https://t.me/apply_itl"> ссылке.</a></li>
+                            <li class="list-group-item"> (Этот пункт <b>не касается</b> тех, кто поступает в химбио
+                                профиль) Во время второго этапа поступления вам потребуется умение программировать на
+                                одном из языков программирования - на C++ или Python(Согласно общеобразовательной
+                                программе этому вы должны быть обучены). Для того чтобы освежить свои знания или изучить
+                                их с нуля, вы можете пройти курсы на платформе "Степик". <br>Вот несколько курсов,
+                                которые
+                                могут вам пригодиться: (<a href="https://stepik.org/course/58852/syllabus">"Поколение
+                                    Python": курс для начинающих</a>
+                                <a href="https://stepik.org/course/67/promo">Программирование на Python
+                                </a>). <br>Пожалуйста, повторите темы до списков включительно,
+                                чтобы быть готовыми к второму этапу поступления.
+                            </li>
 
-                    </ul>
-                    {% if result.final_apply_form %}
-                        <br> В случае, если Вы не заполните анкету до <b>20.04.2023 11:00</b>, ваше право на участие может быть аннулировано — и тогда мы будем в праве пригласить следующего по списку абитуриента.
-                        <div class="col">
-                            <form method="post" action="{% url 'admission:upload_confirm' result.participant.pk %}" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                {{ result.final_apply_form.non_field_errors }}
 
-                                {% for hidden_field in result.final_apply_form.hidden_fields %}
-                                    {{ hidden_field.errors }}
-                                    {{ hidden_field }}
-                                {% endfor %}
-                                {% for field in result.final_apply_form.visible_fields %}
-                                    <div class="form-group">
-                                        {{ field.label_tag }}
-                                        {{ field.errors }}
-                                        {{ field }}
-                                        {{ field.help_text }}
-                                    </div>
+                        </ul>
+                        {% if result.final_apply_form %}
+                            <br> В случае, если Вы не заполните анкету до <b>29.04.2024 11:00</b>, ваше право на участие
+                            может быть аннулировано — и тогда мы будем в праве пригласить следующего по списку
+                            абитуриента.
+                            <div class="col">
+                                <form method="post" action="{% url 'admission:upload_confirm' result.participant.pk %}"
+                                      enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{ result.final_apply_form.non_field_errors }}
 
-                                {% endfor %}
-                                <input type="submit" value="Отправить">
-                            </form>
-{#                                                    {{ result.final_apply_form.as_p }}#}
-                        </div>
+                                    {% for hidden_field in result.final_apply_form.hidden_fields %}
+                                        {{ hidden_field.errors }}
+                                        {{ hidden_field }}
+                                    {% endfor %}
+                                    {% for field in result.final_apply_form.visible_fields %}
+                                        <div class="form-group">
+                                            {{ field.label_tag }}
+                                            {{ field.errors }}
+                                            {{ field }}
+                                            {{ field.help_text }}
+                                        </div>
+
+                                    {% endfor %}
+                                    <input type="submit" value="Отправить">
+                                </form>
+                                {#                                                    {{ result.final_apply_form.as_p }}#}
+                            </div>
+                        {% else %}
+                            <h3><span class="text-info"> Ваше заявление на участие во втором туре принято.</span></h3>
+                        {% endif %}
                     {% else %}
-                        <h3><span class="text-info"> Ваше заявление на участие во втором туре принято.</span></h3>
-                    {% endif %}
+                        {#                    Hi!#}
+                    {% endifequal %}
                 {% else %}
-{#                    Hi!#}
-                {% endifequal %}
-            {% else %}
-                К сожалению, на данный момент Вы не проходите во 2 тур вступительных испытаний. В случае, если кто-то из приглашенных абитуриентов откажется от участия во 2 туре, мы будем приглашать следующего по рейтингу.
-            {% endif %}
-        <br>Вы можете скачать итоговый рейтинг <a href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">тут.</a>
-        <br>Список приглашенных на второй тур <a href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">тут.</a>
+                    К сожалению, на данный момент Вы не проходите во 2 тур вступительных испытаний. В случае, есликто-то
+                    из приглашенных абитуриентов откажется от участия во 2 туре, мы будем приглашать следующегопо
+                    рейтингу.
+                {% endif %}
+                <br>Вы можете скачать итоговый рейтинг <a
+                    href="{% get_media_prefix %}{{ result.tour.proto_final.name }}">тут.</a>
+                <br>Список приглашенных на второй тур <a
+                    href="{% get_media_prefix %}{{ result.tour.recommended_to_enter.name }}">тут.</a>
 
+            </div>
         </div>
     </div>
-</div>
 {% endifnotequal %}
 
 
