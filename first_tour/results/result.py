@@ -55,15 +55,16 @@ def get_result_user(pk, exclude_date=False):
         print(passing_type)
 
         final_release_date = tour.results_release_date
-        results.append(
-            ResultParticipant(
-                party_results,
-                result_release_date=final_release_date,
-                final_result_release_date=datetime.datetime.now() if exclude_date else tour.final_result_release_date,
-                passing_type=passing_type,
-                tour=tour,
-                portfolio_score=participant.extra_score,
-                participant=participant,
+        if passing_type is not None:
+            results.append(
+                ResultParticipant(
+                    party_results,
+                    result_release_date=final_release_date,
+                    final_result_release_date=datetime.datetime.now() if exclude_date else tour.final_result_release_date,
+                    passing_type=passing_type,
+                    tour=tour,
+                    portfolio_score=participant.extra_score,
+                    participant=participant,
+                )
             )
-        )
     return results, liter_grade
