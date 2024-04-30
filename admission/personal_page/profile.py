@@ -17,6 +17,7 @@ from admission.helpers.appeal_order import get_appeal_order
 from admission.helpers.email_ops import get_register_mail
 from admission.models import Participant, Olympiad, ModeratorMessage
 from first_tour.forms import UserAppealForm
+from first_tour.models import LiterGrade
 from first_tour.results.result import get_result_user
 from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_PERIOD_MINUTES, APPEAL_START_TIME
 
@@ -32,6 +33,10 @@ def main_page(request):
     # print(appeal_order)
     file_list = participant.portfolio.all()
     file_add_extension(file_list)
+    lg = LiterGrade.objects.filter(participants__id=[participant])
+    liter_grade = None
+    if lg.count() > 0:
+        liter_grade = lg.first()
 
     context = {
         'participant': participant,
@@ -39,6 +44,7 @@ def main_page(request):
         'results': results,
         'appeal_order': appeal_order,
         'file_list': file_list,
+        "liter_grade": liter_grade
     }
 
     if request.POST:
