@@ -108,12 +108,14 @@
                         {% else %}
                             <h3><span class="text-info"> Ваше заявление на участие во втором туре принято.</span></h3>
                         {% endif %}
-                    {% else %}
+
                         {% if liter_grade %}
                             <br><h3>Ваш класс на втором туре: {{ liter_grade }} </h3>
                             <br>Контактные данные данные классного руководителя и воспитателя
                             <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtYuopWsyXNg3krq04rUoY_D_GLyICTX5BDAfCZxHlZLvBQnekhLUlHuVMSFC0xkGggZhZSqHgYmT5/pubhtml?gid=1839938879&single=true">тут</a>
                         {% endif %}
+                    {% else %}
+
                         {#                    Hi!#}
                     {% endifequal %}
                 {% else %}
