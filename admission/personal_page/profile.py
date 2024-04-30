@@ -29,11 +29,10 @@ def main_page(request):
     participant = Participant.objects.get(user=request.user)
     results, liter_grade = get_result_user(participant.pk)
     a = get_appeal_order(participant)
-    appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
+    appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a * APPEAL_PERIOD_MINUTES)
     # print(appeal_order)
     file_list = participant.portfolio.all()
     file_add_extension(file_list)
-
 
     context = {
         'participant': participant,
@@ -60,4 +59,3 @@ def profile_test_page(request):
         'participant': participant
     }
     return render(request, 'profile/profile.html', context=context)
-
