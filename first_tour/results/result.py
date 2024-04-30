@@ -22,7 +22,7 @@ def get_results():
 
 def get_result_user(pk, exclude_date=False):
     participant = Participant.objects.get(pk=pk)
-    lg = LiterGrade.objects.filter(participants__id=[participant])
+    lg = LiterGrade.objects.filter(participants__in=[participant])
     liter_grade = None
     if lg.count() > 0:
         liter_grade = lg.first()
