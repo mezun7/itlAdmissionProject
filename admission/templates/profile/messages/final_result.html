@@ -25,9 +25,7 @@
                 Добрый день!
                 {% if result.passing_type %}
                     {% ifequal result.passing_type "P" %}
-                    {% if liter_grade %}
-                        <br>Ваш класс на втором туре: {{ liter_grade }}
-                    {% endif %}
+
                         Поздравляем Вас! Вы успешно прошли на 2 тур вступительных испытаний.
                         {#                    {% ifequal participant.grade.number 10 %}#}
                         {#                        <br> 2 тур вступительных испытаний пройдет с 09 июня по 11 июня 2022 года с обязательным проживанием в лицее.#}
@@ -111,6 +109,11 @@
                             <h3><span class="text-info"> Ваше заявление на участие во втором туре принято.</span></h3>
                         {% endif %}
                     {% else %}
+                        {% if liter_grade %}
+                            <br><h3>Ваш класс на втором туре: {{ liter_grade }} </h3>
+                            <br>Контактные данные данные классного руководителя и воспитателя
+                            <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQtYuopWsyXNg3krq04rUoY_D_GLyICTX5BDAfCZxHlZLvBQnekhLUlHuVMSFC0xkGggZhZSqHgYmT5/pubhtml?gid=1839938879&single=true">тут</a>
+                        {% endif %}
                         {#                    Hi!#}
                     {% endifequal %}
                 {% else %}
