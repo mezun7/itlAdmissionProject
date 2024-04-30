@@ -66,4 +66,4 @@ def get_result_user(pk, exclude_date=False):
                 participant=participant,
             )
         )
-    return results
+    return results, liter_grade
