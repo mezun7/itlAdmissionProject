@@ -55,7 +55,7 @@ def get_result_user(pk, exclude_date=False):
         print(passing_type)
 
         final_release_date = tour.results_release_date
-        if passing_type is not None:
+        if passing_type is not None or True:
             results.append(
                 ResultParticipant(
                     party_results,
