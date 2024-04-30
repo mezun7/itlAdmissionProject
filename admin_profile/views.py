@@ -30,7 +30,7 @@ from itlAdmissionProject.settings import SERVER_EMAIL, APPEAL_START_TIME, APPEAL
 def user_page(request, pk):
     # user = request.user  # type: User
     participant = Participant.objects.get(pk=pk)
-    results = get_result_user(participant.pk, exclude_date=True)
+    results, liter_grade = get_result_user(participant.pk, exclude_date=True)
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
 
@@ -38,7 +38,8 @@ def user_page(request, pk):
         'participant': participant,
         'messages': ModeratorMessage.objects.filter(participant=participant).order_by('sent_at'),
         'results': results,
-        'appeal_order': appeal_order
+        'appeal_order': appeal_order,
+        "liter_grade": liter_grade
     }
 
     if request.POST:

@@ -27,16 +27,13 @@ from admission.utilities import file_add_extension
 @login_required()
 def main_page(request):
     participant = Participant.objects.get(user=request.user)
-    results = get_result_user(participant.pk)
+    results, liter_grade = get_result_user(participant.pk)
     a = get_appeal_order(participant)
     appeal_order = APPEAL_START_TIME + datetime.timedelta(minutes=a*APPEAL_PERIOD_MINUTES)
     # print(appeal_order)
     file_list = participant.portfolio.all()
     file_add_extension(file_list)
-    lg = LiterGrade.objects.filter(participants__id=[participant])
-    liter_grade = None
-    if lg.count() > 0:
-        liter_grade = lg.first()
+
 
     context = {
         'participant': participant,

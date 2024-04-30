@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 # Create your views here.
 # from admission.forms import FileUpload
 from admission.models import File, Participant, Moderator, ParticipantRegistrator
-from first_tour.models import Tour, ExamResult, NextTourPass, UploadConfirm, ExamSheetScan
+from first_tour.models import Tour, ExamResult, NextTourPass, UploadConfirm, ExamSheetScan, LiterGrade
 from first_tour.results.struct import ResultParticipant
 from itlAdmissionProject.settings import SERVER_EMAIL
 
@@ -22,6 +22,10 @@ def get_results():
 
 def get_result_user(pk, exclude_date=False):
     participant = Participant.objects.get(pk=pk)
+    lg = LiterGrade.objects.filter(participants__id=[participant])
+    liter_grade = None
+    if lg.count() > 0:
+        liter_grade = lg.first()
     if exclude_date:
         tours = Tour.objects.filter(
             Q(profile=participant.profile) | Q(litergrade__participants__in=[participant]),
