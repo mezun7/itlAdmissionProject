@@ -17,7 +17,7 @@
 {% block left-navbar %}
     {% for el in liters %}
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="{% url 'first-tour:journal' el.pk %}" class="nav-link">{{ el }} класс</a>
+          <a href="{% url 'journal' el.pk %}" class="nav-link">{{ el }} класс</a>
         </li>
     {% endfor %}
 {##}
