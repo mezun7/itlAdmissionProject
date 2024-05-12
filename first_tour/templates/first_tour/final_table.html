@@ -46,13 +46,13 @@
         </thead>
         <tbody>
         {% for result in results %}
-            <tr class="text-center justify-content-center">
+            <tr class="text-center justify-content-center align-items-center">
                 <td>{{ forloop.counter }}</td>
 
                 {% if request.GET.ID %}
                     <td>{{ result.participant.pk }}</td>
                 {% else %}
-                    <td class="text-center align-content-center">
+                    <td>
                         <div class="text-center">
                             <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}"
                                data-toggle="lightbox"
