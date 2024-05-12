@@ -47,7 +47,7 @@
         <tbody>
         {% for result in results %}
             <tr class="text-center justify-content-center align-middle">
-                <td>{{ forloop.counter }}</td>
+                <td class="align-middle">{{ forloop.counter }}</td>
 
                 {% if request.GET.ID %}
                     <td>{{ result.participant.pk }}</td>
