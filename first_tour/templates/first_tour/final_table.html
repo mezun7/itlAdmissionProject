@@ -25,11 +25,13 @@
     <table class="table table-responsive-lg table-striped">
         <thead>
         <tr class="text-center">
-            <th>ФОТО</th>
             <th>#</th>
-        {% if request.GET.ID %}
-            <th>ID</th>
-        {% endif %}
+
+            {% if request.GET.ID %}
+                <th>ID</th>
+            {% else %}
+                <th>ФОТО</th>
+            {% endif %}
 
             <th>ФИО</th>
             <th>Класс</th>
@@ -45,21 +47,24 @@
         <tbody>
         {% for result in results %}
             <tr class="text-center justify-content-center">
-                <td>
-                    <div class="text-center">
-                        <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}" data-toggle="lightbox"
-                           data-title="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }} {{ result.participant.school }}"
-                           data-gallery="gallery">
-                            <img class="profile-user-img img-fluid"
-                                 src="{% get_media_prefix %}{{ result.participant.profile_photo }}"
-                                 alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
-                        </a>
-                    </div>
-                </td>
                 <td>{{ forloop.counter }}</td>
-            {% if request.GET.ID %}
-                <td>{{ result.participant.pk }}</td>
-            {% endif %}
+
+                {% if request.GET.ID %}
+                    <td>{{ result.participant.pk }}</td>
+                {% else %}
+                    <td>
+                        <div class="text-center">
+                            <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}"
+                               data-toggle="lightbox"
+                               data-title="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }} {{ result.participant.school }}"
+                               data-gallery="gallery">
+                                <img class="profile-user-img img-fluid"
+                                     src="{% get_media_prefix %}{{ result.participant.profile_photo }}"
+                                     alt="{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}">
+                            </a>
+                        </div>
+                    </td>
+                {% endif %}
                 <td {% if result.olymp_status %}
                     class="alert-info"
                 {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
@@ -70,9 +75,9 @@
                     <td
                             {% if res %}
                                 {% ifequal res.exam_subject.type_of_scoring "R" %}
-{#                                    {% if res.score < 1 %}#}
-                                        class="{{ res | get_class_for_score }}">
-                                           {{ res | final_score }}
+                                    {#                                    {% if res.score < 1 %}#}
+                                    class="{{ res | get_class_for_score }}">
+                                    {{ res | final_score }}
 
                                 {% else %}
                                     >
