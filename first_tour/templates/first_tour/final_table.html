@@ -52,7 +52,7 @@
                 {% if request.GET.ID %}
                     <td>{{ result.participant.pk }}</td>
                 {% else %}
-                    <td>
+                    <td class="text-center align-content-center">
                         <div class="text-center">
                             <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}"
                                data-toggle="lightbox"
