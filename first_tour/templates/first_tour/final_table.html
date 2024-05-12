@@ -18,7 +18,6 @@
     td {
         /* Not required only for visualizing */
         padding: 1em;
-        vertical-align: middle;
     }
 </style>
 <form method="post" action="{{ action }}" class="">
@@ -51,7 +50,7 @@
                 <td class="align-middle">{{ forloop.counter }}</td>
 
                 {% if request.GET.ID %}
-                    <td>{{ result.participant.pk }}</td>
+                    <td class="align-middle">{{ result.participant.pk }}</td>
                 {% else %}
                     <td>
                         <div class="text-center">
@@ -66,12 +65,12 @@
                         </div>
                     </td>
                 {% endif %}
-                <td {% if result.olymp_status %}
-                    class="alert-info"
-                {% endif %} >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
+                <td class="align-middle {% if result.olymp_status %}
+                    alert-info
+                {% endif %}" >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
                     {#                    <br>  <small class="text-muted">{{ result.participant.school }}</small>#}
                 </td>
-                <td>{{ result.liter }}</td>
+                <td class="align-middle">{{ result.liter }}</td>
                 {% for res in result.results %}
                     <td
                             {% if res %}
@@ -101,7 +100,7 @@
                 {#                    0#}
                 {#                {% endif %}#}
                 {#                </td>#}
-                <td>{{ result.overall | floatformat:2 }}</td>
+                <td class="align-middle">{{ result.overall | floatformat:2 }}</td>
             </tr>
         {% endfor %}
         </tbody>
