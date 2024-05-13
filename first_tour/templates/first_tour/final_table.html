@@ -72,15 +72,15 @@
                 </td>
                 <td class="align-middle">{{ result.liter }}</td>
                 {% for res in result.results %}
-                    <td
+                    <td class="align-middle
                             {% if res %}
                                 {% ifequal res.exam_subject.type_of_scoring "R" %}
                                     {#                                    {% if res.score < 1 %}#}
-                                    class="{{ res | get_class_for_score }}">
+                                    {{ res | get_class_for_score }}">
                                     {{ res | final_score }}
 
                                 {% else %}
-                                    >
+                                    ">
                                     {{ res | final_score }}
                                 {% endifequal %}
                                 {% if request.GET.edit %}
