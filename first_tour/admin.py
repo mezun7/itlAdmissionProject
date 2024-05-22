@@ -81,7 +81,7 @@ class UserTourScanAdmin(admin.ModelAdmin):
 @admin.register(UserAppeal)
 class UserAppealAdmin(admin.ModelAdmin):
     list_display = ('participant', 'tour', 'appeal_apply_time', 'appeal_reason')
-    list_filter = ('tour',)
+    list_filter = ('tour', 'tour__tour_order')
     actions = [export_appeals_list, ]
     autocomplete_fields = ['participant']
 
