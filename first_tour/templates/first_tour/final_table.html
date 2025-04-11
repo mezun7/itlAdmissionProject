@@ -43,6 +43,10 @@
 
 
             {#            <th>Доп. Баллы</th>#}
+            {% if cur_tour.use_extra_score %}
+
+                    <th class="align-middle">Доп. Баллы</th>
+                {% endif %}
             <th>Итого</th>
         </tr>
         </thead>
