@@ -64,7 +64,7 @@ class FinalResult:
         if self.passed_zachet == other.passed_zachet:
             if self.overall == other.overall:
                 if self.recommended == other.recommended:
-                    if self.zachet == other.zachet:
+                    if self.zachet_score == other.zachet_score:
                         return self.participant.id > other.participant.id
                     else:
                         return self.zachet_score < other.zachet_score
