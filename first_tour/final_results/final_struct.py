@@ -12,6 +12,7 @@ class FinalResult:
     exam_subjects: [ExamSubject] = None
     liter: LiterGrade = None
     olymp_status = False
+    passed_zachet = 0
 
     def calc_result(self):
         types = {
@@ -35,15 +36,17 @@ class FinalResult:
             score = ex.score
             if ex.appeal_score:
                 score = ex.appeal_score
-            if self.tour.make_max_score_for_olympiad and self.participant.privilege_status == 'A':
-                score = ex.exam_subject.max_score
+
+            if type_of_scoring == 'Z':
+                self.passed_zachet = 1 if ex.exam_subject.min_score <= score else 0
+
             # ex.score = score
             if type_of_scoring in ['Z', 'R']:
                 types[type_of_scoring] = not score < 1
             else:
                 self.overall += score
-        if self.tour.use_extra_score:
-            self.overall += self.participant.extra_score if self.participant.extra_score is not None else 0
+            if self.tour.use_extra_score:
+                self.overall += self.participant.extra_score if self.participant.extra_score is not None else 0
 
         # print(results)
         # if self.participant.extra_score:
