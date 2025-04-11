@@ -35,13 +35,14 @@ class FinalResult:
             score = ex.score
             if ex.appeal_score:
                 score = ex.appeal_score
-            if self.tour.make_max_score_for_olympiad and self.olymp_status == 'A':
+            if self.tour.make_max_score_for_olympiad and self.participant.privilege_status == 'A':
                 score = ex.exam_subject.max_score
             # ex.score = score
             if type_of_scoring in ['Z', 'R']:
                 types[type_of_scoring] = not score < 1
             else:
                 self.overall += score
+
         # print(results)
         # if self.participant.extra_score:
         #     self.overall += self.participant.extra_score
