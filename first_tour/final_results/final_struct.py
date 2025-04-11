@@ -13,6 +13,7 @@ class FinalResult:
     liter: LiterGrade = None
     olymp_status = False
     passed_zachet = 0
+    zachet_score = 0
 
     def calc_result(self):
         types = {
@@ -37,6 +38,7 @@ class FinalResult:
 
             if type_of_scoring == 'Z':
                 self.passed_zachet = 1 if ex.exam_subject.min_score <= score else 0
+                self.zachet_score += score
 
             # ex.score = score
             if type_of_scoring in ['Z', 'R']:
@@ -65,7 +67,7 @@ class FinalResult:
                     if self.zachet == other.zachet:
                         return self.participant.id > other.participant.id
                     else:
-                        return self.zachet > other.zachet
+                        return self.zachet_score < other.zachet_score
                 else:
                     return self.recommended < other.recommended
             else:
