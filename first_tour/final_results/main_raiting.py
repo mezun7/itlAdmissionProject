@@ -28,7 +28,7 @@ def get_participants(tour: Tour):
     participants = []
     print(Tour)
     if tour.all_students_in_rating:
-        participants = Participant.objects.filter(profile=tour.profile)
+        participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade)
     else:
         for lg in LiterGrade.objects.filter(tour=tour):
             if tour.show_hidden_participants:
