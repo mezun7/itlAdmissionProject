@@ -224,13 +224,19 @@ def load_next_tour_pass(request):
                     model = NextTourPass()
                     model.participant = participant
                     model.tour = Tour.objects.filter(profile=participant.profile, tour_order=tour_order).first()
+
                     row['Статус'] = remove_white_spaces(row['Статус'])
+                    row['hidden'] = remove_white_spaces(row['hidden'])
+
                     if row['Статус'] and (row['Статус'].startswith('п') or row['Статус'].startswith('р')):
                         if row['Статус'].startswith('п'):
                             model.type_of_pass = 'P'
                         if row['Статус'].startswith('р'):
                             model.type_of_pass = 'R'
+                        if row['hidden'] and row['hidden'].lower() == 'да':
+                            model.hidden_in_table = True
                         results.append(model)
+
                 except Participant.DoesNotExist:
                     print(f"{row['id']} DoesNotExist")
                     participant = None
