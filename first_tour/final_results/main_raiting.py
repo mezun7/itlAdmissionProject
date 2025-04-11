@@ -42,7 +42,6 @@ def main_table(request, tour_ordering=None, tour_id=None):
     if tour_id is None:
         try:
             tour = Tour.objects.filter(tour_order=tour_ordering).first()
-            print(tour)
         except:
             return HttpResponse('No active tours')
     else:
