@@ -51,7 +51,7 @@ def main_table(request, tour_ordering=None, tour_id=None):
             return HttpResponse('No active tours')
     else:
         tour = Tour.objects.get(pk=tour_id)
-    tours = Tour.objects.filter(tour_order=tour_ordering).order_by('grade__number', 'profile')
+    tours = Tour.objects.all().order_by('tour_order','grade__number', 'profile')
     exam_subj = ExamSubject.objects.filter(tour=tour).order_by(*SUBJECTS_ORDERING)
     results = []
     participants = get_participants(tour)
@@ -64,7 +64,9 @@ def main_table(request, tour_ordering=None, tour_id=None):
 
         results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))
     results.sort(reverse=True)
+
     context = {
+
         'tours': tours,
         'subjects': exam_subj,
         'results': results,
