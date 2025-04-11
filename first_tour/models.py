@@ -65,6 +65,7 @@ class Tour(models.Model):
     allways_show_id_in_final_table = models.BooleanField(verbose_name='Показывать ID  в итоговой таблице?', default=True)
     make_max_score_for_olympiad = models.BooleanField(verbose_name='Максимизировать баллы олимпиадникам?', default=True)
     user_liter_grades = models.BooleanField(verbose_name='Используются классы в итоговой таблице?', default=False)
+    show_hidden_participants = models.BooleanField(verbose_name='Показывать скрытых участников', default=True)
 
     class Meta:
         verbose_name = 'Тур'
@@ -135,6 +136,7 @@ class NextTourPass(models.Model):
     participant = models.ForeignKey(Participant, verbose_name='Абитуриент', on_delete=models.CASCADE)
     type_of_pass = models.CharField(max_length=2, verbose_name='Прошел?', choices=TYPE_OF_EXAM_PASS)
     has_come = models.BooleanField(verbose_name='Пришел?', default=False)
+    hidden_in_table = models.BooleanField(verbose_name='Скрыт в таблице результатов?', default=False)
 
     def __str__(self):
         return '%s;%s;%s' % (self.participant, self.tour.name, self.type_of_pass)
