@@ -45,6 +45,7 @@ class FinalResult:
                 types[type_of_scoring] = not score < 1
             else:
                 self.overall += score
+
         if self.tour.use_extra_score:
             self.overall += self.participant.extra_score if self.participant.extra_score is not None else 0
 
@@ -63,13 +64,16 @@ class FinalResult:
     def __lt__(self, other):
         if self.olymp_status != other.olymp_status:
             return self.olymp_status < other.olymp_status
-        if self.overall == other.overall:
-            if self.recommended == other.recommended:
-                if self.zachet == other.zachet:
-                    # print(self.participant.id < other.participant.id)
-                    return self.participant.id > other.participant.id
+        if self.passed_zachet != other.passed_zachet:
+            if self.overall == other.overall:
+                if self.recommended == other.recommended:
+                    if self.zachet == other.zachet:
+                        # print(self.participant.id < other.participant.id)
+                        return self.participant.id > other.participant.id
+                    else:
+                        return self.zachet < other.zachet
                 else:
-                    return self.zachet < other.zachet
+                    return self.recommended < other.recommended
             else:
-                return self.recommended < other.recommended
-        return self.overall < other.overall
+                return self.overall < other.overall
+            return self.passed_zachet < other.passed_zachet
