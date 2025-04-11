@@ -71,4 +71,4 @@ class FinalResult:
                     return self.recommended < other.recommended
             else:
                 return self.overall < other.overall
-            return self.passed_zachet < other.passed_zachet
+        return self.passed_zachet < other.passed_zachet
