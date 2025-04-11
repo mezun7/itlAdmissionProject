@@ -23,6 +23,16 @@ from django.core.mail import send_mail, EmailMessage
 
 SUBJECTS_ORDERING = ('ordering', 'type_of_scoring', 'subject__name')
 
+
+def get_participants(tour:Tour):
+    participants = None
+    if tour.all_students_in_rating:
+        participants = Participant.objects.filter(profile=tour.profile)
+    else:
+        for lg in LiterGrade.objects.filter(tour=tour):
+            participants = lg.participants.all()
+    return participants
+
 @staff_member_required
 def main_table(request, tour_ordering=None, tour_id=None):
     tour = None
@@ -39,11 +49,15 @@ def main_table(request, tour_ordering=None, tour_id=None):
     tours = Tour.objects.filter(tour_order=tour_ordering).order_by('grade__number', 'profile')
     exam_subj = ExamSubject.objects.filter(tour=tour).order_by(*SUBJECTS_ORDERING)
     results = []
-    for lg in LiterGrade.objects.filter(tour=tour):
-        print(lg)
-        participants = lg.participants.all()
-        for participant in participants:
-            results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))
+    participants = get_participants(tour)
+    for participant in participants:
+        lg = None
+        try:
+            lg = participant.litergrade_set.get()
+        except LiterGrade.DoesNotExist:
+            lg = None
+
+        results.append(FinalResult(participant=participant, tour=tour, exam_subjects=exam_subj, liter_grade=lg))
     results.sort(reverse=True)
     context = {
         'tours': tours,

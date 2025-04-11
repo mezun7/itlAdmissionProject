@@ -45,7 +45,7 @@ class FinalResult:
         #     self.overall += self.participant.extra_score
         return results
 
-    def __init__(self, participant, tour, exam_subjects, liter_grade):
+    def __init__(self, participant, tour, exam_subjects, liter_grade=None):
         self.participant = participant
         self.tour = tour
         self.exam_subjects = exam_subjects

@@ -59,6 +59,7 @@ class Tour(models.Model):
     proto_appeal = models.FileField(upload_to='tours/protocols', verbose_name='Предварительынй протокол', null=True, blank=True)
     recommended_to_enter = models.FileField(upload_to='tours/protocols', verbose_name='Список рекомендованных', null=True, blank=True)
     tasks = models.FileField(upload_to='tours/tasks', verbose_name='Задания', null=True, blank=True)
+    all_students_in_rating = models.BooleanField(verbose_name='Все ученики участвуют в рейтинге?', default=False)
 
     class Meta:
         verbose_name = 'Тур'
