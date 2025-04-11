@@ -65,7 +65,7 @@ class FinalResult:
                     if self.zachet == other.zachet:
                         return self.participant.id > other.participant.id
                     else:
-                        return self.zachet < other.zachet
+                        return self.zachet > other.zachet
                 else:
                     return self.recommended < other.recommended
             else:
