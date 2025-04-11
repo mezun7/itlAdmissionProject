@@ -27,9 +27,11 @@
         <tr class="text-center">
             <th>#</th>
 
-            {% if request.GET.ID %}
+            {% if cur_tour.allways_show_id_in_final_table %}
                 <th>ID</th>
-            {% else %}
+            {% endif %}
+
+            {% if cur_tour.use_photos %}
                 <th>ФОТО</th>
             {% endif %}
 
@@ -49,9 +51,11 @@
             <tr class="text-center justify-content-center align-middle">
                 <td class="align-middle">{{ forloop.counter }}</td>
 
-                {% if request.GET.ID %}
+                {% if cur_tour.allways_show_id_in_final_table %}
                     <td class="align-middle">{{ result.participant.pk }}</td>
-                {% else %}
+                {% endif %}
+                {% if cur_tour.use_photos %}
+
                     <td>
                         <div class="text-center">
                             <a href="{% get_media_prefix %}{{ result.participant.profile_photo }}"
@@ -67,7 +71,7 @@
                 {% endif %}
                 <td class="align-middle {% if result.olymp_status %}
                     alert-info
-                {% endif %}" >{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
+                {% endif %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
                     {#                    <br>  <small class="text-muted">{{ result.participant.school }}</small>#}
                 </td>
                 <td class="align-middle">{{ result.liter }}</td>
@@ -100,6 +104,11 @@
                 {#                    0#}
                 {#                {% endif %}#}
                 {#                </td>#}
+                {% if cur_tour.use_extra_score %}
+
+                    <td class="align-middle">{{ result.participant.extra_score }}</td>
+                {% endif %}
+
                 <td class="align-middle">{{ result.overall | floatformat:2 }}</td>
             </tr>
         {% endfor %}
