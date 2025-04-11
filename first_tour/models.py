@@ -60,6 +60,8 @@ class Tour(models.Model):
     recommended_to_enter = models.FileField(upload_to='tours/protocols', verbose_name='Список рекомендованных', null=True, blank=True)
     tasks = models.FileField(upload_to='tours/tasks', verbose_name='Задания', null=True, blank=True)
     all_students_in_rating = models.BooleanField(verbose_name='Все ученики участвуют в рейтинге?', default=False)
+    use_photos = models.BooleanField(verbose_name='Использовать фотографии в итоговой таблице?', default=False)
+    use_extra_score = models.BooleanField(verbose_name='Использовать дополнительные баллы?', default=False)
 
     class Meta:
         verbose_name = 'Тур'
