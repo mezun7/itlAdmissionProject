@@ -42,6 +42,8 @@ class FinalResult:
                 types[type_of_scoring] = not score < 1
             else:
                 self.overall += score
+        if self.tour.use_extra_score:
+            self.overall += self.participant.extra_score
 
         # print(results)
         # if self.participant.extra_score:
