@@ -65,9 +65,9 @@ class ExamResult(admin.ModelAdmin):
 
 @admin.register(NextTourPass)
 class NextTourPassAdmin(admin.ModelAdmin):
-    list_display = ('participant', 'tour', 'type_of_pass')
+    list_display = ('participant', 'tour', 'type_of_pass', 'hidden_in_table')
     autocomplete_fields = ['participant']
-    list_filter = [TourOrderAdminFilter, 'tour', 'type_of_pass']
+    list_filter = [TourOrderAdminFilter, 'tour', 'type_of_pass', 'hidden_in_table']
     actions = [export_passes]
 
 
