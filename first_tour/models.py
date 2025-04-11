@@ -63,6 +63,7 @@ class Tour(models.Model):
     use_photos = models.BooleanField(verbose_name='Использовать фотографии в итоговой таблице?', default=False)
     use_extra_score = models.BooleanField(verbose_name='Использовать дополнительные баллы?', default=False)
     allways_show_id_in_final_table = models.BooleanField(verbose_name='Показывать ID  в итоговой таблице?', default=True)
+    make_max_score_for_olympiad = models.BooleanField(verbose_name='Максимизировать баллы олимпиадникам?', default=True)
 
     class Meta:
         verbose_name = 'Тур'
