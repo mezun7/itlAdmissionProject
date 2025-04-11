@@ -62,6 +62,7 @@ class Tour(models.Model):
     all_students_in_rating = models.BooleanField(verbose_name='Все ученики участвуют в рейтинге?', default=False)
     use_photos = models.BooleanField(verbose_name='Использовать фотографии в итоговой таблице?', default=False)
     use_extra_score = models.BooleanField(verbose_name='Использовать дополнительные баллы?', default=False)
+    allways_show_id_in_final_table = models.BooleanField(verbose_name='Показывать ID  в итоговой таблице?', default=True)
 
     class Meta:
         verbose_name = 'Тур'
