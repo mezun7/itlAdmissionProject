@@ -110,7 +110,13 @@
                 {#                </td>#}
                 {% if cur_tour.use_extra_score %}
 
-                    <td class="align-middle">{{ result.participant.extra_score }}</td>
+                    <td class="align-middle">
+                        {%  if result.participant.extra_score %}
+                            {{ result.participant.extra_score }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
                 {% endif %}
 
                 <td class="align-middle">{{ result.overall | floatformat:2 }}</td>
