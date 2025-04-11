@@ -25,7 +25,8 @@ SUBJECTS_ORDERING = ('ordering', 'type_of_scoring', 'subject__name')
 
 
 def get_participants(tour:Tour):
-    participants = None
+    participants = []
+    print(Tour)
     if tour.all_students_in_rating:
         participants = Participant.objects.filter(profile=tour.profile)
     else:
