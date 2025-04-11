@@ -36,7 +36,9 @@
             {% endif %}
 
             <th>ФИО</th>
-            <th>Класс</th>
+            {% if cur_tour.user_liter_grades %}
+                <th>Класс</th>
+            {% endif %}
             {% for subject in subjects %}
                 <th>{{ subject.subject.short_name }}</th>
             {% endfor %}
@@ -45,8 +47,8 @@
             {#            <th>Доп. Баллы</th>#}
             {% if cur_tour.use_extra_score %}
 
-                    <th class="align-middle">Доп. Баллы</th>
-                {% endif %}
+                <th class="align-middle">Доп. Баллы</th>
+            {% endif %}
             <th>Итого</th>
         </tr>
         </thead>
@@ -78,7 +80,9 @@
                 {% endif %}">{{ result.participant.last_name }} {{ result.participant.first_name }} {{ result.participant.fathers_name }}
                     {#                    <br>  <small class="text-muted">{{ result.participant.school }}</small>#}
                 </td>
-                <td class="align-middle">{{ result.liter }}</td>
+                {% if cur_tour.user_liter_grades %}
+                    <td class="align-middle">{{ result.liter }}</td>
+                {% endif %}
                 {% for res in result.results %}
                     <td
                             {% if res %}
@@ -111,7 +115,7 @@
                 {% if cur_tour.use_extra_score %}
 
                     <td class="align-middle">
-                        {%  if result.participant.extra_score %}
+                        {% if result.participant.extra_score %}
                             {{ result.participant.extra_score }}
                         {% else %}
                             0
