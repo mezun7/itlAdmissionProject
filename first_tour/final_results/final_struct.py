@@ -43,7 +43,7 @@ class FinalResult:
             else:
                 self.overall += score
         if self.tour.use_extra_score:
-            self.overall += self.participant.extra_score
+            self.overall += self.participant.extra_score if self.participant.extra_score is not None else 0
 
         # print(results)
         # if self.participant.extra_score:
