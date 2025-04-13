@@ -11,7 +11,7 @@ from admission.models import Participant
 from .forms import UserAppealForm, TeacherAppealForm
 from .forms import UploadForm, ResultUploadForm
 from .models import Tour, ExamResult, UploadConfirm, NextTourPass, TourParticipantScan, ExamSheetScan, Subject, \
-    ExamSubject
+    ExamSubject, LiterGrade
 from first_tour.task import test_celery
 
 from django.views.generic.edit import FormView
@@ -19,6 +19,7 @@ from .utilities import rename_file
 import re
 import csv
 from io import StringIO
+from admin_profile.models import Error
 
 
 def get_party_register(participant: Participant):
@@ -257,3 +258,54 @@ def remove_white_spaces(string=None):
         # Remove all non-word characters (everything except numbers and letters)
         return re.sub(r"[^\w\s]", '', string).lower()
     return string
+
+
+@staff_member_required
+def upload_liters(request):
+    tour_orders = Tour.objects.values('tour_order').distinct()
+    context = None
+    rows_count = 0
+    if request.method == 'POST':
+        form = ResultUploadForm(request.POST, request.FILES)
+        if form.is_valid() and request.POST['tour_order']:
+            tour_order = request.POST['tour_order']
+            csv_file = request.FILES['files']
+            results = parse_file(csv_file)
+            for row in results:
+                print(row)
+                participant = Participant.objects.get(pk=row['id'])
+                try:
+                    lg = LiterGrade.objects.get(tour__grade=participant.grade,
+                                                tour__tour_order=tour_order,
+                                                name=row['liter'])
+                    print(lg)
+                    lg.participants.add(participant)
+                    print(lg)
+                    rows_count += 1
+                except LiterGrade.DoesNotExist:
+                    lg = LiterGrade()
+                    tour = Tour.objects.get(profile=participant.profile, tour_order=tour_order)
+                    lg.tour = tour
+                    lg.name = row['liter']
+                    lg.save()
+
+                    lg.participants.add(participant)
+                    rows_count += 1
+                    error = Error()
+                    error.participant = participant
+                    error.message = 'Doesnt exists LiterGrade'
+                    error.save()
+                except:
+                    print(f"{row['id']} DoesNotExist")
+
+              # save_results(tour_order, results)
+            context = {
+                'form': form,
+                'msg': f'<div class="alert alert-success">Данные из файла успешно загружены. Тур - {tour_order}. '
+                       f'В таблицу БД записано {rows_count} строк</div>',
+                'tour_orders': tour_orders,
+            }
+    else:
+        form = ResultUploadForm()
+        context = {'form': form, 'tour_orders': tour_orders}
+    return render(request, 'first_tour/upload_liter_grades.html', context=context)

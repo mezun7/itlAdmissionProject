@@ -1,0 +1,53 @@
+{% extends "layout/base.html" %}
+{% load static %}
+
+{% load bootstrap4 %}
+
+{% block title %}Загрузка распределения учеников по классам{% endblock %}
+
+{% block content %}
+    <div>
+        <h3 class="ml-3">Загрузка распредления участников по классам из файла</h3>
+        {% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
+        <div class="col-6 m-3">
+            <form method="post" enctype="multipart/form-data" id="upload_result">
+
+                <div class="alert alert-info">
+                    Обратите внимание, чтобы в CSV файле не было дублей в столбце "id". В столбце "liter" должна быть
+                    указана литера класса соответствующего ученика. Кодировка файла utf-8, разделитель "," -
+                    запятая.<br>
+                    <a href="https://docs.google.com/spreadsheets/d/1zBcKa5hVt4WyLfDrVaZTC2zfJ6fMY_F_WllXwxNU6wQ/edit?usp=sharing">Скачать
+                        пример файла для загрузки</a>
+
+                    <br>
+                    Ученики могут быть из разных классов и профилей.
+                </div>
+
+                {% csrf_token %}
+
+                <div class="form-group row col-4">
+                    <label class="tour_order" for="tour_order"></label>
+                    <select name="tour_order" id="tour_order" class="form-select form-control" required>
+                        <option selected disabled hidden value="">Выберите тур</option>
+                        {% for t in tour_orders %}
+                            <option value="{{ t.tour_order }}">Тур {{ t.tour_order }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {{ form.as_p }}
+
+                <div class="form-group">
+                    <input type="submit" value="Загрузить" id="submit">
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block script_buttom %}
+    <script>
+        submit_btn = document.getElementById('submit')
+        submit_btn.classList.add('btn', 'btn-primary')
+    </script>
+{% endblock %}
