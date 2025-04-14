@@ -25,7 +25,7 @@ def get_participants_list(litergrade=None):
         participants = NextTourPass.objects.filter(participant__litergrade=litergrade)
 
     participants = participants.order_by('participant__grade__number',
-                          'participant__profile', 'has_come',
+                          'participant__profile',
                           'participant__last_name',
                           'participant__first_name')
 
