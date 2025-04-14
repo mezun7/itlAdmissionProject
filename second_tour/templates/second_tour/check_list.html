@@ -36,17 +36,17 @@
         </ul>
     </div>
 
-    {% if participants_list|length > 25 %}
-        <div class="nav nav-header d-flex justify-content-center mb-1">
-            <ul class="nav nav-header">
-                {% for fl in first_letter %}
-                    <li class="nav-item first_letter">
-                        <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
+{#    {% if participants_list|length > 25 %}#}
+{#        <div class="nav nav-header d-flex justify-content-center mb-1">#}
+{#            <ul class="nav nav-header">#}
+{#                {% for fl in first_letter %}#}
+{#                    <li class="nav-item first_letter">#}
+{#                        <a class="nav-link" id="letter_link" href="#">{{ fl }}</a>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#            </ul>#}
+{#        </div>#}
+{#    {% endif %}#}
 
     <div class="d-flex justify-content-center" id="app">
         {% if participants %}
