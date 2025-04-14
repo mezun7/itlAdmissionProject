@@ -24,7 +24,7 @@ def get_participants_list(litergrade=None):
     if litergrade:
         participants = NextTourPass.objects.filter(participant__litergrade=litergrade)
 
-    particiapnts = participants.order_by('participant__grade__number',
+    participants = participants.order_by('participant__grade__number',
                           'participant__profile',
                           'participant__last_name',
                           'participant__first_name')
