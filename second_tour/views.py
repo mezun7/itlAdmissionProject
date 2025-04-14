@@ -8,7 +8,7 @@ from django.shortcuts import render
 
 from admission.actions import get_value
 from admission.models import Participant, Moderator
-from first_tour.models import NextTourPass
+from first_tour.models import NextTourPass, UploadConfirm
 from second_tour.models import LiterGradeTutor
 from .models import LiterGrade
 from django.db.models import F
@@ -17,6 +17,19 @@ from django.contrib.auth.models import User
 import cyrtranslit
 
 from psycopg2 import Error
+
+
+def get_participants_list(litergrade=None):
+    participants = NextTourPass.objects.all()
+    if litergrade:
+        participants = NextTourPass.objects.filter(participant__litergrade=litergrade)
+
+    participants.order_by('participant__grade__number',
+                          'participant__profile',
+                          'participant__last_name',
+                          'participant__first_name')
+
+    return participants
 
 
 @login_required
@@ -35,60 +48,32 @@ def check_list(request, pk=None):
         ).order_by('tour__grade__number', 'name')
         if pk:
             litergarde = LiterGrade.objects.get(pk=pk)
-            participants_list = litergarde.participants.values(
-                'last_name', 'first_name', 'fathers_name',
-                'grade_id', 'pk', 'profile__name',
-                grade_num=F('grade__number'),
-                litergarde=F('litergrade__name'),
-                has_come_to=F('nexttourpass__has_come')
-            )
+
+            participants_list = get_participants_list(litergarde)
+
+            print(participants_list)
             context = {
-                'participants_list': sorted(
-                    participants_list,
-                    key=lambda d: (
-                        d['grade_num'],
-                        d['last_name'],
-                        d['first_name'],
-                        d['fathers_name'],
-                    )
-                ),
+                'participants': participants_list,
                 'litergrades': litergrades,
                 'moderator': True
             }
             return render(request, template_name='second_tour/check_list.html', context=context)
         else:
-            participants_list = NextTourPass.objects.values(
-                last_name=F('participant__last_name'),
-                first_name=F('participant__first_name'),
-                fathers_name=F('participant__fathers_name'),
-                litergarde=F('participant__litergrade__name'),
-                litergarde_id=F('participant__litergrade__pk'),
-                grade_num=F('participant__grade__number'),
-                grade_id=F('participant__grade_id'),
-                pk=F('participant__pk'),
-                has_come_to=F('has_come'),
-                profile=F('participant__profile__name')
-            )
+            participants = get_participants_list()
 
-            first_letter = list()
-            for l in participants_list:
-                fl = str(l['last_name'])[0]
-                if fl not in first_letter:
-                    first_letter.append(fl)
+            first_letter = set()
+            for l in participants:
+                fl = str(l.participant.last_name)[0]
+                first_letter.add(fl)
+
             first_letter = sorted(first_letter)
+            print(first_letter)
             context = {
-                'participants_list': sorted(
-                    participants_list,
-                    key=lambda d: (
-                        d['grade_num'],
-                        d['last_name'],
-                        d['first_name'],
-                        d['fathers_name'],
-                    )
-                ),
+
                 'litergrades': litergrades,
                 'first_letter': first_letter,
-                'moderator': True
+                'moderator': True,
+                'participants': participants,
             }
     except Moderator.DoesNotExist:
         try:
@@ -101,28 +86,15 @@ def check_list(request, pk=None):
             ).order_by('tour__grade__number', 'name')
             if pk:
                 litergarde = LiterGrade.objects.get(pk=pk)
-                participants_list = litergarde.participants.values(
-                    'last_name', 'first_name', 'fathers_name',
-                    'grade_id', 'pk', 'profile__name',
-                    grade_num=F('grade__number'),
-                    litergarde=F('litergrade__name'),
-                    has_come_to=F('nexttourpass__has_come')
-                )
+                participants_list = get_participants_list(litergarde)
                 context = {
-                    'participants_list': sorted(
-                        participants_list,
-                        key=lambda d: (
-                            d['grade_num'],
-                            d['last_name'],
-                            d['first_name'],
-                            d['fathers_name'],
-                        )
-                    ),
+                    'participants': participants_list,
                     'litergrades': litergrades,
                 }
                 return render(request, template_name='second_tour/check_list.html', context=context)
             else:
                 litergrades = LiterGrade.objects.filter(litergradetutor__participantregistrator=tutor_id)
+
                 participants_list = NextTourPass.objects.filter(participant__litergrade__in=litergrades).values(
                     last_name=F('participant__last_name'),
                     first_name=F('participant__first_name'),
@@ -133,7 +105,9 @@ def check_list(request, pk=None):
                     grade_id=F('participant__grade_id'),
                     pk=F('participant__pk'),
                     has_come_to=F('has_come'),
-                    profile=F('participant__profile__name')
+                    profile=F('participant__profile__name'),
+                    olymp_status=F('participant__privilege_status'),
+                    confirmed_participation=F('participant__uploadconfirm__pps')
                 )
                 litergrades = litergrades.values(
                     'pk', 'name', grade=F('tour__grade__number')
