@@ -25,12 +25,18 @@ SUBJECTS_ORDERING = ('ordering', 'type_of_scoring', 'subject__name')
 
 
 def get_participants(tour: Tour):
-    participants = []
+    participants = None
     print(Tour)
     if tour.all_students_in_rating:
         participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade)
     else:
-        participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade, litergrade__tour=tour)
+        if tour.show_hidden_participants:
+            participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade, litergrade__tour=tour)
+        else:
+            participants = Participant.objects.filter(profile=tour.profile,
+                                                      grade=tour.grade,
+                                                      litergrade__tour=tour,
+                                                      nexttourpass__hidden_in_table=False)
         # for lg in LiterGrade.objects.filter(tour=tour):
         #     if tour.show_hidden_participants:
         #         participants = lg.participants.all()
