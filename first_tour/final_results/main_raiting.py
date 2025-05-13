@@ -30,12 +30,13 @@ def get_participants(tour: Tour):
     if tour.all_students_in_rating:
         participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade)
     else:
-        for lg in LiterGrade.objects.filter(tour=tour):
-            if tour.show_hidden_participants:
-                participants = lg.participants.all()
-            else:
-                participants = lg.participants.filter(nexttourpass__hidden_in_table=False,
-                                                      nexttourpass__tour=tour.parent_tour)
+        participants = Participant.objects.filter(profile=tour.profile, grade=tour.grade, litergrade__tour=tour)
+        # for lg in LiterGrade.objects.filter(tour=tour):
+        #     if tour.show_hidden_participants:
+        #         participants = lg.participants.all()
+        #     else:
+        #         participants = lg.participants.filter(nexttourpass__hidden_in_table=False,
+        #                                               nexttourpass__tour=tour.parent_tour)
     return participants
 
 
