@@ -26,7 +26,7 @@
 
     {% for tour in tours %}
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{% url 'first_tour:final-table' tour.tour_order tour.pk %}" class="nav-link">{{ tour.name }} тур: {{ tour.grade }}
+            <a href="{% url 'first_tour:final-table' tour.tour_order tour.pk %}" class="nav-link">{{ tour.name }}: {{ tour.grade }}
                 {% if tour.profile %}
                     класс, {{ tour.profile.name }}
                 {% else %}
