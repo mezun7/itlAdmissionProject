@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'itlAdmissionProject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'admission_2025',
+        'NAME': 'admission_2026',
         'USER': 'admission',
         'PASSWORD': '1q2w!Q@W',
         'HOST': 'localhost',
